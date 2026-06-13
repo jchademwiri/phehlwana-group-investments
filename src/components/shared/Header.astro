@@ -246,6 +246,8 @@ const isServicesActive = currentPath.startsWith('/services');
     </div>
     <a
       href='/contact'
+      data-track="cta"
+      data-track-label="Request a Quote - Mobile Header"
       class='flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground px-4 py-2.5 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors'
       >Request a Quote</a
     >
@@ -328,6 +330,7 @@ const isServicesActive = currentPath.startsWith('/services');
           </a>
         </div>
         <div class='flex items-center gap-3'>
+          <!-- Inactive social links commented out to avoid empty anchor clicks
           <a
             href='#'
             aria-label='Follow us on Facebook'
@@ -380,6 +383,7 @@ const isServicesActive = currentPath.startsWith('/services');
                 r='2'></circle></svg
             ></a
           >
+          -->
           <a
             href='https://wa.me/27792947635'
             target='_blank'
@@ -638,6 +642,8 @@ const isServicesActive = currentPath.startsWith('/services');
         </button>
         <a
           href='/contact'
+          data-track="cta"
+          data-track-label="Request a Quote - Header"
           class='inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors'
           >Request a Quote</a
         >

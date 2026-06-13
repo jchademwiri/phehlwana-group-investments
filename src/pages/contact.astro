@@ -16,8 +16,8 @@ if (result && !result.error) {
 // Preserve field values on validation error
 const fieldErrors =
   result?.error && isInputError(result.error) ? result.error.fields : {};
-const prev =
-  result?.error && isInputError(result.error) ? result.error.fields : {};
+const prev = result?.input ?? {};
+const activeService = prev.service || serviceParam;
 
 const services = [
   'Construction & Civil Engineering',
@@ -118,8 +118,10 @@ const faqs = [
         }
 
         <form
+          id='contact-form'
           method='POST'
           action={actions.contact}
+          data-track-label='Contact Form'
           novalidate
           class='space-y-5'
         >
@@ -139,6 +141,7 @@ const faqs = [
                 required
                 autocomplete='name'
                 placeholder='e.g. John Smith'
+                value={prev.name ?? ''}
                 class:list={[
                   'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
                   fieldErrors.name ? 'border-error' : 'border-border',
@@ -173,6 +176,7 @@ const faqs = [
                 required
                 autocomplete='email'
                 placeholder='e.g. john@company.co.za'
+                value={prev.email ?? ''}
                 class:list={[
                   'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
                   fieldErrors.email ? 'border-error' : 'border-border',
@@ -210,6 +214,7 @@ const faqs = [
                 required
                 autocomplete='tel'
                 placeholder='e.g. 012 555 0000'
+                value={prev.phone ?? ''}
                 class:list={[
                   'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
                   fieldErrors.phone ? 'border-error' : 'border-border',
@@ -249,12 +254,12 @@ const faqs = [
                   ? 'service-error'
                   : undefined}
               >
-                <option value='' disabled selected={!serviceParam}
+                <option value='' disabled selected={!activeService}
                   >- Select a service -</option
                 >
                 {
                   services.map((s) => (
-                    <option value={s} selected={serviceParam === s}>
+                    <option value={s} selected={activeService === s}>
                       {s}
                     </option>
                   ))
@@ -289,6 +294,7 @@ const faqs = [
               name='subject'
               type='text'
               placeholder='Brief description of your enquiry'
+              value={prev.subject ?? ''}
               class='w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors'
             />
           </div>
@@ -313,7 +319,7 @@ const faqs = [
               ]}
               aria-describedby={fieldErrors.message
                 ? 'message-error'
-                : undefined}></textarea>
+                : undefined}>{prev.message ?? ''}</textarea>
             {
               fieldErrors.message && (
                 <p
@@ -329,6 +335,8 @@ const faqs = [
 
           <button
             type='submit'
+            data-track="cta"
+            data-track-label="Send Message - Contact Form"
             class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-primary/90 transition-colors focus-visible:outline-2 focus-visible:outline-primary'
           >
             Send Message

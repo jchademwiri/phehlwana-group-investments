@@ -42,7 +42,9 @@ export const quickLinks: NavLink[] = [
 
 // ── Footer legal / bottom-bar links ──────────────────────────────────────────
 // Add links here once the corresponding pages exist (e.g. Privacy Policy, Terms)
-export const legalLinks: NavLink[] = [];
+export const legalLinks: NavLink[] = [
+  { label: 'Privacy & POPIA Policy', href: '/privacy-policy' },
+];
 
 // ── Developer / agency credit ─────────────────────────────────────────────────
 export const developer = {

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import Picture from '@/components/shared/Picture.astro';
 
 export const prerender = true;
 
@@ -60,6 +61,7 @@ const allImages = [
   title={project.data.title}
   description={project.data.description ??
     `${project.data.category} project by Phehlwana Group Investments - ${project.data.location}, ${project.data.year}.`}
+  ogImage={project.data.coverImage}
 >
   <!-- ── Hero header ─────────────────────────────────────────────────────── -->
   <section

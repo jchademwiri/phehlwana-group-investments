@@ -2,16 +2,77 @@
 import Analytics from '@vercel/analytics/astro';
 import Footer from '@/components/shared/Footer.astro';
 import Header from '@/components/shared/Header.astro';
+import GA4Tracking from '@/components/shared/GA4Tracking.astro';
 import '@/styles/starwind.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** Absolute URL or path to an OG image (1200×630 recommended). Defaults to /img/logo.png */
+  ogImage?: string;
+  /** Open Graph type - 'website' for most pages, 'article' for blog posts */
+  ogType?: 'website' | 'article';
+  /** Override the canonical URL. Defaults to the current page URL. */
+  canonicalUrl?: string;
 }
 
-const { title, description = '' } = Astro.props;
+const { title, description = '', ogImage, ogType = 'website', canonicalUrl } = Astro.props;
 const siteName = 'Phehlwana Group Investments';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
+
+// ── Canonical URL ──────────────────────────────────────────────────────────────
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
+
+// ── Open Graph image (must be absolute) ────────────────────────────────────────
+const defaultOgImage = new URL('/img/logo.png', siteUrl).href;
+const ogImageUrl = ogImage
+  ? ogImage.startsWith('http')
+    ? ogImage
+    : new URL(ogImage, siteUrl).href
+  : defaultOgImage;
+
+// ── JSON-LD: Organization schema (static, rendered once) ───────────────────────
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Phehlwana Group Investments',
+  image: defaultOgImage,
+  url: siteUrl.href,
+  telephone: '+27126550284',
+  email: 'info@phehlwanagroup.co.za',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Office No 06, PKN Office Park, 62 Taaifontein Street',
+    addressLocality: 'Montana Park',
+    addressRegion: 'Gauteng',
+    postalCode: '0182',
+    addressCountry: 'ZA',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '07:30',
+      closes: '17:00',
+    },
+  ],
+  sameAs: ['https://wa.me/27792947635'],
+  description: 'Construction, civil engineering, mechanical services, cleaning, plant hire and security in Pretoria since 2015.',
+  foundingDate: '2015',
+  vatID: '4520316631',
+};
+
+// ── JSON-LD: WebSite schema ────────────────────────────────────────────────────
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: siteUrl.href,
+};
+
+// ── GA4 Measurement ID ─────────────────────────────────────────────────────────
+const ga4Id = import.meta.env.PUBLIC_GA4_ID as string | undefined;
 ---
 
 <!doctype html>
@@ -23,7 +84,65 @@ const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
     <link rel='icon' href='/favicon.ico' />
     <meta name='generator' content={Astro.generator} />
     {description && <meta name='description' content={description} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Preload the hero image for faster LCP across all screen sizes -->
+    <link
+      rel="preload"
+      href="/images/hero/carousel-2.webp"
+      as="image"
+      type="image/webp"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      href="/images/hero/carousel-2.png"
+      as="image"
+      fetchpriority="high"
+    />
+
     <title>{fullTitle}</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_ZA" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- JSON-LD: Organization schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+    <!-- JSON-LD: WebSite schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)}></script>
+
+    <!-- GA4 - only included when PUBLIC_GA4_ID environment variable is set -->
+    {ga4Id && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '{ga4Id}');
+        </script>
+      </>
+    )}
+
     <!-- Theme init - must run before paint to avoid FOUC -->
     <script is:inline>
       function initTheme() {
@@ -49,6 +168,7 @@ const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
       document.addEventListener('astro:after-swap', initTheme);
     </script>
     <Analytics />
+    {ga4Id && <GA4Tracking />}
   </head>
   <body class='flex min-h-screen flex-col'>
     <a

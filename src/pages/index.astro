@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import StatsBar from '@/components/sections/StatsBar.astro';
 import ContactCTA from '@/components/sections/ContactCTA.astro';
+import Picture from '@/components/shared/Picture.astro';
 import { serviceDivisions } from '@/data/navigation';
 
 export const prerender = true;
@@ -44,7 +45,7 @@ const serviceImages: Record<string, string> = {
     'Mechanical Engineering':           '/images/services/service-mechanical.png',
     'Cleaning & Waste Management':      '/images/services/service-cleaning.png',
     'Plant Hire':                       '/images/services/service-plant-hire.png',
-    'Security':                         '/images/placeholder.svg',
+    'Security':                         '/images/services/service-security.png',
 };
 
 const serviceDescriptions: Record<string, string> = {
@@ -100,13 +101,13 @@ const trustItems = [
                     data-slide={i}
                     aria-hidden={i !== 0 ? 'true' : undefined}
                 >
-                    <!-- Background image -->
+                    <!-- Background image (WebP with fallback) -->
                     <div class='absolute inset-0'>
-                        <img
+                        <Picture
                             src={slide.image}
                             alt=''
-                            width='1920'
-                            height='800'
+                            width={1920}
+                            height={800}
                             loading={i === 0 ? 'eager' : 'lazy'}
                             decoding='async'
                             class='w-full h-full object-cover'
@@ -128,6 +129,8 @@ const trustItems = [
                         <div class='flex flex-wrap gap-4'>
                             <a
                                 href='/projects'
+                                data-track="cta"
+                                data-track-label="View Our Projects - Hero"
                                 class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-primary/90 transition-colors'
                             >
                                 View Our Projects
@@ -135,6 +138,8 @@ const trustItems = [
                             </a>
                             <a
                                 href='/services'
+                                data-track="cta"
+                                data-track-label="Our Services - Hero"
                                 class='inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-6 py-3 rounded-lg text-sm hover:bg-white/20 transition-colors backdrop-blur-sm'
                             >
                                 Our Services
@@ -218,11 +223,11 @@ const trustItems = [
             <!-- Right: image -->
             <div data-animate class='relative'>
                 <div class='aspect-4/3 rounded-2xl overflow-hidden bg-accent shadow-lg'>
-                    <img
+                    <Picture
                         src='/images/about-site.jpg'
                         alt='Phehlwana Group project site - construction work in progress'
-                        width='800'
-                        height='600'
+                        width={800}
+                        height={600}
                         loading='lazy'
                         decoding='async'
                         class='w-full h-full object-cover'
@@ -260,11 +265,11 @@ const trustItems = [
 
                         <!-- Image -->
                         <div class='aspect-video overflow-hidden bg-accent'>
-                            <img
+                            <Picture
                                 src={serviceImages[service.division] ?? '/images/placeholder.svg'}
                                 alt=''
-                                width='640'
-                                height='360'
+                                width={640}
+                                height={360}
                                 loading='lazy'
                                 decoding='async'
                                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
@@ -355,11 +360,11 @@ const trustItems = [
                     <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-shadow hover:shadow-lg' data-animate>
                         <a href={`/projects/${project.id}`} class='absolute inset-0 z-10' aria-label={`View project: ${project.data.title}`}/>
                         <div class='aspect-16/10 overflow-hidden bg-accent'>
-                            <img
+                            <Picture
                                 src={project.data.coverImage ?? '/images/placeholder.svg'}
                                 alt=''
-                                width='640'
-                                height='400'
+                                width={640}
+                                height={400}
                                 loading='lazy'
                                 decoding='async'
                                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'

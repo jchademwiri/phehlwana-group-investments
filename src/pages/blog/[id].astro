@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import Picture from '@/components/shared/Picture.astro';
 
 export const prerender = true;
 
@@ -26,18 +27,23 @@ const wordCount = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.coverImage}
+  ogType="article"
+>
 
     <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
     <section class='relative min-h-[420px] lg:min-h-[500px] flex items-end overflow-hidden'>
 
         <!-- Background cover image -->
         <div class='absolute inset-0'>
-            <img
+            <Picture
                 src={post.data.coverImage ?? '/images/placeholder.svg'}
                 alt=''
-                width='1280'
-                height='500'
+                width={1280}
+                height={500}
                 loading='eager'
                 decoding='async'
                 class='w-full h-full object-cover'

@@ -1,0 +1,419 @@
+---
+/**
+ * ComingSoon.astro – Premium "Coming Soon" landing page component
+ *
+ * Usage:
+ *   import ComingSoon from '@/components/ComingSoon.astro';
+ *   <ComingSoon launchDate="2026-09-01T07:30:00+02:00" />
+ *
+ * Props:
+ *   - launchDate: ISO date string for the countdown target (default: 2026-09-01)
+ *   - companyName: Display name in the badge (default: Phehlwana Group Investments)
+ *   - headline: Main heading text (default: "We're Building Something Great")
+ *   - phone: Contact phone number
+ *   - email: Contact email address
+ *   - whatsapp: WhatsApp link (full URL)
+ *
+ * Note: The email notify form is client-side only — no data is collected.
+ *       Integrate with a service like Resend later if you need email collection.
+ */
+
+interface Props {
+  launchDate?: string;
+  companyName?: string;
+  headline?: string;
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+}
+
+const {
+  launchDate = '2026-09-01T07:30:00+02:00',
+  companyName = 'Phehlwana Group Investments',
+  headline = "We're Building Something Great",
+  phone = '+27126550284',
+  email = 'info@phehlwanagroup.co.za',
+  whatsapp = 'https://wa.me/27792947635',
+} = Astro.props;
+
+/* Format phone for tel: link */
+const telHref = `tel:${phone.replace(/\s/g, '')}`;
+---
+
+<section
+  class='relative min-h-screen flex items-center justify-center overflow-hidden bg-background'
+  aria-label='Coming soon'
+>
+  {/* ── Animated background ──────────────────────────────────── */}
+  <div class='absolute inset-0 -z-10' aria-hidden='true'>
+    {/* Gradient mesh */}
+    <div class='absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/10'></div>
+
+    {/* Animated grid pattern */}
+    <svg class='absolute inset-0 h-full w-full opacity-[0.04]' aria-hidden='true'>
+      <defs>
+        <pattern id='cg-grid' width='48' height='48' patternUnits='userSpaceOnUse'>
+          <path d='M 48 0 L 0 0 0 48' fill='none' stroke='currentColor' stroke-width='1' class='text-foreground' />
+        </pattern>
+      </defs>
+      <rect width='100%' height='100%' fill='url(#cg-grid)' />
+    </svg>
+
+    {/* Floating orbs */}
+    <div class='cg-orb cg-orb-1'></div>
+    <div class='cg-orb cg-orb-2'></div>
+    <div class='cg-orb cg-orb-3'></div>
+  </div>
+
+  {/* ── Content ──────────────────────────────────────────────── */}
+  <div class='relative z-10 mx-auto max-w-2xl px-6 text-center'>
+    {/* Company badge */}
+    <div class='cg-badge mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2 backdrop-blur-sm'>
+      <span class='inline-block size-2 rounded-full bg-primary animate-pulse'></span>
+      <span class='text-sm font-medium text-muted-foreground tracking-wide'>{companyName}</span>
+    </div>
+
+    {/* Logo / Brand mark */}
+    <div class='mb-6 flex justify-center'>
+      <div class='cg-logo relative flex size-20 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/20 backdrop-blur-sm'>
+        <span class='text-3xl font-bold text-primary font-heading'>P</span>
+        <div class='absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
+      </div>
+    </div>
+
+    {/* Headline */}
+    <h1 class='cg-headline mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-heading'>
+      {headline.split(' ').length > 2 ? (
+        <>
+          {headline.split(' ').slice(0, Math.ceil(headline.split(' ').length / 2)).join(' ')}<br />
+          {headline.split(' ').slice(Math.ceil(headline.split(' ').length / 2)).join(' ')}
+        </>
+      ) : headline}
+    </h1>
+
+    {/* Subheadline */}
+    <p class='cg-sub mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground'>
+      Our new website is under construction. We're working hard to bring you an exceptional online experience. Stay tuned — we'll be launching soon.
+    </p>
+
+    {/* Countdown */}
+    <div class='cg-countdown mb-12 flex items-center justify-center gap-3 sm:gap-5'>
+      <div class='cg-cd-unit'>
+        <span id='cd-days' class='cg-cd-num'>00</span>
+        <span class='cg-cd-label'>Days</span>
+      </div>
+      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
+      <div class='cg-cd-unit'>
+        <span id='cd-hours' class='cg-cd-num'>00</span>
+        <span class='cg-cd-label'>Hours</span>
+      </div>
+      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
+      <div class='cg-cd-unit'>
+        <span id='cd-mins' class='cg-cd-num'>00</span>
+        <span class='cg-cd-label'>Mins</span>
+      </div>
+      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
+      <div class='cg-cd-unit'>
+        <span id='cd-secs' class='cg-cd-num'>00</span>
+        <span class='cg-cd-label'>Secs</span>
+      </div>
+    </div>
+
+    {/* Email signup — client-side only, no backend collection */}
+    <div class='cg-signup mx-auto mb-10 max-w-md'>
+      <form id='cg-notify-form' class='flex gap-2'>
+        <label class='sr-only' for='cg-email'>Email address</label>
+        <input
+          id='cg-email'
+          type='email'
+          required
+          placeholder='Enter your email for updates'
+          class='cg-input flex-1 rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors'
+        />
+        <button
+          type='submit'
+          class='cg-cta inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-primary shrink-0'
+        >
+          Notify Me
+          <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
+        </button>
+      </form>
+      <p id='cg-thank-you' class='hidden mt-3 text-sm text-primary font-medium'>✓ Thanks! We'll notify you when we launch.</p>
+    </div>
+
+    {/* Divider */}
+    <div class='cg-divider mx-auto mb-8 h-px w-32 bg-gradient-to-r from-transparent via-border to-transparent'></div>
+
+    {/* Contact info */}
+    <div class='cg-contact flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground'>
+      <a href={telHref} class='inline-flex items-center gap-2 hover:text-foreground transition-colors'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg>
+        {phone}
+      </a>
+      <a href={`mailto:${email}`} class='inline-flex items-center gap-2 hover:text-foreground transition-colors'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='16' x='2' y='4' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg>
+        {email}
+      </a>
+      <a href={whatsapp} target='_blank' rel='noopener noreferrer' class='inline-flex items-center gap-2 hover:text-foreground transition-colors'>
+        {/* WhatsApp SVG icon */}
+        <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+
+    {/* Social links */}
+    <div class='cg-social mt-8 flex items-center justify-center gap-4'>
+      <a href='https://www.facebook.com/' target='_blank' rel='noopener noreferrer' class='cg-social-link' aria-label='Facebook'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='size-5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z'/></svg>
+      </a>
+      <a href='https://www.linkedin.com/' target='_blank' rel='noopener noreferrer' class='cg-social-link' aria-label='LinkedIn'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='size-5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z'/><rect width='4' height='12' x='2' y='9'/><circle cx='4' cy='4' r='2'/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Scoped styles for animations & custom elements ────────── */
+
+  /* Floating orbs */
+  .cg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    will-change: transform;
+  }
+  .cg-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--primary);
+    top: -10%;
+    right: -10%;
+    animation: cg-float-1 18s ease-in-out infinite;
+  }
+  .cg-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    bottom: -10%;
+    left: -8%;
+    animation: cg-float-2 22s ease-in-out infinite;
+  }
+  .cg-orb-3 {
+    width: 250px;
+    height: 250px;
+    background: var(--primary-accent, var(--primary));
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: cg-float-3 15s ease-in-out infinite;
+  }
+
+  @keyframes cg-float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-40px, 30px) scale(1.05); }
+    66% { transform: translate(20px, -20px) scale(0.95); }
+  }
+  @keyframes cg-float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+  @keyframes cg-float-3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.15); }
+  }
+
+  /* Badge entrance */
+  .cg-badge {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.1s;
+  }
+
+  /* Logo entrance */
+  .cg-logo {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.2s;
+  }
+
+  /* Headline entrance */
+  .cg-headline {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.3s;
+  }
+
+  /* Subheadline entrance */
+  .cg-sub {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.45s;
+  }
+
+  /* Countdown entrance */
+  .cg-countdown {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.6s;
+  }
+
+  /* Signup entrance */
+  .cg-signup {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.75s;
+  }
+
+  /* Divider entrance */
+  .cg-divider {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.85s;
+  }
+
+  /* Contact entrance */
+  .cg-contact {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.95s;
+  }
+
+  /* Social entrance */
+  .cg-social {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 1.05s;
+  }
+
+  @keyframes cg-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Countdown units ──────────────────────────────────────── */
+  .cg-cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 4rem;
+    padding: 1rem 0.75rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--card) 80%, transparent);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+
+  .cg-cd-num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--foreground);
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-heading), system-ui, sans-serif;
+  }
+
+  .cg-cd-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted-foreground);
+  }
+
+  /* ── Social link button ───────────────────────────────────── */
+  .cg-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 80%, transparent);
+    color: var(--muted-foreground);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+  }
+  .cg-social-link:hover {
+    color: var(--foreground);
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+  }
+
+  /* ── Responsive adjustments ────────────────────────────────── */
+  @media (max-width: 640px) {
+    .cg-cd-unit {
+      min-width: 3.25rem;
+      padding: 0.75rem 0.5rem;
+    }
+    .cg-cd-num {
+      font-size: 1.5rem;
+    }
+    .cg-cd-sep {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* ── Reduce motion preference ──────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .cg-orb { animation: none !important; }
+    .cg-badge, .cg-logo, .cg-headline, .cg-sub,
+    .cg-countdown, .cg-signup, .cg-divider,
+    .cg-contact, .cg-social {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+</style>
+
+<script define:vars={{ launchDate }}>
+  // ── Countdown timer ──────────────────────────────────────────────
+  const target = new Date(launchDate).getTime();
+
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function tick() {
+    const now = Date.now();
+    let diff = Math.max(0, target - now);
+
+    const days = Math.floor(diff / 86400000); diff %= 86400000;
+    const hours = Math.floor(diff / 3600000); diff %= 3600000;
+    const mins = Math.floor(diff / 60000); diff %= 60000;
+    const secs = Math.floor(diff / 1000);
+
+    document.getElementById('cd-days').textContent  = pad(days);
+    document.getElementById('cd-hours').textContent = pad(hours);
+    document.getElementById('cd-mins').textContent  = pad(mins);
+    document.getElementById('cd-secs').textContent  = pad(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // ── Email notify form (client-side only) ──────────────────────────
+  // Persists submission state in localStorage so the form stays hidden
+  // on return visits. No data is sent to a backend — integrate with
+  // Resend or similar if you need server-side email collection.
+  const STORAGE_KEY = 'cg-notify-submitted';
+
+  const form = document.getElementById('cg-notify-form');
+  const thankYou = document.getElementById('cg-thank-you');
+
+  // If already submitted, show thank-you on load
+  if (localStorage.getItem(STORAGE_KEY) === '1') {
+    form.style.display = 'none';
+    thankYou?.classList.remove('hidden');
+  }
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Persist state so returning visitors see the thank-you
+    localStorage.setItem(STORAGE_KEY, '1');
+    // Hide form, show thank-you message
+    form.style.display = 'none';
+    thankYou?.classList.remove('hidden');
+  });
+</script>

@@ -1,0 +1,48 @@
+---
+/**
+ * Picture - renders a <picture> element with a WebP source and the
+ * original image as fallback. Automatically derives the WebP path
+ * from the source image path.
+ *
+ * Usage:
+ *   <Picture
+ *     src="/images/hero/carousel-2.png"
+ *     alt="Description"
+ *     width={1920}
+ *     height={800}
+ *     loading="eager"
+ *     class="w-full h-full object-cover"
+ *   />
+ *
+ * If the src is an SVG, placeholder, or already WebP, a plain <img>
+ * is rendered instead (no <picture> wrapper).
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'eager' | 'lazy';
+  decoding?: 'async' | 'sync';
+  class?: string;
+}
+
+const { src, alt, ...attrs } = Astro.props;
+
+// Extensions that don't benefit from WebP conversion
+const ext = (src.match(/\.(\w+)$/)?.[0] ?? '').toLowerCase();
+const noWebp = ext === '.svg' || ext === '.webp' || src.includes('placeholder');
+
+const usePicture = !noWebp;
+const webpSrc = usePicture ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : undefined;
+---
+
+{usePicture && webpSrc ? (
+  <picture>
+    <source srcset={webpSrc} type="image/webp" />
+    <img src={src} alt={alt} {...attrs} />
+  </picture>
+) : (
+  <img src={src} alt={alt} {...attrs} />
+)}

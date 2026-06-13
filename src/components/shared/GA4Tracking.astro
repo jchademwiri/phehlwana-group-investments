@@ -1,0 +1,94 @@
+---
+/**
+ * GA4Tracking - global event delegation for Google Analytics 4.
+ *
+ * Tracks key user interactions without needing data-track attributes on every
+ * element. Uses event delegation on `document` for clicks and form submits.
+ *
+ * Include this component once in the root Layout, wrapped in a conditional
+ * so it only renders when PUBLIC_GA4_ID is configured.
+ *
+ * Auto-detected interactions:
+ *   - Phone clicks   →  ga4_phone_click        { phone_number, page_location }
+ *   - Email clicks   →  ga4_email_click        { email_address, page_location }
+ *   - WhatsApp clicks → ga4_whatsapp_click      { page_location }
+ *   - CTA clicks     →  ga4_cta_click           { cta_label, cta_href, page_location }
+ *                        (elements with data-track="cta" + data-track-label)
+ *   - Form submits   →  ga4_form_submission     { form_id, form_name, page_location }
+ *
+ * All events fire only when the GA4 gtag function exists in the window scope.
+ * This means they are safe to include even before GA4 is configured — they
+ * silently no-op when gtag is undefined.
+ */
+---
+
+<script is:inline>
+  (function () {
+    // ── Safe gtag wrapper ──────────────────────────────────────────────────
+    function track(eventName, params) {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, params);
+      }
+    }
+
+    // ── Click delegation ───────────────────────────────────────────────────
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a');
+      if (!link) return;
+
+      var href = link.getAttribute('href') || '';
+      var pageLoc = window.location.href;
+
+      // 1. Phone clicks
+      if (href.indexOf('tel:') === 0) {
+        track('ga4_phone_click', {
+          phone_number: href.replace('tel:', ''),
+          page_location: pageLoc,
+        });
+        return;
+      }
+
+      // 2. Email clicks
+      if (href.indexOf('mailto:') === 0) {
+        track('ga4_email_click', {
+          email_address: href.replace('mailto:', ''),
+          page_location: pageLoc,
+        });
+        return;
+      }
+
+      // 3. WhatsApp clicks
+      if (href.indexOf('wa.me') !== -1 || href.indexOf('whatsapp.com') !== -1) {
+        track('ga4_whatsapp_click', {
+          page_location: pageLoc,
+        });
+        return;
+      }
+
+      // 4. Tracked CTAs (data-track="cta")
+      var trackType = link.getAttribute('data-track');
+      if (trackType === 'cta') {
+        track('ga4_cta_click', {
+          cta_label: link.getAttribute('data-track-label') || 'CTA',
+          cta_href: href,
+          page_location: pageLoc,
+        });
+      }
+    });
+
+    // ── Form submission tracking ───────────────────────────────────────────
+    document.addEventListener('submit', function (e) {
+      var form = e.target;
+      if (!form || form.tagName !== 'FORM') return;
+
+      var formId = form.getAttribute('id') || '';
+      var formName = form.getAttribute('data-track-label') || '';
+
+      track('ga4_form_submission', {
+        form_id: formId,
+        form_name: formName,
+        page_location: window.location.href,
+      });
+    });
+  })();
+</script>

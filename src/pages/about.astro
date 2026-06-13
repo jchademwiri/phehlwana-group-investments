@@ -3,6 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import PageHeader from '@/components/sections/PageHeader.astro';
 import StatsBar from '@/components/sections/StatsBar.astro';
 import ContactCTA from '@/components/sections/ContactCTA.astro';
+import Picture from '@/components/shared/Picture.astro';
 
 export const prerender = true;
 
@@ -161,11 +162,11 @@ const accreditations = [
       </div>
       <div data-animate>
         <div class='aspect-4/3 rounded-2xl overflow-hidden bg-accent shadow-sm'>
-          <img
+          <Picture
             src='/images/about-site.jpg'
             alt='Phehlwana Group project site'
-            width='800'
-            height='600'
+            width={800}
+            height={600}
             loading='lazy'
             decoding='async'
             class='w-full h-full object-cover'

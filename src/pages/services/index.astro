@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import PageHeader from '@/components/sections/PageHeader.astro';
 import ContactCTA from '@/components/sections/ContactCTA.astro';
+import Picture from '@/components/shared/Picture.astro';
 import { serviceDivisions } from '@/data/navigation';
 
 export const prerender = true;
@@ -12,7 +13,7 @@ const serviceImages: Record<string, string> = {
   'Mechanical Engineering': '/images/services/service-mechanical.png',
   'Cleaning & Waste Management': '/images/services/service-cleaning.png',
   'Plant Hire': '/images/services/service-plant-hire.png',
-  Security: '/images/placeholder.svg',
+  Security: '/images/services/service-security.png',
 };
 
 const serviceDescriptions: Record<string, string> = {
@@ -96,13 +97,11 @@ const processSteps = [
               aria-label={`Learn more about ${service.division}`}
             />
             <div class='aspect-video overflow-hidden bg-accent'>
-              <img
-                src={
-                  serviceImages[service.division] ?? '/images/placeholder.svg'
-                }
+              <Picture
+                src={serviceImages[service.division] ?? '/images/placeholder.svg'}
                 alt=''
-                width='640'
-                height='360'
+                width={640}
+                height={360}
                 loading='lazy'
                 decoding='async'
                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'

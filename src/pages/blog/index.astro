@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import Picture from '@/components/shared/Picture.astro';
 
 export const prerender = true;
 
@@ -58,11 +59,11 @@ function formatDate(date: Date): string {
 
                         <!-- Cover image - always shown, falls back to branded placeholder -->
                         <div class='aspect-video overflow-hidden bg-accent'>
-                            <img
+                            <Picture
                                 src={post.data.coverImage ?? '/images/placeholder.svg'}
                                 alt=''
-                                width='640'
-                                height='360'
+                                width={640}
+                                height={360}
                                 loading='lazy'
                                 decoding='async'
                                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'

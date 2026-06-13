@@ -5,6 +5,7 @@
 
 import Layout from '@/layouts/Layout.astro';
 import ContactCTA from '@/components/sections/ContactCTA.astro';
+import Picture from '@/components/shared/Picture.astro';
 
 interface Props {
   title: string;
@@ -29,11 +30,11 @@ const { title, description, label, subtitle, image, imageAlt, serviceParam } =
     class='relative min-h-[320px] lg:min-h-[380px] flex items-end overflow-hidden'
   >
     <div class='absolute inset-0'>
-      <img
+      <Picture
         src={image}
         alt=''
-        width='1280'
-        height='380'
+        width={1280}
+        height={380}
         loading='eager'
         decoding='async'
         class='w-full h-full object-cover'
