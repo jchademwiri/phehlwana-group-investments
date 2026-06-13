@@ -14,9 +14,13 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Override the canonical URL. Defaults to the current page URL. */
   canonicalUrl?: string;
+  /** Hide the site header */
+  hideHeader?: boolean;
+  /** Hide the site footer */
+  hideFooter?: boolean;
 }
 
-const { title, description = '', ogImage, ogType = 'website', canonicalUrl } = Astro.props;
+const { title, description = '', ogImage, ogType = 'website', canonicalUrl, hideHeader = false, hideFooter = false } = Astro.props;
 const siteName = 'Phehlwana Group Investments';
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
@@ -177,11 +181,11 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID as string | undefined;
     >
       Skip to main content
     </a>
-    <Header />
+    {!hideHeader && <Header />}
     <main id='main-content' class='flex-1'>
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
     <script src='/scripts/animations.js' defer></script>
   </body>
 </html>

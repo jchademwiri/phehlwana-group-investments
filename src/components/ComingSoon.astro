@@ -4,22 +4,17 @@
  *
  * Usage:
  *   import ComingSoon from '@/components/ComingSoon.astro';
- *   <ComingSoon launchDate="2026-09-01T07:30:00+02:00" />
+ *   <ComingSoon />
  *
  * Props:
- *   - launchDate: ISO date string for the countdown target (default: 2026-09-01)
  *   - companyName: Display name in the badge (default: Phehlwana Group Investments)
  *   - headline: Main heading text (default: "We're Building Something Great")
  *   - phone: Contact phone number
  *   - email: Contact email address
  *   - whatsapp: WhatsApp link (full URL)
- *
- * Note: The email notify form is client-side only — no data is collected.
- *       Integrate with a service like Resend later if you need email collection.
  */
 
 interface Props {
-  launchDate?: string;
   companyName?: string;
   headline?: string;
   phone?: string;
@@ -28,7 +23,6 @@ interface Props {
 }
 
 const {
-  launchDate = '2026-09-01T07:30:00+02:00',
   companyName = 'Phehlwana Group Investments',
   headline = "We're Building Something Great",
   phone = '+27126550284',
@@ -47,7 +41,7 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   {/* ── Animated background ──────────────────────────────────── */}
   <div class='absolute inset-0 -z-10' aria-hidden='true'>
     {/* Gradient mesh */}
-    <div class='absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/10'></div>
+    <div class='absolute inset-0 bg-linear-to-br from-primary/5 via-background to-primary/10'></div>
 
     {/* Animated grid pattern */}
     <svg class='absolute inset-0 h-full w-full opacity-[0.04]' aria-hidden='true'>
@@ -73,12 +67,17 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
       <span class='text-sm font-medium text-muted-foreground tracking-wide'>{companyName}</span>
     </div>
 
-    {/* Logo / Brand mark */}
+    {/* Logo */}
     <div class='mb-6 flex justify-center'>
-      <div class='cg-logo relative flex size-20 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/20 backdrop-blur-sm'>
-        <span class='text-3xl font-bold text-primary font-heading'>P</span>
-        <div class='absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
-      </div>
+      <img
+        src='/img/logow.webp'
+        alt='Phehlwana Group Investments logo'
+        width={200}
+        height={60}
+        loading='eager'
+        decoding='async'
+        class='cg-logo h-14 w-auto'
+      />
     </div>
 
     {/* Headline */}
@@ -96,50 +95,7 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
       Our new website is under construction. We're working hard to bring you an exceptional online experience. Stay tuned — we'll be launching soon.
     </p>
 
-    {/* Countdown */}
-    <div class='cg-countdown mb-12 flex items-center justify-center gap-3 sm:gap-5'>
-      <div class='cg-cd-unit'>
-        <span id='cd-days' class='cg-cd-num'>00</span>
-        <span class='cg-cd-label'>Days</span>
-      </div>
-      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
-      <div class='cg-cd-unit'>
-        <span id='cd-hours' class='cg-cd-num'>00</span>
-        <span class='cg-cd-label'>Hours</span>
-      </div>
-      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
-      <div class='cg-cd-unit'>
-        <span id='cd-mins' class='cg-cd-num'>00</span>
-        <span class='cg-cd-label'>Mins</span>
-      </div>
-      <span class='cg-cd-sep text-2xl font-light text-muted-foreground/40'>:</span>
-      <div class='cg-cd-unit'>
-        <span id='cd-secs' class='cg-cd-num'>00</span>
-        <span class='cg-cd-label'>Secs</span>
-      </div>
-    </div>
 
-    {/* Email signup — client-side only, no backend collection */}
-    <div class='cg-signup mx-auto mb-10 max-w-md'>
-      <form id='cg-notify-form' class='flex gap-2'>
-        <label class='sr-only' for='cg-email'>Email address</label>
-        <input
-          id='cg-email'
-          type='email'
-          required
-          placeholder='Enter your email for updates'
-          class='cg-input flex-1 rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors'
-        />
-        <button
-          type='submit'
-          class='cg-cta inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-primary shrink-0'
-        >
-          Notify Me
-          <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
-        </button>
-      </form>
-      <p id='cg-thank-you' class='hidden mt-3 text-sm text-primary font-medium'>✓ Thanks! We'll notify you when we launch.</p>
-    </div>
 
     {/* Divider */}
     <div class='cg-divider mx-auto mb-8 h-px w-32 bg-gradient-to-r from-transparent via-border to-transparent'></div>
@@ -249,34 +205,22 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
     animation-delay: 0.45s;
   }
 
-  /* Countdown entrance */
-  .cg-countdown {
-    animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 0.6s;
-  }
-
-  /* Signup entrance */
-  .cg-signup {
-    animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 0.75s;
-  }
-
   /* Divider entrance */
   .cg-divider {
     animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 0.85s;
+    animation-delay: 0.6s;
   }
 
   /* Contact entrance */
   .cg-contact {
     animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 0.95s;
+    animation-delay: 0.7s;
   }
 
   /* Social entrance */
   .cg-social {
     animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 1.05s;
+    animation-delay: 0.8s;
   }
 
   @keyframes cg-fade-up {
@@ -288,37 +232,6 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
       opacity: 1;
       transform: translateY(0);
     }
-  }
-
-  /* ── Countdown units ──────────────────────────────────────── */
-  .cg-cd-unit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    min-width: 4rem;
-    padding: 1rem 0.75rem;
-    border-radius: 0.75rem;
-    background: color-mix(in srgb, var(--card) 80%, transparent);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(8px);
-  }
-
-  .cg-cd-num {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--foreground);
-    font-variant-numeric: tabular-nums;
-    font-family: var(--font-heading), system-ui, sans-serif;
-  }
-
-  .cg-cd-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted-foreground);
   }
 
   /* ── Social link button ───────────────────────────────────── */
@@ -342,78 +255,17 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   }
 
   /* ── Responsive adjustments ────────────────────────────────── */
-  @media (max-width: 640px) {
-    .cg-cd-unit {
-      min-width: 3.25rem;
-      padding: 0.75rem 0.5rem;
-    }
-    .cg-cd-num {
-      font-size: 1.5rem;
-    }
-    .cg-cd-sep {
-      font-size: 1.25rem;
-    }
-  }
+
 
   /* ── Reduce motion preference ──────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
     .cg-orb { animation: none !important; }
     .cg-badge, .cg-logo, .cg-headline, .cg-sub,
-    .cg-countdown, .cg-signup, .cg-divider,
-    .cg-contact, .cg-social {
+    .cg-divider, .cg-contact, .cg-social {
       animation: none !important;
       opacity: 1 !important;
     }
   }
 </style>
 
-<script define:vars={{ launchDate }}>
-  // ── Countdown timer ──────────────────────────────────────────────
-  const target = new Date(launchDate).getTime();
 
-  function pad(n) {
-    return String(n).padStart(2, '0');
-  }
-
-  function tick() {
-    const now = Date.now();
-    let diff = Math.max(0, target - now);
-
-    const days = Math.floor(diff / 86400000); diff %= 86400000;
-    const hours = Math.floor(diff / 3600000); diff %= 3600000;
-    const mins = Math.floor(diff / 60000); diff %= 60000;
-    const secs = Math.floor(diff / 1000);
-
-    document.getElementById('cd-days').textContent  = pad(days);
-    document.getElementById('cd-hours').textContent = pad(hours);
-    document.getElementById('cd-mins').textContent  = pad(mins);
-    document.getElementById('cd-secs').textContent  = pad(secs);
-  }
-
-  tick();
-  setInterval(tick, 1000);
-
-  // ── Email notify form (client-side only) ──────────────────────────
-  // Persists submission state in localStorage so the form stays hidden
-  // on return visits. No data is sent to a backend — integrate with
-  // Resend or similar if you need server-side email collection.
-  const STORAGE_KEY = 'cg-notify-submitted';
-
-  const form = document.getElementById('cg-notify-form');
-  const thankYou = document.getElementById('cg-thank-you');
-
-  // If already submitted, show thank-you on load
-  if (localStorage.getItem(STORAGE_KEY) === '1') {
-    form.style.display = 'none';
-    thankYou?.classList.remove('hidden');
-  }
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    // Persist state so returning visitors see the thank-you
-    localStorage.setItem(STORAGE_KEY, '1');
-    // Hide form, show thank-you message
-    form.style.display = 'none';
-    thankYou?.classList.remove('hidden');
-  });
-</script>
