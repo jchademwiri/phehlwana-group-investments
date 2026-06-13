@@ -8,7 +8,7 @@
  *
  * Props:
  *   - companyName: Display name in the badge (default: Phehlwana Group Investments)
- *   - headline: Main heading text (default: "We're Building Something Great")
+ *   - headline: Main heading text
  *   - phone: Contact phone number
  *   - email: Contact email address
  *   - whatsapp: WhatsApp link (full URL)
@@ -24,7 +24,7 @@ interface Props {
 
 const {
   companyName = 'Phehlwana Group Investments',
-  headline = "We're Building Something Great",
+  headline = "Engineering Excellence,\nDelivered",
   phone = '+27126550284',
   email = 'info@phehlwanagroup.co.za',
   whatsapp = 'https://wa.me/27792947635',
@@ -32,10 +32,20 @@ const {
 
 /* Format phone for tel: link */
 const telHref = `tel:${phone.replace(/\s/g, '')}`;
+
+/* Service divisions */
+const services = [
+  { name: 'Construction & Civil Engineering', icon: 'building' },
+  { name: 'Mechanical Engineering', icon: 'gear' },
+  { name: 'Cleaning & Waste Management', icon: 'leaf' },
+  { name: 'Plant Hire', icon: 'truck' },
+  { name: 'Security', icon: 'shield' },
+];
+
 ---
 
 <section
-  class='relative min-h-screen flex items-center justify-center overflow-hidden bg-background'
+  class='relative h-dvh flex items-center justify-center overflow-hidden bg-background'
   aria-label='Coming soon'
 >
   {/* ── Animated background ──────────────────────────────────── */}
@@ -60,15 +70,15 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   </div>
 
   {/* ── Content ──────────────────────────────────────────────── */}
-  <div class='relative z-10 mx-auto max-w-2xl px-6 text-center'>
+  <div class='relative z-10 mx-auto max-w-3xl px-6 py-8 text-center'>
     {/* Company badge */}
-    <div class='cg-badge mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2 backdrop-blur-sm'>
+    <div class='cg-badge mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2 backdrop-blur-sm'>
       <span class='inline-block size-2 rounded-full bg-primary animate-pulse'></span>
       <span class='text-sm font-medium text-muted-foreground tracking-wide'>{companyName}</span>
     </div>
 
     {/* Logo */}
-    <div class='mb-6 flex justify-center'>
+    <div class='mb-4 flex justify-center'>
       <img
         src='/img/logow.webp'
         alt='Phehlwana Group Investments logo'
@@ -76,29 +86,51 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
         height={60}
         loading='eager'
         decoding='async'
-        class='cg-logo h-14 w-auto'
+        class='cg-logo h-10 w-auto'
       />
     </div>
 
     {/* Headline */}
-    <h1 class='cg-headline mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-heading'>
-      {headline.split(' ').length > 2 ? (
-        <>
-          {headline.split(' ').slice(0, Math.ceil(headline.split(' ').length / 2)).join(' ')}<br />
-          {headline.split(' ').slice(Math.ceil(headline.split(' ').length / 2)).join(' ')}
-        </>
-      ) : headline}
+    <h1 class='cg-headline mb-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl font-heading'>
+      {headline.split('\n').map((line) => (
+        <span class='block'>{line}</span>
+      ))}
     </h1>
 
     {/* Subheadline */}
-    <p class='cg-sub mx-auto mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground'>
-      Our new website is under construction. We're working hard to bring you an exceptional online experience. Stay tuned — we'll be launching soon.
+    <p class='cg-sub mx-auto mb-6 max-w-lg text-base leading-relaxed text-muted-foreground'>
+      Our new website is under construction. We're working hard to bring you an exceptional online experience. Stay tuned - we'll be launching soon.
     </p>
 
-
+    {/* ── Services teaser ─────────────────────────────────────── */}
+    <div class='cg-services mb-6 grid grid-cols-3 gap-2 sm:grid-cols-5'>
+      {services.map((service) => (
+        <div class='cg-service-card group flex flex-col items-center gap-1.5 rounded-xl border border-border bg-card/60 px-2 py-3 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/90'>
+          {/* Icon */}
+          <div class='flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20'>
+            {service.icon === 'building' && (
+              <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect width='16' height='20' x='4' y='2' rx='2' ry='2'/><path d='M9 22v-4h6v4'/><path d='M8 6h.01'/><path d='M16 6h.01'/><path d='M12 6h.01'/><path d='M12 10h.01'/><path d='M12 14h.01'/><path d='M16 10h.01'/><path d='M16 14h.01'/><path d='M8 10h.01'/><path d='M8 14h.01'/></svg>
+            )}
+            {service.icon === 'gear' && (
+              <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z'/><circle cx='12' cy='12' r='3'/></svg>
+            )}
+            {service.icon === 'leaf' && (
+              <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z'/><path d='M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12'/></svg>
+            )}
+            {service.icon === 'truck' && (
+              <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2'/><path d='M15 18H9'/><path d='M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14'/><circle cx='17' cy='18' r='2'/><circle cx='7' cy='18' r='2'/></svg>
+            )}
+            {service.icon === 'shield' && (
+              <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/><path d='m9 12 2 2 4-4'/></svg>
+            )}
+          </div>
+          <span class='text-[11px] font-medium leading-tight text-muted-foreground group-hover:text-foreground transition-colors'>{service.name}</span>
+        </div>
+      ))}
+    </div>
 
     {/* Divider */}
-    <div class='cg-divider mx-auto mb-8 h-px w-32 bg-gradient-to-r from-transparent via-border to-transparent'></div>
+    <div class='cg-divider mx-auto mb-5 h-px w-32 bg-gradient-to-r from-transparent via-border to-transparent'></div>
 
     {/* Contact info */}
     <div class='cg-contact flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground'>
@@ -118,7 +150,7 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
     </div>
 
     {/* Social links */}
-    <div class='cg-social mt-8 flex items-center justify-center gap-4'>
+    <div class='cg-social mt-5 flex items-center justify-center gap-4'>
       <a href='https://www.facebook.com/' target='_blank' rel='noopener noreferrer' class='cg-social-link' aria-label='Facebook'>
         <svg xmlns='http://www.w3.org/2000/svg' class='size-5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z'/></svg>
       </a>
@@ -202,7 +234,13 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   /* Subheadline entrance */
   .cg-sub {
     animation: cg-fade-up 0.8s ease-out both;
-    animation-delay: 0.45s;
+    animation-delay: 0.4s;
+  }
+
+  /* Services entrance */
+  .cg-services {
+    animation: cg-fade-up 0.8s ease-out both;
+    animation-delay: 0.5s;
   }
 
   /* Divider entrance */
@@ -254,18 +292,20 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
     background: color-mix(in srgb, var(--primary) 8%, transparent);
   }
 
-  /* ── Responsive adjustments ────────────────────────────────── */
-
+  /* ── Prevent page scroll ──────────────────────────────────── */
+  :global(html), :global(body) {
+    overflow: hidden !important;
+    height: 100dvh !important;
+  }
 
   /* ── Reduce motion preference ──────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
     .cg-orb { animation: none !important; }
     .cg-badge, .cg-logo, .cg-headline, .cg-sub,
-    .cg-divider, .cg-contact, .cg-social {
+    .cg-services, .cg-divider,
+    .cg-contact, .cg-social {
       animation: none !important;
       opacity: 1 !important;
     }
   }
 </style>
-
-
