@@ -64,7 +64,7 @@ The July 5 per-page audit recommended a batch of fixes. All of them — includin
 | Remove duplicate WebP+PNG hero preload | ✅ Fixed correctly | `src/layouts/Layout.astro` (PNG preload block removed) |
 | Uncomment `<HelpfulLinks />` on 404 | ✅ Fixed correctly | `src/pages/404.astro:174` |
 | Update "Pretoria/Gauteng" → "nationally" copy | ✅ Fixed correctly | `about.astro`, `blog/index.astro`, `contact.astro`, `projects/index.astro`, `services/{cleaning,construction,mechanical,plant-hire,security}.astro`, `index.astro` |
-| Security page: point at real image instead of placeholder | ✅ Fixed correctly | `src/pages/services/security.astro` now uses `/images/services/service-security.png` |
+| Security page: point at real image instead of placeholder | ❌ **Correction — the prior audit's claim was wrong.** `service-security.png` has never existed in this repo (checked git history — no file, no commit). The working-tree edit that pointed to it caused a live 404 on every page using it (Home, Services overview, Security page). Reverted to `/images/placeholder.svg` until real photography is provided. | `src/pages/services/security.astro`, `src/pages/services/index.astro`, `src/pages/index.astro` |
 | Blog copy-link button: announce state change | ✅ Fixed correctly | `src/pages/blog/[id].astro:175` now has `aria-live='polite'` |
 | Project gallery: fix invalid `role="list"` div/button semantics; remove fake zoom-cursor affordance that did nothing | ✅ Fixed correctly | `src/pages/projects/[id].astro` — now real `<ul>/<li>`, `cursor-zoom-in`/`role='button'` removed |
 | Hero slide `alt=''` → per-slide `alt` + single `<h1>` (others `<h2>`) | ✅ **Fixed** (was corrupted, now repaired) | `src/pages/index.astro` |
