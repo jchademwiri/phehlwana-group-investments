@@ -35,6 +35,16 @@ const serviceSchema = {
     url: siteUrl.href,
   },
 };
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl.href },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/services', siteUrl).href },
+    { '@type': 'ListItem', position: 3, name: title, item: new URL(Astro.url.pathname, siteUrl).href },
+  ],
+};
 ---
 
 <Layout
@@ -42,6 +52,7 @@ const serviceSchema = {
   description={description}
 >
   <script type='application/ld+json' set:html={JSON.stringify(serviceSchema)} />
+  <script type='application/ld+json' set:html={JSON.stringify(breadcrumbSchema)} />
 
   <!-- ── Hero - image background with gradient overlay ────────────────────── -->
   <section

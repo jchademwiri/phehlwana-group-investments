@@ -53,12 +53,27 @@ const faqs = [
     a: 'For urgent maintenance issues, please call our mobile line on 079 294 7635 or reach us via WhatsApp.',
   },
 ];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
 ---
 
 <Layout
   title='Contact Us'
   description='Get in touch with Phehlwana Group Investments. Request a free quote, ask a question, or visit us at PKN Office Park, Montana Park, Pretoria. We respond within 1 business day.'
 >
+  <script type='application/ld+json' set:html={JSON.stringify(faqSchema)} />
+
   <!-- ── Page header ──────────────────────────────────────────────────────── -->
   <section
     class='bg-accent/40 border-b border-border pt-36 pb-14 lg:pt-44 lg:pb-20'

@@ -23,7 +23,7 @@ interface Props {
 
 const { title, description = '', ogImage, ogType = 'website', canonicalUrl, hideHeader = false, hideFooter = false } = Astro.props;
 const siteName = 'Phehlwana Group Investments';
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
 
 // ── Canonical URL ──────────────────────────────────────────────────────────────

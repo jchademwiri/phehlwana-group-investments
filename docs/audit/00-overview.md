@@ -109,8 +109,13 @@ These were found during this pass, verified directly against the current code, a
 - Homepage now renders a single `<h1>` (slide 0) with `<h2>` on the other slides — ✅ fixed.
 - Blog detail pages now have `BlogPosting` JSON-LD — ✅ fixed.
 - Service pages now have `Service` JSON-LD — ✅ fixed.
+- Contact page now has `FAQPage` JSON-LD — ✅ fixed.
+- Service pages, blog posts, and project detail pages now have `BreadcrumbList` JSON-LD — ✅ fixed.
+- **Title-tag duplication bug fixed**: Home/About/Services-overview titles no longer render the site name twice (was a real, previously-undetected bug in `Layout.astro`'s dedup logic).
+- Over-long meta descriptions on Home/About/Services-overview tightened to avoid SERP truncation.
+- Home/About/Services-overview now use a real photo as `og:image` instead of the logo fallback.
 - Sitemap, robots.txt, canonical tags, OG tags, Twitter cards, and `LocalBusiness`/`WebSite` JSON-LD are all correctly implemented site-wide — verified good.
-- No dedicated 1200×630 OG image yet (falls back to logo). Still outstanding — needs a designed asset.
+- No dedicated 1200×630 OG image yet (now uses real photos as a stopgap, not ideal aspect ratio for all crops). Still outstanding — needs a designed asset.
 - Google Search Console verification not yet done (needs a live deploy first). Still outstanding.
 
 ### Performance & Core Web Vitals
@@ -138,7 +143,7 @@ These were found during this pass, verified directly against the current code, a
 4. Get CIDB registration number, BBBEE/ISO 45001/NHBRC certificates, PSIRA number, and team bios/headshots from the client.
 
 ### 🟡 Medium — remaining
-5. Create a dedicated 1200×630 OG image.
+5. Create a dedicated 1200×630 OG image (pages now use real photos as a stopgap - see below - but a designed asset would look better).
 6. Set up Google Search Console after deployment.
 
 ### 🟢 Low / Nice-to-have — remaining
@@ -147,8 +152,18 @@ These were found during this pass, verified directly against the current code, a
 9. Add a Terms of Service page.
 10. Add weekend/holiday business hours once confirmed by the client.
 
-### ✅ Done in this pass
+### ✅ Done in this pass (2026-07-27, batch 1 - build/a11y/security fixes)
 Fixed corrupted `index.astro` hero markup · GA4 script interpolation bug · dead `/favicon.svg` reference · empty `site.webmanifest` fields · `'Security'` added to project category enum + projects page filter/colours · honeypot spam protection on contact form · cookie-consent banner gating GA4 · `Service`/`BlogPosting` JSON-LD · carousel pause-on-hover/focus + reduced-motion support · CI workflow added · `old-site/` removed · stale `README.md` status table corrected · thank-you emoji replaced with SVG
+
+**Regression caught and fixed same day:** the batch above initially pointed the Security service image at `/images/services/service-security.png` per the prior audit's claim that it existed - it never did (confirmed via git history), causing a live 404 on Home, Services overview, and the Security page. Reverted to `/images/placeholder.svg` until real photography is provided.
+
+### ✅ Done in this pass (2026-07-27, batch 2 - SEO)
+- **Fixed a real title-tag bug**: `Layout.astro`'s dedup check used `title === siteName` (exact match only), so any page that baked "Phehlwana Group Investments" into its own title prop (Home, About, Services overview) got the site name appended a second time by the layout, e.g. `"...South Africa | Phehlwana Group Investments | Phehlwana Group Investments"`. Changed to `title.includes(siteName)`. Verified in built HTML - all three titles now render once, correctly.
+- Tightened meta descriptions on Home (194→164 chars), About (193→150), Services overview (189→157) so they stop getting truncated mid-sentence in search results.
+- Added `FAQPage` JSON-LD to the Contact page, built from the existing 5 FAQ entries.
+- Added `BreadcrumbList` JSON-LD to all 5 service pages, blog posts, and project detail pages (breadcrumbs were already shown visually but had no structured data).
+- Home, About, and Services overview now pass a real photo as `ogImage` instead of falling back to the logo for social-share previews.
+- All JSON-LD validated as parseable, correctly-scoped JSON in the built output across every page type.
 
 ---
 
