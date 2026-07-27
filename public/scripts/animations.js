@@ -1,6 +1,19 @@
 (function () {
   'use strict';
 
+  // Respect the user's motion preference - reveal content immediately
+  // instead of animating it in.
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  if (prefersReducedMotion) {
+    document.querySelectorAll('[data-animate]').forEach(function (el) {
+      el.classList.add('animate-in');
+    });
+    return;
+  }
+
   // Scroll-triggered entrance animations
   // Add data-animate to any element to opt in
   const observer = new IntersectionObserver(

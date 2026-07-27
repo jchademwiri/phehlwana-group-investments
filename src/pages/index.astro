@@ -268,7 +268,7 @@ const trustItems = [
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {serviceDivisions.map((service, i) => (
                     <article
-                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-shadow hover:shadow-lg'
+                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
                         data-animate
                     >
                         <a href={service.href} class='absolute inset-0 z-10' aria-label={`Learn more about ${service.division}`}/>
@@ -367,7 +367,7 @@ const trustItems = [
 
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {featuredProjects.map((project) => (
-                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-shadow hover:shadow-lg' data-animate>
+                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1' data-animate>
                         <a href={`/projects/${project.id}`} class='absolute inset-0 z-10' aria-label={`View project: ${project.data.title}`}/>
                         <div class='aspect-16/10 overflow-hidden bg-accent'>
                             <Picture
