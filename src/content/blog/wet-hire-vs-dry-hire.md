@@ -4,7 +4,7 @@ description: 'Not sure whether to hire equipment with or without an operator? He
 pubDate: 2025-05-12T00:00:00Z
 author: 'Phehlwana Group Team'
 coverImage: '/images/blog/plant-hire-guide.svg'
-tags: ['plant hire', 'wet hire', 'dry hire', 'construction equipment', 'Gauteng']
+tags: ['plant hire', 'wet hire', 'dry hire', 'construction equipment', 'South Africa']
 published: true
 ---
 

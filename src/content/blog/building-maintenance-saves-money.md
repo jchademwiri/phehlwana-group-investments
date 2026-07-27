@@ -4,7 +4,7 @@ description: 'Deferred maintenance is one of the most expensive mistakes a prope
 pubDate: 2025-03-10T00:00:00Z
 author: 'Phehlwana Group Team'
 coverImage: '/images/blog/building-maintenance.svg'
-tags: ['building maintenance', 'property management', 'construction tips', 'Pretoria']
+tags: ['building maintenance', 'property management', 'construction tips', 'South Africa']
 published: true
 ---
 
