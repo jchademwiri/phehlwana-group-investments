@@ -5,6 +5,10 @@ import Header from '@/components/shared/Header.astro';
 import GA4Tracking from '@/components/shared/GA4Tracking.astro';
 import CookieConsent from '@/components/shared/CookieConsent.astro';
 import '@/styles/starwind.css';
+// Self-hosted fonts (replaces the Google Fonts CDN request)
+import '@fontsource-variable/inter/opsz.css';
+import '@fontsource-variable/inter/opsz-italic.css';
+import '@fontsource-variable/outfit/wght.css';
 
 interface Props {
   title: string;
@@ -30,7 +34,7 @@ const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
 const canonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
 
 // ── Open Graph image (must be absolute) ────────────────────────────────────────
-const defaultOgImage = new URL('/img/logo.png', siteUrl).href;
+const defaultOgImage = new URL('/images/og-default.png', siteUrl).href;
 const ogImageUrl = ogImage
   ? ogImage.startsWith('http')
     ? ogImage
@@ -91,14 +95,13 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID as string | undefined;
     <link rel='apple-touch-icon' href='/apple-touch-icon.png' />
     <meta name='generator' content={Astro.generator} />
     {description && <meta name='description' content={description} />}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-
-    <!-- Preload the hero image for faster LCP across all screen sizes -->
+    <!-- Preload the hero image for faster LCP - imagesrcset matches the responsive
+         variants Picture.astro requests, so mobile doesn't preload the full-size image -->
     <link
       rel="preload"
       href="/images/hero/carousel-2.webp"
+      imagesrcset="/images/hero/carousel-2-480w.webp 480w, /images/hero/carousel-2-960w.webp 960w, /images/hero/carousel-2-1600w.webp 1600w"
+      imagesizes="100vw"
       as="image"
       type="image/webp"
       fetchpriority="high"

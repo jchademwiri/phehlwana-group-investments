@@ -86,7 +86,6 @@ const trustItems = [
 <Layout
     title='Phehlwana Group Investments | Construction, Engineering & Plant Hire South Africa'
     description='Trusted construction, civil engineering, mechanical, cleaning, plant hire and security services nationally across South Africa. Established 2015. Call 012 655 0284.'
-    ogImage={heroSlides[0].image}
 >
 
     <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
@@ -109,6 +108,8 @@ const trustItems = [
                             alt={slide.alt}
                             width={1920}
                             height={800}
+                            widths={[480, 960, 1600]}
+                            sizes='100vw'
                             loading={i === 0 ? 'eager' : 'lazy'}
                             decoding='async'
                             class='w-full h-full object-cover'
@@ -235,6 +236,8 @@ const trustItems = [
                         alt='Phehlwana Group project site - construction work in progress'
                         width={800}
                         height={600}
+                        widths={[480, 960, 1600]}
+                        sizes='(min-width: 1024px) 50vw, 100vw'
                         loading='lazy'
                         decoding='async'
                         class='w-full h-full object-cover'
