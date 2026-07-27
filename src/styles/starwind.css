@@ -340,7 +340,8 @@
 
 #site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a:not([aria-current='page']),
 #site-header:not([data-scrolled]) #services-trigger,
-#site-header:not([data-scrolled]) #theme-toggle {
+#site-header:not([data-scrolled]) #theme-toggle,
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a[aria-label='Phehlwana Group Investments - Home'] span {
   color: rgb(255 255 255 / 0.9);
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
 }
