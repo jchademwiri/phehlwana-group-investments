@@ -300,6 +300,19 @@
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.06);
 }
 
+/* Contrast scrim while the header is still transparent (unscrolled) - it can sit on
+   top of photographic hero content or a light-theme page background, so text contrast
+   can't rely on theme colors alone. Flat (not a fade) so it covers the topbar row and
+   the nav row evenly, regardless of header height or theme. */
+#site-header:not([data-scrolled])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  pointer-events: none;
+  z-index: -1;
+}
+
 #site-topbar {
   background-color: transparent;
   transition: background-color 0.3s ease;
@@ -307,4 +320,33 @@
 
 #site-topbar[data-scrolled] {
   background-color: color-mix(in srgb, var(--color-muted) 60%, transparent);
+}
+
+/* Force legible light text/icons over the scrim while unscrolled, regardless of
+   the site's light/dark theme - once scrolled, normal theme colors take over. */
+#site-topbar:not([data-scrolled]),
+#site-topbar:not([data-scrolled]) a {
+  color: rgb(255 255 255 / 0.85);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+#site-topbar:not([data-scrolled]) svg {
+  color: rgb(255 255 255 / 0.95);
+}
+
+#site-topbar:not([data-scrolled]) a:hover {
+  color: #ffffff;
+}
+
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a:not([aria-current='page']),
+#site-header:not([data-scrolled]) #services-trigger,
+#site-header:not([data-scrolled]) #theme-toggle {
+  color: rgb(255 255 255 / 0.9);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a:not([aria-current='page']):hover,
+#site-header:not([data-scrolled]) #services-trigger:hover {
+  color: #ffffff;
+  background-color: rgb(255 255 255 / 0.1);
 }
