@@ -84,8 +84,8 @@ const trustItems = [
 ---
 
 <Layout
-    title='Phehlwana Group Investments | Construction, Engineering & Plant Hire Pretoria'
-    description='Phehlwana Group Investments - trusted construction, civil engineering, mechanical services, cleaning, plant hire and security in Pretoria. Established 2015. Call 012 655 0284.'
+    title='Phehlwana Group Investments | Construction, Engineering & Plant Hire South Africa'
+    description='Phehlwana Group Investments - trusted construction, civil engineering, mechanical services, cleaning, plant hire and security nationally across South Africa. Established 2015. Call 012 655 0284.'
 >
 
     <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
@@ -105,7 +105,7 @@ const trustItems = [
                     <div class='absolute inset-0'>
                         <Picture
                             src={slide.image}
-                            alt=''
+                            alt={slide.alt}
                             width={1920}
                             height={800}
                             loading={i === 0 ? 'eager' : 'lazy'}
@@ -114,15 +114,21 @@ const trustItems = [
                         />
                         <div class='absolute inset-0 bg-neutral-950/65'></div>
                     </div>
-
+ 
                     <!-- Content -->
                     <div class='relative container mx-auto px-4 py-36 lg:py-44'>
                         <p class='text-sm font-semibold text-primary uppercase tracking-widest mb-4'>
                             {slide.eyebrow}
                         </p>
-                        <h1 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 max-w-2xl'>
-                            {slide.headline}
-                        </h1>
+                        {i === 0 ? (
+                            <h1 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 max-w-2xl'>
+                                {slide.headline}
+                            </h1>
+                        ) : (
+                            <h2 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 max-w-2xl'>
+                                {slide.headline}
+                            </h2>
+                        )}
                         <p class='text-lg text-white/80 max-w-xl leading-relaxed mb-8'>
                             {slide.body}
                         </p>
@@ -430,5 +436,15 @@ const trustItems = [
         btn.addEventListener('click', () => { goTo(i); resetTimer(); });
     });
 
-    if (slides.length > 1) startTimer();
+    // Pause auto-rotation on hover/focus (WCAG 2.2.2 - Pause, Stop, Hide)
+    const heroSection = document.querySelector<HTMLElement>('[aria-label="Hero"]');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (slides.length > 1 && !prefersReducedMotion) {
+        startTimer();
+        heroSection?.addEventListener('mouseenter', () => clearInterval(timer));
+        heroSection?.addEventListener('mouseleave', startTimer);
+        heroSection?.addEventListener('focusin', () => clearInterval(timer));
+        heroSection?.addEventListener('focusout', startTimer);
+    }
 </script>

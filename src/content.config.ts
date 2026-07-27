@@ -12,7 +12,7 @@ const projects = defineCollection({
     location:     z.string(),
     duration:     z.string().optional(),
     year:         z.number(),
-    category:     z.enum(['Construction', 'Mechanical', 'Cleaning', 'Plant Hire', 'Road']),
+    category:     z.enum(['Construction', 'Mechanical', 'Cleaning', 'Plant Hire', 'Road', 'Security']),
     coverImage:   z.string(),
     images:       z.array(z.string()).optional(),
     featured:     z.boolean().default(false),

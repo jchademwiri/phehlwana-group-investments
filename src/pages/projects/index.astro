@@ -14,7 +14,7 @@ const projects = allProjects.sort((a, b) => {
     return b.data.year - a.data.year;
 });
 
-const categories = ['All', 'Construction', 'Road', 'Mechanical', 'Cleaning', 'Plant Hire'] as const;
+const categories = ['All', 'Construction', 'Road', 'Mechanical', 'Cleaning', 'Plant Hire', 'Security'] as const;
 
 const categoryColours: Record<string, string> = {
     Construction: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
@@ -22,12 +22,13 @@ const categoryColours: Record<string, string> = {
     Mechanical:   'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     Cleaning:     'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
     'Plant Hire': 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+    Security:     'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
 };
 ---
 
 <Layout
     title='Our Projects'
-    description='Browse completed construction, civil engineering, road, cleaning and plant hire projects by Phehlwana Group Investments across Pretoria and Gauteng.'
+    description='Browse completed construction, civil engineering, road, cleaning and plant hire projects by Phehlwana Group Investments nationally across South Africa.'
 >
     <!-- Page header -->
     <section class='bg-accent/40 border-b border-border pt-36 pb-14 lg:pt-44'>
@@ -38,7 +39,7 @@ const categoryColours: Record<string, string> = {
             <h1 class='text-4xl font-bold text-foreground mb-3'>Project Portfolio</h1>
             <p class='text-muted-foreground max-w-xl'>
                 A selection of completed projects across construction, road maintenance,
-                cleaning, and plant hire - delivered across Pretoria and Gauteng.
+                cleaning, and plant hire - delivered nationally across South Africa.
             </p>
         </div>
     </section>

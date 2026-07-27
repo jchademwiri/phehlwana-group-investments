@@ -25,6 +25,26 @@ function formatDate(date: Date): string {
 
 const wordCount = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
+const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    author: {
+        '@type': 'Organization',
+        name: post.data.author,
+    },
+    publisher: {
+        '@type': 'Organization',
+        name: 'Phehlwana Group Investments',
+        url: siteUrl.href,
+    },
+    ...(post.data.coverImage && { image: new URL(post.data.coverImage, siteUrl).href }),
+    mainEntityOfPage: new URL(Astro.url.pathname, siteUrl).href,
+};
 ---
 
 <Layout
@@ -33,6 +53,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
   ogImage={post.data.coverImage}
   ogType="article"
 >
+    <script type='application/ld+json' set:html={JSON.stringify(articleSchema)} />
 
     <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
     <section class='relative min-h-[420px] lg:min-h-[500px] flex items-end overflow-hidden'>
@@ -172,7 +193,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
                             class='w-full inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg px-3 py-2 transition-colors hover:bg-accent'
                         >
                             <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>
-                            <span id='copy-link-label'>Copy link</span>
+                            <span id='copy-link-label' aria-live='polite'>Copy link</span>
                         </button>
                     </div>
 

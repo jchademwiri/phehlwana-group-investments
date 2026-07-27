@@ -19,12 +19,30 @@ interface Props {
 
 const { title, description, label, subtitle, image, imageAlt, serviceParam } =
   Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: title,
+  name: title,
+  description,
+  areaServed: 'South Africa',
+  url: new URL(Astro.url.pathname, siteUrl).href,
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'Phehlwana Group Investments',
+    url: siteUrl.href,
+  },
+};
 ---
 
 <Layout
   title={`${title} | Phehlwana Group Investments`}
   description={description}
 >
+  <script type='application/ld+json' set:html={JSON.stringify(serviceSchema)} />
+
   <!-- ── Hero - image background with gradient overlay ────────────────────── -->
   <section
     class='relative min-h-[320px] lg:min-h-[380px] flex items-end overflow-hidden'
@@ -32,7 +50,7 @@ const { title, description, label, subtitle, image, imageAlt, serviceParam } =
     <div class='absolute inset-0'>
       <Picture
         src={image}
-        alt=''
+        alt={imageAlt}
         width={1280}
         height={380}
         loading='eager'
