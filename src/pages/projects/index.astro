@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Picture from '@/components/shared/Picture.astro';
+import { categoryList, categoryColours } from '@/lib/categories';
 
 export const prerender = true;
 
@@ -14,16 +15,7 @@ const projects = allProjects.sort((a, b) => {
     return b.data.year - a.data.year;
 });
 
-const categories = ['All', 'Construction', 'Road', 'Mechanical', 'Cleaning', 'Plant Hire', 'Security'] as const;
-
-const categoryColours: Record<string, string> = {
-    Construction: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-    Road:         'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-    Mechanical:   'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-    Cleaning:     'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-    'Plant Hire': 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-    Security:     'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
-};
+const categories = categoryList;
 ---
 
 <Layout
@@ -107,7 +99,7 @@ const categoryColours: Record<string, string> = {
                         <div class='flex items-center justify-between gap-2'>
                             <span class:list={[
                                 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold',
-                                categoryColours[project.data.category] ?? 'bg-muted text-muted-foreground',
+                                categoryColours[project.data.category]?.badge ?? 'bg-muted text-muted-foreground',
                             ]}>
                                 {project.data.category}
                             </span>

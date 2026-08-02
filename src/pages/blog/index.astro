@@ -48,12 +48,12 @@ function formatDate(date: Date): string {
         ) : (
             <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {posts.map((post) => (
-                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'>
+                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2'>
 
                         <!-- Full-card link -->
                         <a
                             href={`/blog/${post.id}`}
-                            class='absolute inset-0 z-10'
+                            class='absolute inset-0 z-10 outline-none'
                             aria-label={`Read: ${post.data.title}`}
                         />
 

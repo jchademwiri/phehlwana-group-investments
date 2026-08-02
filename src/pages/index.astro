@@ -268,10 +268,10 @@ const trustItems = [
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {serviceDivisions.map((service, i) => (
                     <article
-                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
+                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2'
                         data-animate
                     >
-                        <a href={service.href} class='absolute inset-0 z-10' aria-label={`Learn more about ${service.division}`}/>
+                        <a href={service.href} class='absolute inset-0 z-10 outline-none' aria-label={`Learn more about ${service.division}`}/>
 
                         <!-- Image -->
                         <div class='aspect-video overflow-hidden bg-accent'>
@@ -367,8 +367,8 @@ const trustItems = [
 
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {featuredProjects.map((project) => (
-                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1' data-animate>
-                        <a href={`/projects/${project.id}`} class='absolute inset-0 z-10' aria-label={`View project: ${project.data.title}`}/>
+                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2' data-animate>
+                        <a href={`/projects/${project.id}`} class='absolute inset-0 z-10 outline-none' aria-label={`View project: ${project.data.title}`}/>
                         <div class='aspect-16/10 overflow-hidden bg-accent'>
                             <Picture
                                 src={project.data.coverImage ?? '/images/placeholder.svg'}

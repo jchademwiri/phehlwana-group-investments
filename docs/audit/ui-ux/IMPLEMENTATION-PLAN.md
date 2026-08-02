@@ -6,6 +6,8 @@
 > **Scope note:** This audit is UI/UX only (hierarchy, spacing, responsiveness, interaction states, color-token correctness, accessibility-of-interaction). It does not re-cover SEO/meta/performance, which are tracked separately in `docs/audit/04-technical-gaps.md` and `docs/audit/08-lighthouse-audit.md`.
 >
 > **Totals across all pages:** 1 Critical, 14 High, 34 Medium, 44 Low findings.
+>
+> **Status:** ✅ Phase 1 (cross-cutting fixes 1.1–1.5) implemented 2026-08-02. See "Phase 1 — Cross-cutting fixes" below for what shipped in each.
 
 ---
 
@@ -20,43 +22,48 @@ Severity key: 🔴 Critical (ships broken/misleading content) · 🟠 High (real
 
 ---
 
-## Phase 1 — Cross-cutting fixes (do these first)
+## Phase 1 — Cross-cutting fixes (do these first) — ✅ Done
 
 These five fixes are each a single, small code change that resolves findings on 3+ pages simultaneously.
 
-### 1.1 🟠 Sitewide `focus-visible` gap
+### 1.1 ✅ 🟠 Sitewide `focus-visible` gap
 **Affects:** Home (both card grids), About, Thank-you, Blog listing, Blog detail sidebar.
 **Problem:** No page defines its own `focus-visible` treatment on CTAs/cards/links. The only fallback is the global `* { outline-outline/50 }` rule in `starwind.css:172`, which uses `--outline` (not `--interactive`) and — on any card using `overflow-hidden` with an absolutely-positioned overlay `<a>` — is at risk of being visually clipped entirely, leaving keyboard users with no visible focus indicator.
 **Fix:** Add one reusable pattern, e.g. a `.focus-ring` utility class (`focus-visible:ring-2 focus-visible:ring-interactive focus-visible:ring-offset-2`) in `starwind.css`, applied to:
 - Card overlay links: move the ring to the parent `<article>` via `has-[:focus-visible]` so `overflow-hidden` on the image container can't clip it.
 - All hand-styled CTA buttons/links that currently only have `hover:` states, matching the pattern `contact.astro:367` already uses correctly (`focus-visible:outline-2 focus-visible:outline-interactive`).
 **Files:** `src/styles/starwind.css`, `src/pages/index.astro:270-274,224,361,394`, `src/pages/about.astro:144-161`, `src/pages/thank-you.astro:26-35`, `src/pages/blog/index.astro:51-58`, `src/pages/blog/[id].astro` (sidebar links).
+**Shipped:** Home's two card grids and Blog listing's card grid now carry `has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive` on the `<article>` wrapper (with `outline-none` on the overlay `<a>` itself) so the ring lands on the parent, which isn't clipped by its own `overflow-hidden` per spec — verified the build still generates all 22 pages cleanly. About's "View Our Services", both Thank You CTAs, and every interactive element in the Blog post sidebar (TOC links, "Back to top", WhatsApp share, Copy link, quote CTA) now carry an explicit `focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2`.
 
-### 1.2 🟡 `.prose` link color bound to the wrong token
+### 1.2 ✅ 🟡 `.prose` link color bound to the wrong token
 **Affects:** Blog post body copy, Privacy Policy, Terms of Service.
 **Problem:** `--tw-prose-links` / `--tw-prose-invert-links` are bound to `var(--color-primary)` (structural/decorative) instead of `var(--color-interactive)` (the token reserved for clickable elements). Currently invisible because every existing in-body link has a manual `text-interactive` override, but any future unstyled Markdown/prose link will render in the wrong color.
 **Fix:** One two-line change.
 **File:** `src/styles/starwind.css:208` (`--tw-prose-links`) and `:226` (`--tw-prose-invert-links`).
+**Shipped:** both tokens now reference `var(--color-interactive)`. (Note: the Blog post TOC's separate active-heading-highlight script still uses `text-primary` — that's tracked as its own Blog Detail finding in Phase 2, not part of this token fix.)
 
-### 1.3 🟠 Project category color map duplicated and out of sync
+### 1.3 ✅ 🟠 Project category color map duplicated and out of sync
 **Affects:** Projects overview, Projects detail.
 **Problem:** `categoryColours` is hand-copied in both `src/pages/projects/index.astro:19-26` and `src/pages/projects/[id].astro:22-47` — and they've already drifted: the detail page is **missing the `Security` entry**, so a Security project's badge silently falls back to a generic muted color on its own detail page while showing correctly (red) on the overview grid.
 **Fix:** Extract to one shared constant (e.g. `src/lib/categories.ts`) imported by both pages, or fold into the content-collection schema. Immediately: add the missing `Security` entry to `projects/[id].astro` as a stopgap even before the refactor.
 **Files:** `src/pages/projects/index.astro:19-26`, `src/pages/projects/[id].astro:22-47`.
+**Shipped:** extracted to `src/lib/categories.ts` (`categoryColours` + `categoryList`), imported by both pages — the detail page's missing `Security` entry is now fixed as part of the same change (no longer a stopgap), and there is exactly one place to update if colors change again.
 
-### 1.4 🔴 Missing Security service photography (shipped in two places)
+### 1.4 ✅ 🔴 Missing Security service photography (shipped in two places)
 **Affects:** Services overview, Services/Security detail.
 **Problem:** `services/security.astro` uses `/images/placeholder.svg` as its full-bleed hero **but** the `imageAlt` describes a real, specific photo ("Phehlwana Group security officer at a commercial building entrance") that doesn't exist — a content-integrity issue for screen-reader users, not just a missing asset. The same placeholder is independently referenced in `services/index.astro`'s `serviceImages` map, so the gap is visible in two places from one missing file.
 **Fix:** Source/commission real security-services photography (matching the other 4 services' treatment), swap both references, correct `imageAlt` to match. Until then, write `imageAlt` to accurately describe the placeholder rather than a fabricated scene.
 **Files:** `src/pages/services/security.astro:38-39`, `src/pages/services/index.astro:16`.
+**Shipped (interim):** real photography is still a client-asset dependency and hasn't landed — but `imageAlt` on `services/security.astro` no longer describes a fabricated photo; it's now `alt=''` (correctly decorative, consistent with how the overview grid already treats this same placeholder). The actual image swap remains open, tracked in `docs/audit/06-client-action-items.md`.
 
-### 1.5 🟠 Unresolved "pending"/"to be confirmed" copy live in production
+### 1.5 ✅ 🟠 Unresolved "pending"/"to be confirmed" copy live in production
 **Affects:** About (CIDB registration), Services/Security (PSIRA registration).
 **Problem:** Both pages ship internal placeholder language as customer-facing trust copy:
 - About: CIDB card renders with `confirmed: true` (green checkmark) while its own text says "Registration Number Pending" — icon and copy directly contradict each other.
 - Security: compliance note reads "PSIRA registration number **to be confirmed by client**" — literally agency-to-client placeholder text, live on the page.
 **Fix:** About: flip the CIDB entry to `confirmed: false` so it uses the layout's existing (currently unused) outline/muted "unconfirmed" visual state instead of a false checkmark. Security: replace with the real number once available, or state compliance generally without the specific-but-pending number.
 **Files:** `src/pages/about.astro:78-83` (data), `:383-419` (render); `src/pages/services/security.astro:78-83`.
+**Shipped:** About's CIDB entry now sets `confirmed: false`, which routes it into the layout's existing (previously unused) muted/outline "unconfirmed" visual state instead of a false green checkmark — no copy change needed, the icon now matches the "Pending" text it sits next to. Security's compliance note no longer says "PSIRA registration number to be confirmed by client"; it states PSIRA compliance without a pending-number claim, and the real number can be added later without another contradiction.
 
 ---
 
@@ -277,8 +284,8 @@ Full report: `docs/audit/ui-ux/terms-of-service.md`
 
 ## Suggested execution order
 
-1. **Phase 1 cross-cutting fixes** (1.1–1.5) — highest leverage, resolves ~20 findings across 10+ pages for roughly 5 focused commits.
-2. **Critical/High page-specific items**: Plant Hire dark-mode success-badge contrast + Thank You's success-token fix (do together), Blog Detail's mobile-sidebar hiding and TOC depth, Contact's missing `PageHeader`/breadcrumbs.
+1. ~~**Phase 1 cross-cutting fixes** (1.1–1.5)~~ — ✅ **Done 2026-08-02.** Resolved the sitewide focus-visible gap, the `.prose` link-color token, the duplicated/drifted project category map (now a single `src/lib/categories.ts`), and the two live "unresolved copy" issues (CIDB confirmed/pending mismatch, PSIRA "to be confirmed by client"). The Security service placeholder image itself is still a real asset gap — only its `alt` text was made honest in the meantime; the photo swap stays tracked as a client-asset dependency.
+2. **Critical/High page-specific items** (next up): Plant Hire dark-mode success-badge contrast + Thank You's success-token fix (do together), Blog Detail's mobile-sidebar hiding and TOC depth, Contact's missing `PageHeader`/breadcrumbs.
 3. **Medium items**, roughly in traffic-priority order: Home → Services → Blog → Projects → Contact → legal pages.
 4. **Low/polish items** opportunistically, or batched into a single pass once the above lands.
 

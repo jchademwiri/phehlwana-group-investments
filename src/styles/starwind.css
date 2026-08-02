@@ -205,7 +205,7 @@
   --tw-prose-body: var(--color-foreground);
   --tw-prose-headings: var(--color-foreground);
   --tw-prose-lead: var(--color-muted-foreground);
-  --tw-prose-links: var(--color-primary);
+  --tw-prose-links: var(--color-interactive);
   --tw-prose-bold: var(--color-foreground);
   --tw-prose-counters: var(--color-muted-foreground);
   --tw-prose-bullets: var(--color-primary);
@@ -223,7 +223,7 @@
   --tw-prose-invert-body: var(--color-foreground);
   --tw-prose-invert-headings: var(--color-foreground);
   --tw-prose-invert-lead: var(--color-muted-foreground);
-  --tw-prose-invert-links: var(--color-primary);
+  --tw-prose-invert-links: var(--color-interactive);
   --tw-prose-invert-bold: var(--color-foreground);
   --tw-prose-invert-counters: var(--color-muted-foreground);
   --tw-prose-invert-bullets: var(--color-primary);
