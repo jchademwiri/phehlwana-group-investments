@@ -7,7 +7,7 @@
 >
 > **Totals across all pages:** 1 Critical, 14 High, 34 Medium, 44 Low findings.
 >
-> **Status:** ✅ Phase 1 (cross-cutting fixes 1.1–1.5) implemented 2026-08-02. See "Phase 1 — Cross-cutting fixes" below for what shipped in each.
+> **Status:** ✅ Phase 1 (cross-cutting fixes 1.1–1.5) and Phase 2 (Critical/High page-specific items) both implemented 2026-08-02. See the relevant sections below for what shipped in each.
 
 ---
 
@@ -158,7 +158,7 @@ Full report: `docs/audit/ui-ux/services-plant-hire.md` · Also inherits shared-l
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟠 High | "Available" status badge has a real dark-mode contrast problem — `--success`/`--success-foreground` were never given dark-mode-specific values (unlike `--primary`/`--interactive`), so the badge nearly disappears against `--card:#121212` | Add dark-mode `--success`/`--success-foreground` variants, or use a non-opacity-dependent badge background. `starwind.css:110-111,152-153`; used at `plant-hire.astro:133-135` |
+| ✅ 🟠 High | "Available" status badge has a real dark-mode contrast problem — `--success`/`--success-foreground` were never given dark-mode-specific values (unlike `--primary`/`--interactive`), so the badge nearly disappears against `--card:#121212` | **Shipped:** dark-mode `--success`/`--success-foreground` now use `green-400`/`green-300` instead of reusing light mode's `green-300`/`green-950` pair, giving real contrast against the dark card surface. `starwind.css:152-153` |
 | 🟡 Medium | Equipment table forces full horizontal scroll on mobile instead of reflowing | Switch to a card layout below `sm:`, matching the pattern used elsewhere on the site. `plant-hire.astro:108-151` |
 | 🟡 Medium | `operator: null` renders ambiguous "N/A" with no explanation | Add a short footnote clarifying "not applicable — no operator required" |
 | ⚪ Low | No per-row or inline CTA near the equipment table — long scroll to the only CTA at page bottom | Consider a "Request a quote for this equipment" micro-CTA |
@@ -214,8 +214,8 @@ Full report: `docs/audit/ui-ux/blog-detail.md` — the largest finding set of an
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟠 High | Entire sidebar (TOC, share, copy-link, quote CTA) is `hidden` below `lg` (1024px) — every phone/tablet reader loses share functionality and in-page nav entirely, not just a squeezed layout | Render Share buttons + quote CTA inline in the article flow below `lg`; consider a collapsible `<details>` TOC for small screens. `blog/[id].astro:174-248` |
-| 🟠 High | TOC only includes `h1`/`h2` headings, but posts are authored with `h2` as the single top-level section and `h3` for real subsections — produces a near-useless 1-entry TOC on posts like the OHS Act article | Include `depth === 3` in `tocHeadings`, indent `h3` entries under their parent. `blog/[id].astro:16` |
+| ✅ 🟠 High | Entire sidebar (TOC, share, copy-link, quote CTA) is `hidden` below `lg` (1024px) — every phone/tablet reader loses share functionality and in-page nav entirely, not just a squeezed layout | **Shipped:** the `hidden lg:block` gate is gone — the sidebar now stacks after the article in normal flow below `lg` (the grid itself only activates at `lg`, so this required no extra breakpoint logic). The TOC specifically is now a `<details open>` element so it's user-collapsible on mobile without hiding Share/Copy-link/CTA, which are always visible. `blog/[id].astro:173-254` |
+| ✅ 🟠 High | TOC only includes `h1`/`h2` headings, but posts are authored with `h2` as the single top-level section and `h3` for real subsections — produces a near-useless 1-entry TOC on posts like the OHS Act article | **Shipped:** `tocHeadings` now includes depth 1-3, with `h3` entries indented (`pl-3 text-xs`) under their parent. Verified against the built OHS Act post — the TOC now shows all 6 `h3` subsections. `blog/[id].astro:16,194` |
 | 🟠 High | Prose links + TOC active-state both use `--primary` instead of `--interactive` | See Phase 1.2 (prose) + update the TOC observer's active-state class directly. `blog/[id].astro:333,340` |
 | 🟡 Medium | `prose-lg max-w-none` strips Typography's `65ch` measure — body lines run past 100 characters wide on desktop | Drop `max-w-none` or set an explicit `max-w-[70ch]`. `blog/[id].astro:166` |
 | 🟡 Medium | Related-posts grid breakpoints don't match the listing page's | Align to `md:grid-cols-2 lg:grid-cols-3`. `blog/[id].astro:257` |
@@ -229,7 +229,7 @@ Full report: `docs/audit/ui-ux/contact.md`
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟠 High | Header is hand-duplicated instead of using shared `PageHeader.astro` — Contact is the only main page missing breadcrumbs as a result | Replace with `<PageHeader breadcrumbs={[...]} ... />`. `contact.astro:78-95` |
+| ✅ 🟠 High | Header is hand-duplicated instead of using shared `PageHeader.astro` — Contact is the only main page missing breadcrumbs as a result | **Shipped:** now uses `<PageHeader label='Contact Us' title='Have a Project in Mind?' breadcrumbs={[...]} />`, matching About's pattern exactly. Contact now has "Home / Contact Us" breadcrumbs and one less hand-maintained header block. `contact.astro:77-82` |
 | 🟡 Medium | Validated fields get `aria-describedby` on error but never `aria-invalid="true"` | Add `aria-invalid` alongside the existing error wiring on all 5 validated fields |
 | 🟡 Medium | Mobile/tablet collapses to form-before-sidebar — quick-contact info (phone/WhatsApp/address) is buried below the entire form | Reorder so quick-contact info is reachable near the top on small screens (`lg:order-2` on the aside, or a sticky "Call us" bar) |
 | 🟡 Medium | Inputs use `focus:` rings (fire on mouse click too) while the submit button uses `focus-visible:` — two different focus strategies on one form | Standardize, or explicitly document the intentional split |
@@ -242,7 +242,7 @@ Full report: `docs/audit/ui-ux/thank-you.md`
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟡 Medium | Success icon uses `bg-primary/10 text-primary` instead of the site's own `--success` token (used correctly elsewhere, e.g. `about.astro:386`) | Change to `bg-success/20 text-success-foreground` — **do this alongside the Plant Hire dark-mode `--success` contrast fix (Phase 2, Plant Hire) so both land together** |
+| ✅ 🟡 Medium | Success icon uses `bg-primary/10 text-primary` instead of the site's own `--success` token (used correctly elsewhere, e.g. `about.astro:386`) | **Shipped:** now `bg-success/20 text-success-foreground`, landed together with the Plant Hire dark-mode `--success` contrast fix so both benefit from the same token change. `thank-you.astro:13` |
 | 🟡 Medium | `min-h-[70vh]` + `pt-40` can exceed short mobile viewport heights, forcing a scroll to reach the CTAs | Reduce top padding on small screens, or drop `min-h-[70vh]` for content-driven height |
 | ⚪ Low | Neither CTA has an explicit `focus-visible` style | See Phase 1.1 |
 | ⚪ Low | Page is a plain static route reachable by bookmark/direct link with no staleness signal | Low priority — conscious tradeoff, not necessarily a bug |
@@ -285,8 +285,8 @@ Full report: `docs/audit/ui-ux/terms-of-service.md`
 ## Suggested execution order
 
 1. ~~**Phase 1 cross-cutting fixes** (1.1–1.5)~~ — ✅ **Done 2026-08-02.** Resolved the sitewide focus-visible gap, the `.prose` link-color token, the duplicated/drifted project category map (now a single `src/lib/categories.ts`), and the two live "unresolved copy" issues (CIDB confirmed/pending mismatch, PSIRA "to be confirmed by client"). The Security service placeholder image itself is still a real asset gap — only its `alt` text was made honest in the meantime; the photo swap stays tracked as a client-asset dependency.
-2. **Critical/High page-specific items** (next up): Plant Hire dark-mode success-badge contrast + Thank You's success-token fix (do together), Blog Detail's mobile-sidebar hiding and TOC depth, Contact's missing `PageHeader`/breadcrumbs.
-3. **Medium items**, roughly in traffic-priority order: Home → Services → Blog → Projects → Contact → legal pages.
+2. ~~**Critical/High page-specific items**: Plant Hire dark-mode success-badge contrast + Thank You's success-token fix, Blog Detail's mobile-sidebar hiding and TOC depth, Contact's missing `PageHeader`/breadcrumbs.~~ — ✅ **Done 2026-08-02.** All four landed: dark-mode `--success` token now has real contrast (fixes Plant Hire's badge and Thank You's icon in one change), Blog Detail's sidebar (Share/Copy-link/CTA) is no longer hidden below `lg` and its TOC now surfaces `h3` subsections via a collapsible `<details>`, and Contact now uses the shared `PageHeader` component with breadcrumbs.
+3. **Medium items** (next up), roughly in traffic-priority order: Home → Services → Blog → Projects → Contact → legal pages.
 4. **Low/polish items** opportunistically, or batched into a single pass once the above lands.
 
 Content-dependent items (real Security photography, PSIRA number, CIDB registration number, team headshots) remain blocked on client input exactly as tracked in `docs/audit/06-client-action-items.md` — the UI-side fix (Phase 1.5) makes the *interim* state honest without waiting on that input.
