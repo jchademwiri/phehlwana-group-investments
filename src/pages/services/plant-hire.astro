@@ -105,7 +105,37 @@ const hireSteps = [
       >
         Equipment Available for Hire
       </h2>
-      <div class='overflow-x-auto rounded-xl border border-border'>
+      <!-- Card layout below sm: - a horizontally-scrolling table is a worse
+           experience than the card grids used elsewhere on the site for the
+           same amount of information. -->
+      <div class='sm:hidden space-y-3'>
+        {
+          equipment.map((item) => (
+            <div class='bg-card border border-border rounded-xl p-4'>
+              <div class='flex items-start justify-between gap-3 mb-1.5'>
+                <p class='font-medium text-foreground text-sm'>{item.name}</p>
+                {item.operator === true && (
+                  <span class='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/20 text-success-foreground shrink-0'>
+                    Available
+                  </span>
+                )}
+                {item.operator === false && (
+                  <span class='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent text-muted-foreground shrink-0'>
+                    Dry hire only
+                  </span>
+                )}
+                {item.operator === null && (
+                  <span class='text-muted-foreground text-xs shrink-0' title='Not applicable - no operator required for hand tools'>N/A</span>
+                )}
+              </div>
+              <p class='text-sm text-muted-foreground leading-relaxed'>{item.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Table at sm: and above -->
+      <div class='hidden sm:block overflow-x-auto rounded-xl border border-border'>
         <table class='w-full text-sm'>
           <thead>
             <tr class='bg-accent/60 border-b border-border'>
