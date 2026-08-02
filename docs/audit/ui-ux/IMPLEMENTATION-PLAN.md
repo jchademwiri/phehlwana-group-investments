@@ -7,7 +7,7 @@
 >
 > **Totals across all pages:** 1 Critical, 14 High, 34 Medium, 44 Low findings.
 >
-> **Status:** ✅ Phase 1 (cross-cutting fixes), Phase 2 (Critical/High page-specific items), and the code-fixable majority of Phase 3 (Medium items) all implemented 2026-08-02. See the relevant sections below for what shipped in each — a handful of items remain deliberately deferred (client-asset dependencies, or changes that need visual/device verification before shipping blind) and are marked as such inline.
+> **Status:** ✅ Phases 1-4 (cross-cutting fixes, Critical/High items, and the code-fixable majority of both Medium and Low items) implemented 2026-08-02. See the relevant sections below for what shipped in each. What's left is either genuinely content/product decisions (not mechanical fixes), client-asset dependencies (real photography, client logos, registration numbers), or a small number of items that need visual/device verification before shipping blind — all marked as such inline.
 
 ---
 
@@ -82,10 +82,10 @@ Full report: `docs/audit/ui-ux/home.md`
 | 🟡 Medium | Security service card shows placeholder image | See Phase 1.4 (alt text fixed; real photo still a client-asset dependency) |
 | ✅ 🟡 Medium | "Trusted By" client strip is plain text with a `grayscale hover:grayscale-0` treatment meant for logo images | **Shipped (interim):** dropped the grayscale/hover treatment since there's no logo imagery to justify it yet; real client logos remain a future content addition. `index.astro:341` |
 | ✅ 🟡 Medium | Section `<h2>` sizes inconsistent (`text-3xl` vs `text-xl` vs `text-2xl`) across sibling sections | **Shipped (partial):** "Trusted By" now matches the rest of Home's sections at `text-3xl`. Left `ContactCTA.astro`'s `text-2xl` as-is since that component is reused as a lighter-weight closing banner on nearly every page — changing it is a sitewide decision beyond fixing Home's internal consistency, not just a Home fix. `index.astro:337` |
-| ⚪ Low | `StatsBar` and "Trust strip" duplicate "10+ Years"/"Level 1 BBBEE" content | Merge or differentiate the two strips |
-| ⚪ Low | Media container radius drifts (`rounded-2xl` vs `rounded-xl`) | Standardize on `rounded-xl` |
-| ⚪ Low | About-section and StatsBar grids skip the `md:` breakpoint step | Add intermediate `md:` columns |
-| ⚪ Low | Floating "10+" badge risks clipping at narrow viewport edges | Smaller offset on mobile, scale up at breakpoints |
+| ⚪ Low | `StatsBar` and "Trust strip" duplicate "10+ Years"/"Level 1 BBBEE" content | Content-strategy call (merge vs. differentiate), not a mechanical fix — left open |
+| ✅ ⚪ Low | Media container radius drifts (`rounded-2xl` vs `rounded-xl`) | **Shipped:** standardized on `rounded-xl`. `index.astro:233` |
+| ✅ ⚪ Low | About-section and StatsBar grids skip the `md:` breakpoint step | **Shipped:** About-section grid now `md:grid-cols-2` (was `lg:`); StatsBar now `md:grid-cols-4` (was `lg:`). `index.astro:184`, `StatsBar.astro:18` |
+| ✅ ⚪ Low | Floating "10+" badge risks clipping at narrow viewport edges | **Shipped:** `-left-4` → `-left-2 sm:-left-4`. `index.astro:247` |
 | ✅ ⚪ Low | Service card "Read More" text doesn't hover with the title | **Shipped:** added `group-hover:text-interactive`. `index.astro:297` |
 
 ### About (`/about`) — 2 High, 3 Medium, 3 Low
@@ -98,9 +98,9 @@ Full report: `docs/audit/ui-ux/about.md`
 | 🟡 Medium | "View Our Services" button-link has no `focus-visible` outline | See Phase 1.1 |
 | 🟡 Medium | Accreditations grid (5 items, `lg:grid-cols-3`) leaves an unbalanced last row | Switch to 4 columns, or center the final row |
 | 🟡 Medium | "Why Choose Us" grid skips `md:` step (jumps 2→4 columns at `lg`) | Add `md:grid-cols-3` |
-| ⚪ Low | Unconfirmed-accreditation visual branch exists but is unused (until 1.5 is applied) | Resolves automatically once Phase 1.5 lands |
-| ⚪ Low | "Trusted By" hover-only grayscale reveal has no touch/focus equivalent | Drop the effect or add `focus-within` equivalent |
-| ⚪ Low | Eyebrow-label class string repeated inline 6 times | Extract to shared `<Eyebrow>` component/class |
+| ✅ ⚪ Low | Unconfirmed-accreditation visual branch exists but is unused (until 1.5 is applied) | Resolved automatically by Phase 1.5. |
+| ✅ ⚪ Low | "Trusted By" hover-only grayscale reveal has no touch/focus equivalent | **Shipped:** dropped the grayscale/hover treatment, same as Home's equivalent section. `about.astro:507` |
+| ✅ ⚪ Low | Eyebrow-label class string repeated inline 6 times | **Shipped:** new `src/components/shared/Eyebrow.astro`, used for all 6 instances on this page plus `PageHeader.astro`'s own label — one definition instead of 7. |
 | ⚪ Low | Team section shows 2 people (1 real, 1 "Coming Soon") for a "10 full-time professionals" company | Add more bios, or reduce the section's visual weight until ready |
 
 ### Services Overview (`/services`) — 1 High, 2 Medium, 3 Low
@@ -112,7 +112,7 @@ Full report: `docs/audit/ui-ux/services-overview.md`
 | 🟡 Medium | Card `alt=""` combined with the Security placeholder means that card conveys zero visual info | Resolves once Phase 1.4 lands |
 | 🟡 Medium | No filter/grouping distinguishing "trade" vs. "facility" services | Not urgent at 5 items; revisit if catalog grows |
 | ⚪ Low | "10 full-time professionals" copy undersells scale next to 5 service divisions | Reframe or drop the specific number |
-| ⚪ Low | 5-card grid leaves an unbalanced last row at `lg:grid-cols-3` | Accept, or nudge last card with `lg:col-start-2` |
+| ⚪ Low | 5-card grid leaves an unbalanced last row at `lg:grid-cols-3` | Accepted as-is — a per-item `lg:col-start-2` nudge would be fragile (only correct for exactly 5 items) for a purely cosmetic edge case |
 | ⚪ Low | "Read More" affordance uses `text-primary` not `text-interactive` | Deliberate call needed — see full report for reasoning either way |
 
 ### Shared Service Layout (`src/layouts/ServiceLayout.astro`) — 1 High, 2 Medium, 2 Low
@@ -150,7 +150,7 @@ Full report: `docs/audit/ui-ux/services-cleaning.md` · Also inherits shared-lay
 | Priority | Finding | Fix |
 |---|---|---|
 | ✅ 🟡 Medium | Two distinct sub-services (Cleaning, Waste Management) share one URL with no anchor `id`s — can't deep-link to either | **Shipped:** added `id="cleaning-services"` / `id="waste-management"` with `scroll-mt-28` to each `<h2>` so anchored scrolling clears the sticky header. `cleaning.astro:63,87` |
-| ⚪ Low | NEM:WA compliance footnote only appears under Waste Management, inconsistent with inline mention under Cleaning | Standardize placement, or merge into one summary line |
+| ⚪ Low | NEM:WA compliance footnote only appears under Waste Management, inconsistent with inline mention under Cleaning | Content-judgment call on copy, not a mechanical fix — left open |
 | ⚪ Low | Two sub-sections are visually identical aside from heading text | Consider a subtle visual break per sub-section |
 
 ### Services / Plant Hire (`/services/plant-hire`) — 1 High, 2 Medium, 2 Low
@@ -180,7 +180,7 @@ Full report: `docs/audit/ui-ux/projects-overview.md`
 |---|---|---|
 | ✅ 🟡 Medium | Filter state is pure client-side — reload/share/back-forward always resets to "All" | **Shipped:** click handler now writes `?category=` via `history.replaceState`, and an on-load check restores the filter from the URL if present (e.g. shared link, reload, back/forward). `projects/index.astro:171-220` |
 | ✅ 🟡 Medium | `categoryColours` hardcoded and duplicated | See Phase 1.3 |
-| ⚪ Low | Card's "View →" affordance uses `text-primary`, doesn't hover with the title | Optionally switch to `text-interactive` / `group-hover:text-interactive` |
+| ✅ ⚪ Low | Card's "View →" affordance uses `text-primary`, doesn't hover with the title | **Shipped:** added `group-hover:text-interactive`. `projects/index.astro:133` |
 | ⚪ Low | Grid caps at `lg:grid-cols-3` with no `xl:` step | No action needed — container max-width makes this a non-issue |
 | ⚪ Low | Category coverage on this page is correct and complete | No action — noted for the record only |
 
@@ -193,9 +193,9 @@ Full report: `docs/audit/ui-ux/projects-detail.md`
 | 🟠 High | `categoryColours` here is missing the `Security` entry entirely (5 of 6 categories) | See Phase 1.3 — add the missing entry as an immediate stopgap |
 | 🟡 Medium | Gallery fade timing mismatch: JS swaps `src` at 200ms, CSS transition is 300ms — visible "pop" mid-fade | Match both to the same duration (300ms recommended). `projects/[id].astro:227,502-529` |
 | 🟡 Medium | Active gallery thumbnail has no `aria-current`/`aria-pressed` — only a border color signals state | Add `aria-current="true"` on the active thumbnail, toggled alongside the border class. `projects/[id].astro:240-260,509-529` |
-| ⚪ Low | Unused `id`/`data-src` leftover on the gallery container, likely from the removed lightbox | Remove, or comment why it's kept |
-| ⚪ Low | No related/similar-projects module after the case study | Consider a "More {category} projects" rail |
-| ⚪ Low | Fixed `aspect-16/6` hero crops portrait photos aggressively on mobile | Use a taller ratio on small screens, e.g. `aspect-4/3 sm:aspect-16/6` |
+| ✅ ⚪ Low | Unused `id`/`data-src` leftover on the gallery container, likely from the removed lightbox | **Shipped:** removed both — confirmed unreferenced anywhere in the page's script. `projects/[id].astro:188-191` |
+| ⚪ Low | No related/similar-projects module after the case study | A real content module, not a token/class fix — left open |
+| ✅ ⚪ Low | Fixed `aspect-16/6` hero crops portrait photos aggressively on mobile | **Shipped:** now `aspect-4/3 sm:aspect-16/6`. `projects/[id].astro:189` |
 
 ### Blog Listing (`/blog`) — 1 High, 2 Medium, 3 Low
 Full report: `docs/audit/ui-ux/blog-overview.md`
@@ -205,8 +205,8 @@ Full report: `docs/audit/ui-ux/blog-overview.md`
 | ✅ 🟠 High | Card focus ring likely clipped by `overflow-hidden` | See Phase 1.1 |
 | 🟡 Medium | All 4 cover images are generic vector line-art, not photography (carried over from prior audit) | Replace with real jobsite/plant/security photography — client-asset dependency, not fixed this pass |
 | ✅ 🟡 Medium | "Read more" uses `text-primary` while the title correctly hovers `text-interactive` — two different colors for the same "clickable" cue | **Shipped:** added `group-hover:text-interactive` so both cues move together. `blog/index.astro:103` |
-| ⚪ Low | Zero-posts empty state has no link back into the site | Add a link to home/contact under the message |
-| ⚪ Low | Tags are decorative-only with no filtering anywhere on the site | Decide if tag browsing is planned; if not, consider dropping tags from cards |
+| ✅ ⚪ Low | Zero-posts empty state has no link back into the site | **Shipped:** added a "Get in touch instead" link under the message. `blog/index.astro:44-51` |
+| ⚪ Low | Tags are decorative-only with no filtering anywhere on the site | Product decision (is tag browsing planned?), not a mechanical fix — left open |
 | ✅ ⚪ Low | Related-posts grid on the detail page uses different breakpoints than this page's grid | **Shipped** — see Blog Post Detail below. |
 
 ### Blog Post Detail (`/blog/[id]`) — 3 High, 3 Medium, 3 Low
@@ -220,9 +220,9 @@ Full report: `docs/audit/ui-ux/blog-detail.md` — the largest finding set of an
 | ✅ 🟡 Medium | `prose-lg max-w-none` strips Typography's `65ch` measure — body lines run past 100 characters wide on desktop | **Shipped:** removed `max-w-none`, letting Typography's default `65ch` measure apply. `blog/[id].astro:166` |
 | ✅ 🟡 Medium | Related-posts grid breakpoints don't match the listing page's | **Shipped:** now `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`, matching the listing page exactly. `blog/[id].astro:263` |
 | ✅ 🟡 Medium | Copy-link button silently swallows clipboard errors — no failure state ever announced | **Shipped:** `catch` now sets the label to "Couldn't copy — select the URL" for 3s, so the existing `aria-live` region announces failure too, not just success. `blog/[id].astro:362-370` |
-| ⚪ Low | Scroll-spy TOC can flicker between entries when multiple headings intersect simultaneously | Pick the heading with the smallest non-negative `boundingClientRect.top` explicitly |
-| ⚪ Low | Reading-time word count includes raw Markdown syntax, inflating the estimate | Strip Markdown before counting, if precision matters |
-| ⚪ Low | "Back to top" link has no `focus-visible` styling | See Phase 1.1 |
+| ✅ ⚪ Low | Scroll-spy TOC can flicker between entries when multiple headings intersect simultaneously | **Shipped:** the observer callback now picks a single best entry per batch (smallest non-negative `boundingClientRect.top`, falling back to the least-negative) instead of letting whichever entry fires last in `entries.forEach` win. `blog/[id].astro:334-360` |
+| ✅ ⚪ Low | Reading-time word count includes raw Markdown syntax, inflating the estimate | **Shipped:** strips code fences, inline code, link/image syntax, heading markers, and emphasis characters before counting. `blog/[id].astro:38-47` |
+| ✅ ⚪ Low | "Back to top" link has no `focus-visible` styling | See Phase 1.1 |
 
 ### Contact (`/contact`) — 1 High, 3 Medium, 3 Low
 Full report: `docs/audit/ui-ux/contact.md`
@@ -233,9 +233,9 @@ Full report: `docs/audit/ui-ux/contact.md`
 | ✅ 🟡 Medium | Validated fields get `aria-describedby` on error but never `aria-invalid="true"` | **Shipped:** `aria-invalid={fieldErrors.X ? 'true' : undefined}` added to all 5 validated fields (name, email, phone, service, message). |
 | ✅ 🟡 Medium | Mobile/tablet collapses to form-before-sidebar — quick-contact info (phone/WhatsApp/address) is buried below the entire form | **Shipped:** form and aside now use `order-2 lg:order-1` / `order-1 lg:order-2` on the shared grid, so the sidebar appears first below `lg` and the desktop two-column layout (form left, sidebar right) is unchanged. `contact.astro:90,376` |
 | ✅ 🟡 Medium | Inputs use `focus:` rings (fire on mouse click too) while the submit button uses `focus-visible:` — two different focus strategies on one form | **Documented rather than changed:** added a code comment explaining the split is intentional — text inputs benefit from a click-triggered ring as feedback that the field is now editable, unlike buttons/links where `focus-visible` avoids an unwanted ring on mouse click. `contact.astro:144-145` |
-| ⚪ Low | WhatsApp CTA hardcodes brand green (`#25d366`), unverified for AA contrast against the new true-black dark background | Verify contrast; darken if needed |
-| ⚪ Low | No legend explaining the `*` required-field convention up front | Add a one-line legend near the form heading |
-| ⚪ Low | FAQ accordion chevron animates but the panel snaps open/closed instantly | Add a height/opacity transition matching the chevron's duration |
+| ✅ ⚪ Low | WhatsApp CTA hardcodes brand green (`#25d366`), unverified for AA contrast against the new true-black dark background | **Shipped — this one actually failed, not just "unverified":** computed contrast of white-on-`#25d366` is ~2:1, well under even the 3:1 large-text minimum. Swapped to WhatsApp's own darker brand teal-green `#128C7E` (~4.1:1 with white) with a matching darker hover `#0f6f61`. `contact.astro:519` |
+| ✅ ⚪ Low | No legend explaining the `*` required-field convention up front | **Shipped:** added "Fields marked * are required" under the form heading. `contact.astro:91-96` |
+| ✅ ⚪ Low | FAQ accordion chevron animates but the panel snaps open/closed instantly | **Shipped:** converted the panel to the CSS `grid-rows-[0fr]` → `grid-rows-[1fr]` collapse technique (with an `overflow-hidden` inner wrapper) so it animates in step with the chevron instead of snapping via `hidden`. `contact.astro:593-600`, JS at `contact.astro:610-616` |
 
 ### Thank You (`/thank-you`) — 0 High, 2 Medium, 3 Low
 Full report: `docs/audit/ui-ux/thank-you.md`
@@ -244,9 +244,9 @@ Full report: `docs/audit/ui-ux/thank-you.md`
 |---|---|---|
 | ✅ 🟡 Medium | Success icon uses `bg-primary/10 text-primary` instead of the site's own `--success` token (used correctly elsewhere, e.g. `about.astro:386`) | **Shipped:** now `bg-success/20 text-success-foreground`, landed together with the Plant Hire dark-mode `--success` contrast fix so both benefit from the same token change. `thank-you.astro:13` |
 | 🟡 Medium | `min-h-[70vh]` + `pt-40` can exceed short mobile viewport heights, forcing a scroll to reach the CTAs | Reduce top padding on small screens, or drop `min-h-[70vh]` for content-driven height — **deferred**, needs viewport testing before changing. |
-| ⚪ Low | Neither CTA has an explicit `focus-visible` style | See Phase 1.1 |
-| ⚪ Low | Page is a plain static route reachable by bookmark/direct link with no staleness signal | Low priority — conscious tradeoff, not necessarily a bug |
-| ⚪ Low | No fallback contact channel (phone/WhatsApp) shown for urgent enquiries | Consider a small "Need it urgently? Call/WhatsApp us" line under the CTAs |
+| ✅ ⚪ Low | Neither CTA has an explicit `focus-visible` style | See Phase 1.1 |
+| ⚪ Low | Page is a plain static route reachable by bookmark/direct link with no staleness signal | Conscious tradeoff, not a bug — left as-is |
+| ✅ ⚪ Low | No fallback contact channel (phone/WhatsApp) shown for urgent enquiries | **Shipped:** added "Need it urgently? Call 012 655 0284 or WhatsApp us" beneath the two CTAs, using the same numbers as Contact's sidebar. `thank-you.astro:38-41` |
 
 ### 404 (`/404`) — 0 High, 1 Medium, 2 Low
 Full report: `docs/audit/ui-ux/404.md`
@@ -255,8 +255,8 @@ Full report: `docs/audit/ui-ux/404.md`
 | Priority | Finding | Fix |
 |---|---|---|
 | ✅ 🟡 Medium | Pulse-dot indicator ignores `prefers-reduced-motion` | **Shipped:** added `motion-reduce:animate-none` to the `animate-ping` element. `404.astro:108` |
-| ⚪ Low | Hero content has no `data-animate` entrance treatment, unlike the rest of the site | Optional, cosmetic consistency fix |
-| ⚪ Low | Not re-verified this pass: whether the route returns a true HTTP 404 status in production | Confirm via `curl -I` against a deployed unknown path |
+| ✅ ⚪ Low | Hero content has no `data-animate` entrance treatment, unlike the rest of the site | **Shipped:** added `data-animate` to the hero `<section>`. `404.astro:47-50` |
+| ⚪ Low | Not re-verified this pass: whether the route returns a true HTTP 404 status in production | Requires a deployed URL to check via `curl -I` — can't verify from this environment, left open |
 
 ### Privacy Policy (`/privacy-policy`) — 0 High, 2 Medium, 3 Low
 Full report: `docs/audit/ui-ux/privacy-policy.md`
@@ -265,9 +265,9 @@ Full report: `docs/audit/ui-ux/privacy-policy.md`
 |---|---|---|
 | ✅ 🟡 Medium | No reciprocal link to Terms of Service (ToS links here, not vice versa) | **Shipped:** added a matching "See also our Terms of Service" line at the bottom, mirroring ToS's existing link back to Privacy Policy. `privacy-policy.astro:104-106` |
 | ✅ 🟡 Medium | `.prose max-w-4xl` produces lines well past the ~75-character readability guideline | **Shipped:** reduced to `max-w-3xl`, landed together with Terms of Service since both share the template. `privacy-policy.astro:27` |
-| ⚪ Low | Prose link color token issue | See Phase 1.2 |
-| ⚪ Low | 9 numbered sections have no `id` anchors despite implying a TOC | Add heading `id`s; consider a sticky TOC at `lg:` |
-| ⚪ Low | Vercel/Resend named as data processors — verify still accurate if providers change | Content maintenance item, not urgent |
+| ✅ ⚪ Low | Prose link color token issue | See Phase 1.2 |
+| ✅ ⚪ Low | 9 numbered sections have no `id` anchors despite implying a TOC | **Shipped:** all 9 `<h2>`s now have slugified `id`s and `scroll-mt-28` so anchored links clear the sticky header. A visible sticky TOC sidebar (matching Blog's) is a bigger addition left for a future pass — this just makes deep-linking possible. `privacy-policy.astro:34-93` |
+| ⚪ Low | Vercel/Resend named as data processors — verify still accurate if providers change | Content-accuracy maintenance item, not a UI fix — left open |
 
 ### Terms of Service (`/terms-of-service`) — 0 High, 1 Medium, 4 Low
 Full report: `docs/audit/ui-ux/terms-of-service.md`
@@ -277,8 +277,8 @@ Full report: `docs/audit/ui-ux/terms-of-service.md`
 |---|---|---|
 | ✅ 🟡 Medium | Same `.prose max-w-4xl` line-length issue as Privacy Policy | **Shipped:** same `max-w-3xl` fix, landed in the same commit as Privacy Policy. `terms-of-service.astro:27` |
 | ✅ ⚪ Low | Same `.prose` link-color token issue | See Phase 1.2 |
-| ⚪ Low | 10 numbered sections, no `id` anchors/TOC | Same fix as Privacy Policy |
-| ⚪ Low | Cross-link to Privacy Policy only appears at the very bottom | Add a short cross-reference near the top lead paragraph too |
+| ✅ ⚪ Low | 10 numbered sections, no `id` anchors/TOC | **Shipped:** same treatment as Privacy Policy — all 10 `<h2>`s got slugified `id`s + `scroll-mt-28`. `terms-of-service.astro:34-85` |
+| ✅ ⚪ Low | Cross-link to Privacy Policy only appears at the very bottom | **Shipped:** added a "See also our Privacy Policy" mention directly in the lead paragraph, in addition to the existing bottom link. `terms-of-service.astro:29` |
 
 ---
 
@@ -287,4 +287,8 @@ Full report: `docs/audit/ui-ux/terms-of-service.md`
 1. ~~**Phase 1 cross-cutting fixes** (1.1–1.5)~~ — ✅ **Done 2026-08-02.** Resolved the sitewide focus-visible gap, the `.prose` link-color token, the duplicated/drifted project category map (now a single `src/lib/categories.ts`), and the two live "unresolved copy" issues (CIDB confirmed/pending mismatch, PSIRA "to be confirmed by client"). The Security service placeholder image itself is still a real asset gap — only its `alt` text was made honest in the meantime; the photo swap stays tracked as a client-asset dependency.
 2. ~~**Critical/High page-specific items**: Plant Hire dark-mode success-badge contrast + Thank You's success-token fix, Blog Detail's mobile-sidebar hiding and TOC depth, Contact's missing `PageHeader`/breadcrumbs.~~ — ✅ **Done 2026-08-02.** All four landed: dark-mode `--success` token now has real contrast (fixes Plant Hire's badge and Thank You's icon in one change), Blog Detail's sidebar (Share/Copy-link/CTA) is no longer hidden below `lg` and its TOC now surfaces `h3` subsections via a collapsible `<details>`, and Contact now uses the shared `PageHeader` component with breadcrumbs.
 3. ~~**Medium items**, roughly in traffic-priority order: Home → Services → Blog → Projects → Contact → legal pages.~~ — ✅ **Mostly done 2026-08-02.** Every Medium item that was a pure code/copy fix landed: Home's remaining nav-link color mismatches, hero secondary CTA token cleanup, "Trusted By" cleanup, h2 sizing; Mechanical's mis-styled mining-services item; Cleaning's deep-link anchors; Plant Hire's ambiguous "N/A" tooltip; Blog listing/detail's "Read more" hover, prose measure, related-posts breakpoints, copy-link failure state, and TOC active-state color; Projects overview's URL-synced filter state; Contact's `aria-invalid`, mobile info-before-form ordering, and documented focus-strategy split; both legal pages' prose measure and Privacy Policy's reciprocal ToS link; 404's reduced-motion gap. **Explicitly deferred** (not code-unsafe, just need verification I can't do headlessly): `ServiceLayout`'s fixed hero min-height (needs cross-device visual check), Plant Hire's equipment-table-to-cards mobile layout (a real layout change, not a token/class swap), Thank You's `min-h-[70vh]` mobile viewport risk (needs short-viewport testing). Still open and asset-dependent: real photography (Security service, blog cover images), client logos for the "Trusted By" strip.
-4. **Low/polish items** opportunistically, or batched into a single pass — next up if continuing.
+4. ~~**Low/polish items** opportunistically, or batched into a single pass.~~ — ✅ **Mostly done 2026-08-02.** Landed: Home's radius/breakpoint/badge-offset polish; About's grayscale-hover cleanup and a new shared `<Eyebrow>` component (replacing 7 inline copies across About + `PageHeader`); Projects overview/detail's hover-color consistency, dead-markup cleanup, and mobile hero aspect ratio; Blog listing/detail's empty-state link, scroll-spy flicker fix, and Markdown-aware reading time; Contact's WhatsApp contrast (this one had actually failed AA, not just "unverified" — fixed with WhatsApp's own darker brand teal), required-field legend, and an animated FAQ accordion; Thank You's fallback contact line; 404's `data-animate` entrance; both legal pages' heading anchors and Terms of Service's earlier cross-link to Privacy Policy.
+
+   **Left open** — genuine content/product decisions, not mechanical fixes: About's team-section size and "10 full-time professionals" copy, Mechanical's industries-served list depth, service page card-count parity, Cleaning's NEM:WA footnote placement, `StatsBar`/"Trust strip" content overlap, `ServiceLayout`'s CTA-copy duplication and hand-duplicated breadcrumbs, Plant Hire's per-row CTA, Project Detail's related-projects module, Blog's tag-filtering direction, and 404's HTTP-status verification (needs a deployed URL, can't check from this environment).
+
+Content-dependent items (real Security/blog photography, client logos, PSIRA number, CIDB registration number, team headshots) remain blocked on client input exactly as tracked in `docs/audit/06-client-action-items.md`.

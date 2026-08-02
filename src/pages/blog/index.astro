@@ -42,9 +42,14 @@ function formatDate(date: Date): string {
     <!-- Posts grid -->
     <section class='container mx-auto px-4 py-14'>
         {posts.length === 0 ? (
-            <p class='text-center text-muted-foreground py-16 text-sm'>
-                No posts published yet - check back soon.
-            </p>
+            <div class='text-center py-16'>
+                <p class='text-muted-foreground text-sm mb-4'>
+                    No posts published yet - check back soon.
+                </p>
+                <a href='/contact' class='text-interactive hover:underline text-sm font-medium'>
+                    Get in touch instead
+                </a>
+            </div>
         ) : (
             <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {posts.map((post) => (

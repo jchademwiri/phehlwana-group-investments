@@ -88,9 +88,12 @@ const faqSchema = {
     <div class='grid lg:grid-cols-[1fr_320px] gap-10'>
       <!-- ── Contact form ─────────────────────────────────────────────── -->
       <div class='order-2 lg:order-1'>
-        <h2 class='text-xl font-bold text-foreground mb-6'>
+        <h2 class='text-xl font-bold text-foreground mb-2'>
           Request a Quote or Send a Message
         </h2>
+        <p class='text-xs text-muted-foreground mb-6'>
+          Fields marked <span class='text-error' aria-hidden='true'>*</span> are required.
+        </p>
 
         {
           result?.error && !isInputError(result.error) && (
@@ -516,7 +519,7 @@ const faqSchema = {
           href='https://wa.me/27792947635'
           target='_blank'
           rel='noopener noreferrer'
-          class='flex items-center gap-3 bg-[#25d366] text-white font-semibold px-5 py-3.5 rounded-xl text-sm hover:bg-[#1ebe5d] transition-colors w-full justify-center'
+          class='flex items-center gap-3 bg-[#128C7E] text-white font-semibold px-5 py-3.5 rounded-xl text-sm hover:bg-[#0f6f61] transition-colors w-full justify-center'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -589,9 +592,13 @@ const faqSchema = {
             </dt>
             <dd
               id={`faq-${i}`}
-              class='hidden px-5 pb-4 text-sm text-muted-foreground leading-relaxed'
+              class='faq-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-out'
             >
-              {faq.a}
+              <div class='overflow-hidden'>
+                <p class='px-5 pb-4 text-sm text-muted-foreground leading-relaxed'>
+                  {faq.a}
+                </p>
+              </div>
             </dd>
           </div>
         ))
@@ -607,7 +614,8 @@ const faqSchema = {
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       const panel = document.getElementById(btn.getAttribute('aria-controls')!);
       btn.setAttribute('aria-expanded', String(!expanded));
-      panel?.classList.toggle('hidden', expanded);
+      panel?.classList.toggle('grid-rows-[0fr]', expanded);
+      panel?.classList.toggle('grid-rows-[1fr]', !expanded);
       btn.querySelector('.faq-icon')?.classList.toggle('rotate-180', !expanded);
     });
   });

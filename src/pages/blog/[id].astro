@@ -35,7 +35,16 @@ const relatedPosts = allPosts
     })
     .slice(0, 3);
 
-const wordCount = post.body?.split(/\s+/).length ?? 0;
+// Strip Markdown syntax (headings, links, emphasis, code fences) before counting,
+// so reading time reflects the rendered text a reader actually sees.
+const plainText = (post.body ?? '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[*_~>#-]/g, ' ');
+const wordCount = plainText.split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
 const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
@@ -333,21 +342,32 @@ const breadcrumbSchema = {
 
         const observer = new IntersectionObserver(
             (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        tocLinks.forEach((l) => {
-                            l.classList.remove('text-interactive', 'font-semibold');
-                            l.classList.add('text-muted-foreground');
-                        });
-                        const active = document.querySelector<HTMLAnchorElement>(
-                            `.toc-link[href="#${entry.target.id}"]`,
-                        );
-                        if (active) {
-                            active.classList.add('text-interactive', 'font-semibold');
-                            active.classList.remove('text-muted-foreground');
-                        }
-                    }
+                const intersecting = entries.filter((e) => e.isIntersecting);
+                if (intersecting.length === 0) return;
+
+                // When multiple headings intersect the margin band at once, pick the one
+                // closest to the top of the viewport rather than "whichever fires last" -
+                // avoids the active TOC item flickering between entries while scrolling.
+                const best = intersecting.reduce((a, b) => {
+                    const aTop = a.boundingClientRect.top;
+                    const bTop = b.boundingClientRect.top;
+                    if (aTop >= 0 && bTop >= 0) return aTop <= bTop ? a : b;
+                    if (aTop >= 0) return a;
+                    if (bTop >= 0) return b;
+                    return aTop >= bTop ? a : b;
                 });
+
+                tocLinks.forEach((l) => {
+                    l.classList.remove('text-interactive', 'font-semibold');
+                    l.classList.add('text-muted-foreground');
+                });
+                const active = document.querySelector<HTMLAnchorElement>(
+                    `.toc-link[href="#${best.target.id}"]`,
+                );
+                if (active) {
+                    active.classList.add('text-interactive', 'font-semibold');
+                    active.classList.remove('text-muted-foreground');
+                }
             },
             { rootMargin: '-20% 0px -70% 0px' },
         );

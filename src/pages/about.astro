@@ -4,6 +4,7 @@ import PageHeader from '@/components/sections/PageHeader.astro';
 import StatsBar from '@/components/sections/StatsBar.astro';
 import ContactCTA from '@/components/sections/ContactCTA.astro';
 import Picture from '@/components/shared/Picture.astro';
+import Eyebrow from '@/components/shared/Eyebrow.astro';
 
 export const prerender = true;
 
@@ -119,11 +120,7 @@ const accreditations = [
   <section class='container mx-auto px-4 py-16 lg:py-20'>
     <div class='grid lg:grid-cols-2 gap-12 items-center'>
       <div data-animate>
-        <p
-          class='text-sm font-semibold text-primary uppercase tracking-widest mb-3'
-        >
-          Who We Are
-        </p>
+        <Eyebrow class='mb-3'>Who We Are</Eyebrow>
         <h2 class='text-3xl font-bold text-foreground mb-5'>
           A South African Company Built on Quality
         </h2>
@@ -241,11 +238,7 @@ const accreditations = [
 
       <!-- Values grid -->
       <div class='text-center mb-10' data-animate>
-        <p
-          class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-        >
-          Our Values
-        </p>
+        <Eyebrow>Our Values</Eyebrow>
         <h2 class='text-3xl font-bold text-foreground'>What We Stand For</h2>
       </div>
       <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5'>
@@ -287,11 +280,7 @@ const accreditations = [
   <!-- ── Our Story ─────────────────────────────────────────────────────────── -->
   <section class='container mx-auto px-4 py-16 lg:py-20'>
     <div class='max-w-3xl mx-auto' data-animate>
-      <p
-        class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-      >
-        Our Story
-      </p>
+      <Eyebrow>Our Story</Eyebrow>
       <h2 class='text-3xl font-bold text-foreground mb-6'>
         A Decade of Building Excellence
       </h2>
@@ -327,11 +316,7 @@ const accreditations = [
   <!-- ── Why Choose Us ─────────────────────────────────────────────────────── -->
   <section class='container mx-auto px-4 py-16 lg:py-20'>
     <div class='text-center mb-12' data-animate>
-      <p
-        class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-      >
-        Why Choose Phehlwana Group
-      </p>
+      <Eyebrow>Why Choose Phehlwana Group</Eyebrow>
       <h2 class='text-3xl font-bold text-foreground'>What Sets Us Apart</h2>
     </div>
     <div class='grid sm:grid-cols-2 lg:grid-cols-4 gap-5'>
@@ -359,11 +344,7 @@ const accreditations = [
   <section class='bg-accent/40 border-y border-border py-16 lg:py-20'>
     <div class='container mx-auto px-4'>
       <div class='text-center mb-10' data-animate>
-        <p
-          class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-        >
-          Accreditations & Compliance
-        </p>
+        <Eyebrow>Accreditations & Compliance</Eyebrow>
         <h2 class='text-3xl font-bold text-foreground mb-3'>
           Registered, Certified, and Compliant
         </h2>
@@ -436,11 +417,7 @@ const accreditations = [
   <!-- ── Team Section ──────────────────────────────────────────────────── -->
   <section class='container mx-auto px-4 py-16 lg:py-20'>
     <div class='text-center mb-10' data-animate>
-      <p
-        class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-      >
-        Our Team
-      </p>
+      <Eyebrow>Our Team</Eyebrow>
       <h2 class='text-3xl font-bold text-foreground mb-3'>
         The People Behind Every Project
       </h2>
@@ -504,7 +481,7 @@ const accreditations = [
       </p>
     </div>
     <div
-      class='flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-300'
+      class='flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70'
       data-animate
     >
       <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'
