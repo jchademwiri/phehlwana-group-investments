@@ -87,7 +87,7 @@ const faqSchema = {
   <section class='container mx-auto px-4 py-14'>
     <div class='grid lg:grid-cols-[1fr_320px] gap-10'>
       <!-- ── Contact form ─────────────────────────────────────────────── -->
-      <div>
+      <div class='order-2 lg:order-1'>
         <h2 class='text-xl font-bold text-foreground mb-6'>
           Request a Quote or Send a Message
         </h2>
@@ -141,6 +141,9 @@ const faqSchema = {
             />
           </div>
 
+          <!-- Text/select fields intentionally use focus: (not focus-visible:) for their ring -
+               unlike buttons/links, showing the ring on mouse click too is expected and useful
+               feedback for form fields, since a click both focuses and starts an edit. -->
           <!-- Name + Email -->
           <div class='grid sm:grid-cols-2 gap-5'>
             <div>
@@ -163,6 +166,7 @@ const faqSchema = {
                   fieldErrors.name ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.name ? 'name-error' : undefined}
+                aria-invalid={fieldErrors.name ? 'true' : undefined}
               />
               {
                 fieldErrors.name && (
@@ -198,6 +202,7 @@ const faqSchema = {
                   fieldErrors.email ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+                aria-invalid={fieldErrors.email ? 'true' : undefined}
               />
               {
                 fieldErrors.email && (
@@ -236,6 +241,7 @@ const faqSchema = {
                   fieldErrors.phone ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
+                aria-invalid={fieldErrors.phone ? 'true' : undefined}
               />
               {
                 fieldErrors.phone && (
@@ -269,6 +275,7 @@ const faqSchema = {
                 aria-describedby={fieldErrors.service
                   ? 'service-error'
                   : undefined}
+                aria-invalid={fieldErrors.service ? 'true' : undefined}
               >
                 <option value='' disabled selected={!activeService}
                   >- Select a service -</option
@@ -335,7 +342,8 @@ const faqSchema = {
               ]}
               aria-describedby={fieldErrors.message
                 ? 'message-error'
-                : undefined}>{prev.message ?? ''}</textarea>
+                : undefined}
+              aria-invalid={fieldErrors.message ? 'true' : undefined}>{prev.message ?? ''}</textarea>
             {
               fieldErrors.message && (
                 <p
@@ -373,7 +381,7 @@ const faqSchema = {
       </div>
 
       <!-- ── Contact info sidebar ─────────────────────────────────────── -->
-      <aside class='space-y-4'>
+      <aside class='order-1 lg:order-2 space-y-4'>
         <!-- Address -->
         <div class='bg-card border border-border rounded-xl p-5 space-y-4'>
           <h2

@@ -11,6 +11,20 @@
   max-width: 1280px;
 }
 
+/* ── Ghost button for use over photography - deliberately theme-independent
+   (always light-on-dark-photo) since it sits on hero images, not page
+   backgrounds, so it can't derive from --primary/--interactive/--card. ── */
+@utility btn-ghost-photo {
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  color: rgb(255 255 255);
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background-color: rgb(255 255 255 / 0.2);
+  }
+}
+
 @theme {
   --font-sans: "Inter Variable", "Inter", "system-ui", sans-serif;
   --font-heading: "Outfit Variable", "Outfit", "system-ui", sans-serif;
