@@ -93,9 +93,9 @@
   --card-foreground: var(--color-neutral-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-neutral-950);
-  --primary: var(--color-blue-700);
+  --primary: #1b3b6f;
   --primary-foreground: var(--color-neutral-50);
-  --primary-accent: var(--color-blue-700);
+  --primary-accent: #2f5c99;
   --secondary: var(--color-neutral-200);
   --secondary-foreground: var(--color-neutral-950);
   --secondary-accent: var(--color-neutral-950);
@@ -119,7 +119,7 @@
   /* sidebar variables */
   --sidebar-background: var(--color-neutral-50);
   --sidebar-foreground: var(--color-neutral-950);
-  --sidebar-primary: var(--color-blue-700);
+  --sidebar-primary: #1b3b6f;
   --sidebar-primary-foreground: var(--color-neutral-50);
   --sidebar-accent: var(--color-neutral-100);
   --sidebar-accent-foreground: var(--color-neutral-900);
@@ -134,9 +134,9 @@
   --card-foreground: var(--color-neutral-50);
   --popover: var(--color-neutral-800);
   --popover-foreground: var(--color-neutral-50);
-  --primary: var(--color-blue-700);
+  --primary: #3b6fb0;
   --primary-foreground: var(--color-neutral-50);
-  --primary-accent: var(--color-blue-400);
+  --primary-accent: #6e9ad1;
   --secondary: var(--color-neutral-800);
   --secondary-foreground: var(--color-neutral-50);
   --secondary-accent: var(--color-neutral-50);
@@ -159,7 +159,7 @@
   /* sidebars variables */
   --sidebar-background: var(--color-neutral-900);
   --sidebar-foreground: var(--color-neutral-50);
-  --sidebar-primary: var(--color-blue-700);
+  --sidebar-primary: #3b6fb0;
   --sidebar-primary-foreground: var(--color-neutral-50);
   --sidebar-accent: var(--color-neutral-800);
   --sidebar-accent-foreground: var(--color-neutral-100);
