@@ -9,6 +9,7 @@ export const categoryList = [
   'Mechanical',
   'Cleaning',
   'Plant Hire',
+  'Water Supply',
   'Security',
 ] as const;
 
@@ -32,6 +33,10 @@ export const categoryColours: Record<string, { badge: string; dot: string }> = {
   'Plant Hire': {
     badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
     dot: 'bg-orange-500',
+  },
+  'Water Supply': {
+    badge: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',
+    dot: 'bg-cyan-500',
   },
   Security: {
     badge: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',

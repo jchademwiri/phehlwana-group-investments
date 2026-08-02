@@ -1,6 +1,12 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/security/security-01.jpeg', alt: 'Phehlwana Group security officers in uniform on site' },
+  { src: '/images/gallery/security/security-02.jpeg', alt: 'Phehlwana Group security officers in uniform on site' },
+];
 
 const services = [
   {
@@ -35,8 +41,8 @@ const services = [
   description='Manned guarding, access control, CCTV surveillance, risk assessment and site security services nationally across South Africa - Phehlwana Group Investments.'
   label='Security'
   subtitle='Professional security solutions for commercial, industrial, and residential clients - from manned guarding and access control to CCTV monitoring and event security.'
-  image='/images/placeholder.svg'
-  imageAlt=''
+  image='/images/gallery/security/security-01.jpeg'
+  imageAlt='Phehlwana Group security officers in uniform on site'
   serviceParam='Security'
 >
   <div data-animate>
@@ -81,6 +87,10 @@ const services = [
           >Private Security Industry Regulation Act (PSIRA, Act 56 of 2001)</strong
         >.
       </p>
+    </div>
+
+    <div class='mt-10'>
+      <ServiceGallery images={galleryImages} heading='Our Team' />
     </div>
   </div>
 </ServiceLayout>

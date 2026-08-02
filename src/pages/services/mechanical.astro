@@ -1,6 +1,11 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/mechanical/mechanical-01.jpeg', alt: 'Technicians installing solar water heating units on a building roof' },
+];
 
 const services = [
   {
@@ -98,6 +103,10 @@ const industries = [
         <a href='/contact?service=Mechanical%20Engineering' class='text-interactive hover:underline'>contact us</a>
         to discuss your requirements.
       </p>
+    </div>
+
+    <div class='mt-10'>
+      <ServiceGallery images={galleryImages} heading='Our Work' />
     </div>
   </div>
 </ServiceLayout>

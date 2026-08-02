@@ -1,6 +1,14 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/cleaning/cleaning-01.jpeg', alt: 'Cleaning crew washing a Putco bus at the depot' },
+  { src: '/images/gallery/cleaning/cleaning-02.jpeg', alt: 'Freshly cleaned Putco bus exterior' },
+  { src: '/images/gallery/cleaning/cleaning-03.jpeg', alt: 'Vehicle detailing - front end of a Toyota Hilux' },
+  { src: '/images/gallery/cleaning/cleaning-04.jpeg', alt: 'Vehicle detailing - completed wash of a Toyota Hilux' },
+];
 
 const cleaningServices = [
   {
@@ -113,5 +121,7 @@ const wasteServices = [
         and applicable municipal by-laws.
       </p>
     </div>
+
+    <ServiceGallery images={galleryImages} heading='Our Work' />
   </div>
 </ServiceLayout>

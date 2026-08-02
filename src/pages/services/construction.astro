@@ -1,6 +1,18 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/construction/construction-26.jpeg', alt: 'Aerial view of a Phehlwana Group construction site in progress' },
+  { src: '/images/gallery/construction/construction-01.jpeg', alt: 'Brickwork on a double-storey building under construction' },
+  { src: '/images/gallery/construction/construction-21.jpeg', alt: 'Bricklayers building walls with steel lintels for door openings' },
+  { src: '/images/gallery/construction/construction-33.jpeg', alt: 'Completed brick building shell with door and window openings' },
+  { src: '/images/gallery/construction/construction-25.jpeg', alt: 'Steel ceiling framing installation inside a commercial building' },
+  { src: '/images/gallery/construction/construction-09.jpeg', alt: 'Renovated open-plan bathroom with freestanding bath and glass shower' },
+  { src: '/images/gallery/construction/construction-08.jpeg', alt: 'Renovated open-plan living area with pool view' },
+  { src: '/images/gallery/construction/construction-07.jpeg', alt: 'Asphalt road resurfacing crew laying new road surface' },
+];
 
 const sections = [
   {
@@ -103,4 +115,6 @@ const sections = [
       </div>
     ))
   }
+
+  <ServiceGallery images={galleryImages} heading='Our Work' />
 </ServiceLayout>

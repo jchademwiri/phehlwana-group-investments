@@ -1,6 +1,18 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/plant-hire/plant-hire-01.jpeg', alt: 'Phehlwana Group Powerstar water tanker fleet' },
+  { src: '/images/gallery/plant-hire/plant-hire-09.jpeg', alt: 'Water tanker delivering water to a community during a supply interruption' },
+  { src: '/images/gallery/plant-hire/plant-hire-08.jpeg', alt: 'Water tanker delivering water on site via hose' },
+  { src: '/images/gallery/plant-hire/plant-hire-07.jpeg', alt: 'CAT wheel loader being delivered on a lowbed trailer' },
+  { src: '/images/gallery/plant-hire/plant-hire-11.jpeg', alt: 'Handover of a new LiuGong backhoe loader to a client' },
+  { src: '/images/gallery/plant-hire/plant-hire-12.jpeg', alt: 'Water tanker truck ready for dispatch' },
+  { src: '/images/gallery/plant-hire/plant-hire-16.jpeg', alt: 'Phehlwana Group Powerstar water tanker at the yard' },
+  { src: '/images/gallery/plant-hire/plant-hire-17.jpeg', alt: 'Phehlwana Group water tanker fleet parked at the yard' },
+];
 
 const equipment = [
   {
@@ -24,8 +36,8 @@ const equipment = [
     operator: true,
   },
   {
-    name: 'Water Carts',
-    desc: 'Dust suppression and water supply on construction and road sites',
+    name: 'Water Carts & Bulk Water Tankers',
+    desc: 'Dust suppression and water supply on construction and road sites, plus bulk potable water delivery to communities and standpipes during municipal supply interruptions',
     operator: true,
   },
   {
@@ -201,5 +213,8 @@ const hireSteps = [
         }
       </ol>
     </div>
+
+    <!-- Gallery -->
+    <ServiceGallery images={galleryImages} heading='Our Fleet & Deliveries' />
   </div>
 </ServiceLayout>

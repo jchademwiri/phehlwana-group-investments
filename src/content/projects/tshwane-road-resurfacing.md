@@ -8,10 +8,11 @@ location: 'Pretoria North, Gauteng'
 duration: 'January 2024 – June 2024'
 year: 2024
 category: 'Road'
-coverImage: '/images/projects/project-04.jpeg'
+coverImage: '/images/gallery/construction/construction-07.jpeg'
 images:
-  - '/images/projects/project-04.jpeg'
-  - '/images/projects/project-05.jpeg'
+  - '/images/gallery/construction/construction-07.jpeg'
+  - '/images/gallery/construction/construction-10.jpeg'
+  - '/images/gallery/construction/construction-16.jpeg'
 featured: true
 published: true
 ---
