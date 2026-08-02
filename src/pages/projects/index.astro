@@ -61,8 +61,8 @@ const categoryColours: Record<string, string> = {
                     class:list={[
                         'filter-btn px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
                         cat === 'All'
-                            ? 'bg-primary text-primary-foreground border-primary'
-                            : 'bg-background text-muted-foreground border-border hover:border-primary hover:text-foreground',
+                            ? 'bg-interactive text-primary-foreground border-interactive'
+                            : 'bg-background text-muted-foreground border-border hover:border-interactive hover:text-foreground',
                     ]}
                     aria-pressed={cat === 'All' ? 'true' : 'false'}
                 >
@@ -115,7 +115,7 @@ const categoryColours: Record<string, string> = {
                         </div>
 
                         <!-- Title -->
-                        <h2 class='text-base font-semibold text-foreground leading-snug group-hover:text-primary transition-colors'>
+                        <h2 class='text-base font-semibold text-foreground leading-snug group-hover:text-interactive transition-colors'>
                             {project.data.title}
                         </h2>
 
@@ -167,7 +167,7 @@ const categoryColours: Record<string, string> = {
             </p>
             <a
                 href='/contact'
-                class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
             >
                 Request a Quote
                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -189,9 +189,9 @@ const categoryColours: Record<string, string> = {
             buttons.forEach((b) => {
                 const active = b.dataset.filter === filter;
                 b.setAttribute('aria-pressed', String(active));
-                b.classList.toggle('bg-primary',               active);
+                b.classList.toggle('bg-interactive',            active);
                 b.classList.toggle('text-primary-foreground',  active);
-                b.classList.toggle('border-primary',           active);
+                b.classList.toggle('border-interactive',        active);
                 b.classList.toggle('bg-background',            !active);
                 b.classList.toggle('text-muted-foreground',    !active);
                 b.classList.toggle('border-border',            !active);

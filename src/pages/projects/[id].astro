@@ -240,10 +240,10 @@ const breadcrumbSchema = {
               <button
                 type='button'
                 class:list={[
-                  'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-primary',
+                  'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-interactive',
                   i === 0
-                    ? 'border-primary'
-                    : 'border-transparent hover:border-primary/50',
+                    ? 'border-interactive'
+                    : 'border-transparent hover:border-interactive/50',
                 ]}
                 data-src={img}
                 aria-label={`View image ${i + 1}`}
@@ -433,7 +433,7 @@ const breadcrumbSchema = {
           </p>
           <a
             href={`/contact?service=${encodeURIComponent(project.data.category)}`}
-            class='inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+            class='inline-flex w-full items-center justify-center gap-2 bg-interactive text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
           >
             Request a Quote
             <svg
@@ -479,7 +479,7 @@ const breadcrumbSchema = {
       </a>
       <a
         href='/contact'
-        class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+        class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
       >
         Request a Quote
         <svg
@@ -520,10 +520,10 @@ const breadcrumbSchema = {
 
       // Update active border
       thumbs.forEach((t) => {
-        t.classList.remove('border-primary');
+        t.classList.remove('border-interactive');
         t.classList.add('border-transparent');
       });
-      thumb.classList.add('border-primary');
+      thumb.classList.add('border-interactive');
       thumb.classList.remove('border-transparent');
     });
   });
