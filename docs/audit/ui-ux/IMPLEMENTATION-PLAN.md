@@ -79,7 +79,7 @@ Full report: `docs/audit/ui-ux/home.md`
 | ✅ 🟡 Medium | "10+ Years" floating badge is decorative but uses `bg-interactive` | **Shipped:** now `bg-primary`. `index.astro:247` |
 | ✅ 🟡 Medium | Secondary hero CTA hand-styled with ad hoc `bg-white/10` values, bypasses design tokens | **Shipped:** new `.btn-ghost-photo` utility in `starwind.css`, applied here — still deliberately theme-independent (sits on hero photography, not page background) but now centrally defined once instead of inline. `index.astro:147-154` |
 | ✅ 🟡 Medium | No `focus-visible` anywhere on the page | See Phase 1.1 |
-| 🟡 Medium | Security service card shows placeholder image | See Phase 1.4 (alt text fixed; real photo still a client-asset dependency) |
+| ✅ 🟡 Medium | Security service card shows placeholder image | **Shipped 2026-08-02:** real client photography now available (sorted from raw WhatsApp exports into `public/images/gallery/`); Security card now uses `gallery/security/security-01.jpeg`. `services/index.astro:16` |
 | ✅ 🟡 Medium | "Trusted By" client strip is plain text with a `grayscale hover:grayscale-0` treatment meant for logo images | **Shipped (interim):** dropped the grayscale/hover treatment since there's no logo imagery to justify it yet; real client logos remain a future content addition. `index.astro:341` |
 | ✅ 🟡 Medium | Section `<h2>` sizes inconsistent (`text-3xl` vs `text-xl` vs `text-2xl`) across sibling sections | **Shipped (partial):** "Trusted By" now matches the rest of Home's sections at `text-3xl`. Left `ContactCTA.astro`'s `text-2xl` as-is since that component is reused as a lighter-weight closing banner on nearly every page — changing it is a sitewide decision beyond fixing Home's internal consistency, not just a Home fix. `index.astro:337` |
 | ⚪ Low | `StatsBar` and "Trust strip" duplicate "10+ Years"/"Level 1 BBBEE" content | Content-strategy call (merge vs. differentiate), not a mechanical fix — left open |
@@ -108,8 +108,8 @@ Full report: `docs/audit/ui-ux/services-overview.md`
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟠 High | Security card uses placeholder image | See Phase 1.4 |
-| 🟡 Medium | Card `alt=""` combined with the Security placeholder means that card conveys zero visual info | Resolves once Phase 1.4 lands |
+| ✅ 🟠 High | Security card uses placeholder image | **Shipped 2026-08-02:** same real photo fix as Home. `services/index.astro:16` |
+| ✅ 🟡 Medium | Card `alt=""` combined with the Security placeholder means that card conveys zero visual info | Resolved — card now shows a real photo. |
 | 🟡 Medium | No filter/grouping distinguishing "trade" vs. "facility" services | Not urgent at 5 items; revisit if catalog grows |
 | ⚪ Low | "10 full-time professionals" copy undersells scale next to 5 service divisions | Reframe or drop the specific number |
 | ⚪ Low | 5-card grid leaves an unbalanced last row at `lg:grid-cols-3` | Accepted as-is — a per-item `lg:col-start-2` nudge would be fragile (only correct for exactly 5 items) for a purely cosmetic edge case |
@@ -168,9 +168,9 @@ Full report: `docs/audit/ui-ux/services-security.md` · Also inherits shared-lay
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🔴 Critical | Placeholder hero image paired with alt text describing a real photo that doesn't exist | See Phase 1.4 |
-| 🟠 High | PSIRA registration number shipped as "to be confirmed by client" | See Phase 1.5 |
-| 🟡 Medium | Missing image cascades to the overview grid too (same root cause) | Resolves once Phase 1.4 lands |
+| ✅ 🔴 Critical | Placeholder hero image paired with alt text describing a real photo that doesn't exist | **Shipped 2026-08-02:** hero now uses a real photo (`gallery/security/security-01.jpeg`) with matching, accurate alt text — no longer describing a nonexistent photo. `security.astro:9-10,39-40` |
+| ✅ 🟠 High | PSIRA registration number shipped as "to be confirmed by client" | See Phase 1.5 |
+| ✅ 🟡 Medium | Missing image cascades to the overview grid too (same root cause) | Resolved — see Home/Services Overview rows above. |
 
 ### Projects Overview (`/projects`) — 0 High, 2 Medium, 3 Low
 Full report: `docs/audit/ui-ux/projects-overview.md`
@@ -190,9 +190,9 @@ Full report: `docs/audit/ui-ux/projects-detail.md`
 
 | Priority | Finding | Fix |
 |---|---|---|
-| 🟠 High | `categoryColours` here is missing the `Security` entry entirely (5 of 6 categories) | See Phase 1.3 — add the missing entry as an immediate stopgap |
-| 🟡 Medium | Gallery fade timing mismatch: JS swaps `src` at 200ms, CSS transition is 300ms — visible "pop" mid-fade | Match both to the same duration (300ms recommended). `projects/[id].astro:227,502-529` |
-| 🟡 Medium | Active gallery thumbnail has no `aria-current`/`aria-pressed` — only a border color signals state | Add `aria-current="true"` on the active thumbnail, toggled alongside the border class. `projects/[id].astro:240-260,509-529` |
+| ✅ 🟠 High | `categoryColours` here is missing the `Security` entry entirely (5 of 6 categories) | See Phase 1.3 |
+| ✅ 🟡 Medium | Gallery fade timing mismatch: JS swaps `src` at 200ms, CSS transition is 300ms — visible "pop" mid-fade | **Shipped:** JS swap now matches the CSS transition at 300ms. `projects/[id].astro:491` |
+| ✅ 🟡 Medium | Active gallery thumbnail has no `aria-current`/`aria-pressed` — only a border color signals state | **Shipped:** `aria-current="true"` set on the initial thumbnail server-side and toggled in the click handler alongside the border class. `projects/[id].astro:222,494-499` |
 | ✅ ⚪ Low | Unused `id`/`data-src` leftover on the gallery container, likely from the removed lightbox | **Shipped:** removed both — confirmed unreferenced anywhere in the page's script. `projects/[id].astro:188-191` |
 | ⚪ Low | No related/similar-projects module after the case study | A real content module, not a token/class fix — left open |
 | ✅ ⚪ Low | Fixed `aspect-16/6` hero crops portrait photos aggressively on mobile | **Shipped:** now `aspect-4/3 sm:aspect-16/6`. `projects/[id].astro:189` |
@@ -203,7 +203,7 @@ Full report: `docs/audit/ui-ux/blog-overview.md`
 | Priority | Finding | Fix |
 |---|---|---|
 | ✅ 🟠 High | Card focus ring likely clipped by `overflow-hidden` | See Phase 1.1 |
-| 🟡 Medium | All 4 cover images are generic vector line-art, not photography (carried over from prior audit) | Replace with real jobsite/plant/security photography — client-asset dependency, not fixed this pass |
+| ✅ 🟡 Medium | All 4 cover images are generic vector line-art, not photography (carried over from prior audit) | **Shipped (3 of 4):** swapped in real photography where a clear topical match exists — building-maintenance post → `construction-27.jpeg` (interior repair), OHS Act post → `construction-10.jpeg` (site safety/PPE), wet vs. dry hire post → `plant-hire-11.jpeg` (equipment handover). Waste management post kept its vector illustration — no real waste-management photography exists in the client's asset set (the "cleaning" photos are bus/vehicle washing, a mismatch for that topic). |
 | ✅ 🟡 Medium | "Read more" uses `text-primary` while the title correctly hovers `text-interactive` — two different colors for the same "clickable" cue | **Shipped:** added `group-hover:text-interactive` so both cues move together. `blog/index.astro:103` |
 | ✅ ⚪ Low | Zero-posts empty state has no link back into the site | **Shipped:** added a "Get in touch instead" link under the message. `blog/index.astro:44-51` |
 | ⚪ Low | Tags are decorative-only with no filtering anywhere on the site | Product decision (is tag browsing planned?), not a mechanical fix — left open |

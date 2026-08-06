@@ -219,6 +219,7 @@ const breadcrumbSchema = {
                 ]}
                 data-src={img}
                 aria-label={`View image ${i + 1}`}
+                aria-current={i === 0 ? 'true' : undefined}
               >
                 <img
                   src={img}
@@ -488,15 +489,17 @@ const breadcrumbSchema = {
       setTimeout(() => {
         mainImg.src = src;
         mainImg.style.opacity = '1';
-      }, 200);
+      }, 300);
 
       // Update active border
       thumbs.forEach((t) => {
         t.classList.remove('border-interactive');
         t.classList.add('border-transparent');
+        t.removeAttribute('aria-current');
       });
       thumb.classList.add('border-interactive');
       thumb.classList.remove('border-transparent');
+      thumb.setAttribute('aria-current', 'true');
     });
   });
 </script>
