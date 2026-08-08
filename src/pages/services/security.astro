@@ -1,6 +1,8 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
 import ServiceGallery from '@/components/shared/ServiceGallery.astro';
+import ServiceOfferingCard from '@/components/shared/ServiceOfferingCard.astro';
+import { icons } from '@/data/service-icons';
 export const prerender = true;
 
 const galleryImages = [
@@ -10,27 +12,39 @@ const galleryImages = [
 
 const services = [
   {
+    id: 'manned-guarding',
     title: 'Manned Guarding',
+    icon: icons.shield,
     body: 'Professional, uniformed security officers deployed at your premises to deter unauthorised access, monitor activity, and respond to incidents. Available for 24-hour, day-shift, or night-shift coverage.',
   },
   {
+    id: 'access-control',
     title: 'Access Control',
+    icon: icons.lock,
     body: 'Management and control of entry and exit points at your facility - including visitor management, vehicle access, boom gates, and turnstile systems.',
   },
   {
+    id: 'cctv-monitoring',
     title: 'CCTV Monitoring',
+    icon: icons.video,
     body: 'Installation, monitoring, and maintenance of closed-circuit television (CCTV) systems for real-time surveillance and recorded evidence.',
   },
   {
+    id: 'risk-assessment',
     title: 'Risk Assessment',
+    icon: icons.clipboardCheck,
     body: 'Formal security risk assessments to identify vulnerabilities at your site and recommend appropriate countermeasures - in compliance with PSIRA regulations.',
   },
   {
+    id: 'event-security',
     title: 'Event Security',
+    icon: icons.users,
     body: 'Crowd management, access control, and incident response for corporate events, public gatherings, and private functions.',
   },
   {
+    id: 'site-security',
     title: 'Site Security',
+    icon: icons.home,
     body: 'Dedicated security solutions for construction sites, including perimeter control, equipment protection, and after-hours monitoring.',
   },
 ];
@@ -44,6 +58,7 @@ const services = [
   image='/images/gallery/security/security-01.jpeg'
   imageAlt='Phehlwana Group security officers in uniform on site'
   serviceParam='Security'
+  chips={services.map((item) => ({ label: item.title, href: `#${item.id}` }))}
 >
   <div data-animate>
     <h2
@@ -54,15 +69,7 @@ const services = [
     <div class='grid sm:grid-cols-2 gap-4 mb-8'>
       {
         services.map((item) => (
-          <div class='bg-card border border-border rounded-xl p-5'>
-            <h3 class='text-sm font-semibold text-foreground mb-2 flex items-center gap-2'>
-              <span class='size-1.5 rounded-full bg-primary shrink-0' />
-              {item.title}
-            </h3>
-            <p class='text-sm text-muted-foreground leading-relaxed'>
-              {item.body}
-            </p>
-          </div>
+          <ServiceOfferingCard id={item.id} title={item.title} body={item.body} icon={item.icon} />
         ))
       }
     </div>

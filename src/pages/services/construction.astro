@@ -1,6 +1,8 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
 import ServiceGallery from '@/components/shared/ServiceGallery.astro';
+import ServiceOfferingCard from '@/components/shared/ServiceOfferingCard.astro';
+import { icons } from '@/data/service-icons';
 export const prerender = true;
 
 const galleryImages = [
@@ -19,31 +21,45 @@ const sections = [
     heading: 'General Building Construction & Maintenance',
     items: [
       {
+        id: 'new-builds',
         title: 'New Builds',
+        icon: icons.home,
         body: 'Constructing houses, offices, factories, schools, clinics, and other commercial and public facilities. We manage the full build process from foundation to final handover.',
       },
       {
+        id: 'renovations-remodelling',
         title: 'Renovations & Remodelling',
+        icon: icons.layers,
         body: 'Updating and transforming existing spaces - kitchens, bathrooms, offices, and entire buildings. We handle structural changes including adding or removing walls, partitions, and mezzanine floors.',
       },
       {
+        id: 'structural-work',
         title: 'Structural Work',
+        icon: icons.box,
         body: 'Foundations, brickwork, concrete work, steel installations, and structural repairs. All structural work is carried out in compliance with SANS standards and relevant building regulations.',
       },
       {
+        id: 'finishes-interiors',
         title: 'Finishes & Interiors',
+        icon: icons.sliders,
         body: 'Painting, tiling, ceilings, plastering, drywalling, built-in cupboards, and complete internal fit-outs. We work with clients to achieve the finish and aesthetic they envision.',
       },
       {
+        id: 'specialised-trades',
         title: 'Specialised Trades',
+        icon: icons.zap,
         body: 'Electrical installations, plumbing, drainage, waterproofing, and carpentry - all carried out by qualified tradespeople.',
       },
       {
+        id: 'external-works',
         title: 'External Works',
+        icon: icons.sun,
         body: 'Roofing, gutter installation, paving, landscaping, and retaining walls. We handle the full exterior of your building.',
       },
       {
+        id: 'maintenance-repairs',
         title: 'Maintenance & Repairs',
+        icon: icons.tool,
         body: 'Planned and reactive maintenance including roof repairs, plumbing emergencies, general upkeep, and facility management. Regular maintenance prevents costly breakdowns and extends the life of your building.',
       },
     ],
@@ -52,36 +68,52 @@ const sections = [
     heading: 'Road Construction, Maintenance & Safety Management',
     items: [
       {
+        id: 'surface-treatment',
         title: 'Surface Treatment',
+        icon: icons.map,
         body: 'Asphalt paving, resurfacing, and road surface treatments to extend road life and improve safety for road users.',
       },
       {
+        id: 'civil-works',
         title: 'Civil Works',
+        icon: icons.truck,
         body: 'General road construction including tar road maintenance, repair, and new road development for municipalities and private clients.',
       },
       {
+        id: 'preventive-maintenance',
         title: 'Preventive Maintenance',
+        icon: icons.refreshCw,
         body: 'Routine road inspections, crack sealing, and pothole filling to address issues before they become costly failures.',
       },
       {
+        id: 'drainage-vegetation-control',
         title: 'Drainage & Vegetation Control',
+        icon: icons.droplet,
         body: 'Maintaining proper stormwater drainage systems and managing roadside vegetation to prevent road damage and improve visibility.',
       },
       {
+        id: 'work-zone-safety',
         title: 'Work Zone Safety',
+        icon: icons.alertTriangle,
         body: 'Deploying traffic management equipment including cones, barrels, and concrete median barriers to safely separate road users from active work zones.',
       },
       {
+        id: 'traffic-control',
         title: 'Traffic Control',
+        icon: icons.flag,
         body: 'Implementing flagging operations, temporary speed limit signage, and traffic flow management to guide road users safely around construction sites.',
       },
       {
+        id: 'road-safety-audits',
         title: 'Road Safety Audits',
+        icon: icons.search,
         body: 'Conducting formal road safety audits (RSA) and site inspections to identify and remediate potential hazards and blackspots before they cause incidents.',
       },
     ],
   },
 ];
+
+const allItems = sections.flatMap((s) => s.items);
 ---
 
 <ServiceLayout
@@ -92,6 +124,7 @@ const sections = [
   image='/images/services/service-construction.png'
   imageAlt='Phehlwana Group construction team working on a building project in Pretoria'
   serviceParam='Construction & Civil Engineering'
+  chips={allItems.map((item) => ({ label: item.title, href: `#${item.id}` }))}
 >
   {
     sections.map((section) => (
@@ -101,15 +134,7 @@ const sections = [
         </h2>
         <div class='grid sm:grid-cols-2 gap-4'>
           {section.items.map((item) => (
-            <div class='bg-card border border-border rounded-xl p-5'>
-              <h3 class='text-sm font-semibold text-foreground mb-2 flex items-center gap-2'>
-                <span class='size-1.5 rounded-full bg-primary shrink-0' />
-                {item.title}
-              </h3>
-              <p class='text-sm text-muted-foreground leading-relaxed'>
-                {item.body}
-              </p>
-            </div>
+            <ServiceOfferingCard id={item.id} title={item.title} body={item.body} icon={item.icon} />
           ))}
         </div>
       </div>

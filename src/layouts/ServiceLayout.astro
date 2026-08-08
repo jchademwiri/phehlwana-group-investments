@@ -15,9 +15,10 @@ interface Props {
   image: string;
   imageAlt: string;
   serviceParam: string;
+  chips?: { label: string; href: string }[];
 }
 
-const { title, description, label, subtitle, image, imageAlt, serviceParam } =
+const { title, description, label, subtitle, image, imageAlt, serviceParam, chips } =
   Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
@@ -56,14 +57,14 @@ const breadcrumbSchema = {
 
   <!-- ── Hero - image background with gradient overlay ────────────────────── -->
   <section
-    class='relative min-h-[320px] lg:min-h-[380px] flex items-end overflow-hidden'
+    class='relative min-h-[560px] lg:min-h-[680px] flex items-end overflow-hidden'
   >
     <div class='absolute inset-0'>
       <Picture
         src={image}
         alt={imageAlt}
         width={1280}
-        height={380}
+        height={680}
         widths={[480, 960, 1600]}
         sizes='100vw'
         loading='eager'
@@ -135,6 +136,26 @@ const breadcrumbSchema = {
         <p class='text-muted-foreground max-w-xl leading-relaxed'>
           {subtitle}
         </p>
+
+        {
+          chips && chips.length > 0 && (
+            <ul
+              class='flex flex-nowrap gap-2 mt-5 overflow-x-auto no-scrollbar scroll-px-4 pr-4 -mr-4'
+              aria-label='Services covered on this page'
+            >
+              {chips.map((chip) => (
+                <li class='shrink-0'>
+                  <a
+                    href={chip.href}
+                    class='inline-flex items-center rounded-full text-xs font-semibold px-3 py-1.5 whitespace-nowrap bg-card/90 border border-border text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-accent hover:text-accent-foreground'
+                  >
+                    {chip.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
     </div>
   </section>

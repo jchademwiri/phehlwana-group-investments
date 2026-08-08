@@ -14,6 +14,15 @@
 /* ── Ghost button for use over photography - deliberately theme-independent
    (always light-on-dark-photo) since it sits on hero images, not page
    backgrounds, so it can't derive from --primary/--interactive/--card. ── */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility btn-ghost-photo {
   background-color: rgb(255 255 255 / 0.1);
   border: 1px solid rgb(255 255 255 / 0.3);

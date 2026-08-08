@@ -73,12 +73,18 @@ const hireSteps = [
   image='/images/services/service-plant-hire.png'
   imageAlt='Phehlwana Group TLB and construction equipment available for hire'
   serviceParam='Plant Hire'
+  chips={[
+    { label: 'Hire Options', href: '#hire-options' },
+    { label: 'Equipment', href: '#equipment' },
+    { label: 'How to Hire', href: '#how-to-hire' },
+  ]}
 >
   <div class='space-y-12'>
     <!-- Hire options -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='hire-options'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Hire Options
       </h2>
@@ -113,7 +119,8 @@ const hireSteps = [
     <!-- Equipment table -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='equipment'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Equipment Available for Hire
       </h2>
@@ -196,7 +203,8 @@ const hireSteps = [
     <!-- How to hire -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='how-to-hire'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         How to Hire
       </h2>
