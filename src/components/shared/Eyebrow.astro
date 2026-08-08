@@ -1,0 +1,17 @@
+---
+/**
+ * Eyebrow - small uppercase label used above section/page headings.
+ * Single source of truth for the "text-sm font-semibold text-primary
+ * uppercase tracking-widest" pattern repeated across About and PageHeader.
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = 'mb-2' } = Astro.props;
+---
+
+<p class:list={['text-sm font-semibold text-primary uppercase tracking-widest', className]}>
+  <slot />
+</p>

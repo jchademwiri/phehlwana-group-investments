@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 
-const tocHeadings = headings.filter((h) => h.depth === 1 || h.depth === 2);
+const tocHeadings = headings.filter((h) => h.depth >= 1 && h.depth <= 3);
 
 function formatDate(date: Date): string {
     return date.toLocaleDateString('en-ZA', {
@@ -35,7 +35,16 @@ const relatedPosts = allPosts
     })
     .slice(0, 3);
 
-const wordCount = post.body?.split(/\s+/).length ?? 0;
+// Strip Markdown syntax (headings, links, emphasis, code fences) before counting,
+// so reading time reflects the rendered text a reader actually sees.
+const plainText = (post.body ?? '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[*_~>#-]/g, ' ');
+const wordCount = plainText.split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
 const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
@@ -163,24 +172,28 @@ const breadcrumbSchema = {
 
             <!-- Article -->
             <article class='min-w-0'>
-                <div class='prose prose-neutral dark:prose-invert max-w-none prose-lg
+                <div class='prose prose-neutral dark:prose-invert prose-lg
                     prose-headings:scroll-mt-28
                     prose-a:font-medium'>
                     <Content />
                 </div>
             </article>
 
-            <!-- Sidebar -->
-            {tocHeadings.length > 0 && (
-                <aside class='hidden lg:block sticky top-32 self-start space-y-4' aria-label='Table of contents'>
+            <!-- Sidebar - visible at every breakpoint; the grid only kicks in at lg,
+                 so below lg this stacks after the article in normal flow. -->
+            <aside class='lg:sticky lg:top-32 lg:self-start space-y-4 mt-10 lg:mt-0' aria-label='Table of contents and sharing'>
 
-                    <!-- TOC -->
-                    <div class='bg-card border border-border rounded-xl overflow-hidden'>
-                        <div class='px-4 py-3 border-b border-border bg-accent/40'>
+                <!-- TOC - collapsible <details> so it doesn't dominate the screen on
+                     mobile; open by default on all breakpoints (desktop's card looks
+                     the same as before since <details open> renders expanded). -->
+                {tocHeadings.length > 0 && (
+                    <details open class='bg-card border border-border rounded-xl overflow-hidden group/toc'>
+                        <summary class='px-4 py-3 border-b border-border bg-accent/40 cursor-pointer select-none flex items-center justify-between gap-2 lg:cursor-default'>
                             <p class='text-xs font-semibold text-muted-foreground uppercase tracking-widest'>
                                 On this page
                             </p>
-                        </div>
+                            <svg xmlns='http://www.w3.org/2000/svg' class='size-3.5 text-muted-foreground transition-transform group-open/toc:rotate-180 lg:hidden' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m6 9 6 6 6-6'/></svg>
+                        </summary>
                         <nav class='p-4'>
                             <ul class='space-y-0.5'>
                                 {tocHeadings.map((h) => (
@@ -188,8 +201,10 @@ const breadcrumbSchema = {
                                         <a
                                             href={`#${h.slug}`}
                                             class:list={[
-                                                'toc-link block py-1.5 text-sm leading-snug transition-colors',
+                                                'toc-link block py-1.5 text-sm leading-snug transition-colors rounded',
                                                 'text-muted-foreground hover:text-foreground font-medium',
+                                                'focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2',
+                                                h.depth === 3 && 'pl-3 text-xs font-normal',
                                             ]}
                                         >
                                             {h.text}
@@ -199,13 +214,14 @@ const breadcrumbSchema = {
                             </ul>
                             <a
                                 href='#'
-                                class='mt-4 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors pt-3 border-t border-border'
+                                class='mt-4 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 rounded transition-colors pt-3 border-t border-border'
                             >
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m18 15-6-6-6 6'/></svg>
                                 Back to top
                             </a>
                         </nav>
-                    </div>
+                    </details>
+                )}
 
                     <!-- Share -->
                     <div class='bg-card border border-border rounded-xl p-4'>
@@ -216,7 +232,7 @@ const breadcrumbSchema = {
                                 href={`https://wa.me/?text=${encodeURIComponent(post.data.title + ' - ' + Astro.url.href)}`}
                                 target='_blank'
                                 rel='noopener noreferrer'
-                                class='w-full inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg px-3 py-2 transition-colors hover:bg-accent'
+                                class='w-full inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg px-3 py-2 transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2'
                             >
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z'/></svg>
                                 Share on WhatsApp
@@ -224,7 +240,7 @@ const breadcrumbSchema = {
                             <button
                                 id='copy-link-btn'
                                 type='button'
-                                class='w-full inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg px-3 py-2 transition-colors hover:bg-accent'
+                                class='w-full inline-flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg px-3 py-2 transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2'
                             >
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>
                                 <span id='copy-link-label' aria-live='polite'>Copy link</span>
@@ -238,14 +254,13 @@ const breadcrumbSchema = {
                         <p class='text-xs text-muted-foreground mb-3'>We respond within 1 business day.</p>
                         <a
                             href='/contact'
-                            class='inline-flex w-full items-center justify-center gap-1.5 bg-primary text-primary-foreground font-semibold px-3 py-2 rounded-lg text-xs hover:bg-primary/90 transition-colors'
+                            class='inline-flex w-full items-center justify-center gap-1.5 bg-interactive text-primary-foreground font-semibold px-3 py-2 rounded-lg text-xs hover:bg-interactive/90 focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 transition-colors'
                         >
                             Get in Touch
                             <svg xmlns='http://www.w3.org/2000/svg' class='size-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
                         </a>
                     </div>
-                </aside>
-            )}
+            </aside>
         </div>
     </div>
 
@@ -254,7 +269,7 @@ const breadcrumbSchema = {
         <section class='border-t border-border bg-accent/20 py-14'>
             <div class='container mx-auto px-4'>
                 <h2 class='text-xl font-bold text-foreground mb-8'>More from the Blog</h2>
-                <div class='grid grid-cols-1 md:grid-cols-3 gap-6'>
+                <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                     {relatedPosts.map((related) => (
                         <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-shadow hover:shadow-lg'>
                             <a
@@ -277,10 +292,10 @@ const breadcrumbSchema = {
                                 <time datetime={related.data.pubDate.toISOString()} class='text-xs text-muted-foreground'>
                                     {formatDate(related.data.pubDate)}
                                 </time>
-                                <h3 class='text-base font-semibold text-foreground leading-snug group-hover:text-primary transition-colors'>
+                                <h3 class='text-base font-semibold text-foreground leading-snug group-hover:text-interactive transition-colors'>
                                     {related.data.title}
                                 </h3>
-                                <span class='text-xs font-medium text-primary flex items-center gap-1 mt-auto pt-2'>
+                                <span class='text-xs font-medium text-primary group-hover:text-interactive transition-colors flex items-center gap-1 mt-auto pt-2'>
                                     Read more
                                     <svg xmlns='http://www.w3.org/2000/svg' class='size-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m9 18 6-6-6-6'/></svg>
                                 </span>
@@ -304,7 +319,7 @@ const breadcrumbSchema = {
             </a>
             <a
                 href='/contact'
-                class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
             >
                 Request a Quote
                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -327,21 +342,32 @@ const breadcrumbSchema = {
 
         const observer = new IntersectionObserver(
             (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        tocLinks.forEach((l) => {
-                            l.classList.remove('text-primary', 'font-semibold');
-                            l.classList.add('text-muted-foreground');
-                        });
-                        const active = document.querySelector<HTMLAnchorElement>(
-                            `.toc-link[href="#${entry.target.id}"]`,
-                        );
-                        if (active) {
-                            active.classList.add('text-primary', 'font-semibold');
-                            active.classList.remove('text-muted-foreground');
-                        }
-                    }
+                const intersecting = entries.filter((e) => e.isIntersecting);
+                if (intersecting.length === 0) return;
+
+                // When multiple headings intersect the margin band at once, pick the one
+                // closest to the top of the viewport rather than "whichever fires last" -
+                // avoids the active TOC item flickering between entries while scrolling.
+                const best = intersecting.reduce((a, b) => {
+                    const aTop = a.boundingClientRect.top;
+                    const bTop = b.boundingClientRect.top;
+                    if (aTop >= 0 && bTop >= 0) return aTop <= bTop ? a : b;
+                    if (aTop >= 0) return a;
+                    if (bTop >= 0) return b;
+                    return aTop >= bTop ? a : b;
                 });
+
+                tocLinks.forEach((l) => {
+                    l.classList.remove('text-interactive', 'font-semibold');
+                    l.classList.add('text-muted-foreground');
+                });
+                const active = document.querySelector<HTMLAnchorElement>(
+                    `.toc-link[href="#${best.target.id}"]`,
+                );
+                if (active) {
+                    active.classList.add('text-interactive', 'font-semibold');
+                    active.classList.remove('text-muted-foreground');
+                }
             },
             { rootMargin: '-20% 0px -70% 0px' },
         );
@@ -358,6 +384,9 @@ const breadcrumbSchema = {
             await navigator.clipboard.writeText(window.location.href);
             if (copyLabel) copyLabel.textContent = 'Copied!';
             setTimeout(() => { if (copyLabel) copyLabel.textContent = 'Copy link'; }, 2000);
-        } catch { /* silent fallback */ }
+        } catch {
+            if (copyLabel) copyLabel.textContent = "Couldn't copy — select the URL";
+            setTimeout(() => { if (copyLabel) copyLabel.textContent = 'Copy link'; }, 3000);
+        }
     });
 </script>

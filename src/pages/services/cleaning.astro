@@ -1,49 +1,79 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
+import ServiceOfferingCard from '@/components/shared/ServiceOfferingCard.astro';
+import { icons } from '@/data/service-icons';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/cleaning/cleaning-01.jpeg', alt: 'Cleaning crew washing a Putco bus at the depot' },
+  { src: '/images/gallery/cleaning/cleaning-02.jpeg', alt: 'Freshly cleaned Putco bus exterior' },
+  { src: '/images/gallery/cleaning/cleaning-03.jpeg', alt: 'Vehicle detailing - front end of a Toyota Hilux' },
+  { src: '/images/gallery/cleaning/cleaning-04.jpeg', alt: 'Vehicle detailing - completed wash of a Toyota Hilux' },
+];
 
 const cleaningServices = [
   {
+    id: 'commercial-contract-cleaning',
     title: 'Commercial & Contract Cleaning',
+    icon: icons.home,
     body: 'Daily, weekly, or scheduled cleaning maintenance for offices, retail spaces, shopping centres, schools, clinics, and public buildings. We provide dedicated cleaning teams on flexible contracts tailored to your operational needs.',
   },
   {
+    id: 'industrial-cleaning',
     title: 'Industrial Cleaning',
+    icon: icons.droplet,
     body: 'Specialised cleaning for factories, warehouses, and processing plants - including high-pressure (HP) cleaning, tank cleaning, industrial vacuuming, and degreasing.',
   },
   {
+    id: 'hygiene-sanitation',
     title: 'Hygiene & Sanitation',
+    icon: icons.shield,
     body: 'Full management of workplace hygiene including washroom dispensers, sanitary bin services, and the supply of hygiene consumables (toilet paper, hand soap, sanitiser).',
   },
   {
+    id: 'specialised-cleaning',
     title: 'Specialised Cleaning',
+    icon: icons.layers,
     body: 'Deep cleaning for hard-to-reach areas including silos, ventilation systems, and elevated surfaces. Also includes carpet and upholstery cleaning, window cleaning, and post-construction clean-ups.',
   },
   {
+    id: 'hazardous-materials',
     title: 'Hazardous Materials (Hazmat)',
+    icon: icons.alertTriangle,
     body: 'Safe removal and disposal of contaminated materials, asbestos stripping, and incident scene management - carried out by trained personnel with the correct PPE and in compliance with NEM:WA regulations.',
   },
 ];
 
 const wasteServices = [
   {
+    id: 'collection-transportation',
     title: 'Collection & Transportation',
+    icon: icons.truck,
     body: 'Regular scheduled collection of domestic, commercial, and industrial waste - including door-to-door and onsite collection services. All waste is transported in compliant vehicles with proper waste manifests.',
   },
   {
+    id: 'recycling-sorting',
     title: 'Recycling & Sorting',
+    icon: icons.refreshCw,
     body: "Onsite or offsite separation of recyclable waste streams including paper, plastic, glass, and metal - reducing landfill dependency and supporting your organisation's sustainability goals.",
   },
   {
+    id: 'hazardous-waste-management',
     title: 'Hazardous Waste Management',
+    icon: icons.trash,
     body: 'Secure handling, treatment, and disposal of toxic, medical, and chemical wastes in full compliance with the National Environmental Management: Waste Act (NEM:WA) and relevant SANS standards.',
   },
   {
+    id: 'organic-waste-composting',
     title: 'Organic Waste & Composting',
+    icon: icons.sun,
     body: 'Processing food and garden waste into compost or animal feed, diverting organic material from landfill and creating value from waste.',
   },
   {
+    id: 'landfill-management',
     title: 'Landfill Management',
+    icon: icons.map,
     body: 'Planning, construction, and operation of compliant landfill sites for non-recyclable waste, including liner systems, leachate management, and gas capture.',
   },
 ];
@@ -57,26 +87,20 @@ const wasteServices = [
   image='/images/services/service-cleaning.png'
   imageAlt='Phehlwana Group cleaning team in a commercial office building'
   serviceParam='Cleaning & Waste Management'
+  chips={[...cleaningServices, ...wasteServices].map((item) => ({ label: item.title, href: `#${item.id}` }))}
 >
   <div class='space-y-12'>
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='cleaning-services'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Cleaning Services
       </h2>
       <div class='grid sm:grid-cols-2 gap-4'>
         {
           cleaningServices.map((item) => (
-            <div class='bg-card border border-border rounded-xl p-5'>
-              <h3 class='text-sm font-semibold text-foreground mb-2 flex items-center gap-2'>
-                <span class='size-1.5 rounded-full bg-primary shrink-0' />
-                {item.title}
-              </h3>
-              <p class='text-sm text-muted-foreground leading-relaxed'>
-                {item.body}
-              </p>
-            </div>
+            <ServiceOfferingCard id={item.id} title={item.title} body={item.body} icon={item.icon} />
           ))
         }
       </div>
@@ -84,22 +108,15 @@ const wasteServices = [
 
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='waste-management'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Waste Management Services
       </h2>
       <div class='grid sm:grid-cols-2 gap-4'>
         {
           wasteServices.map((item) => (
-            <div class='bg-card border border-border rounded-xl p-5'>
-              <h3 class='text-sm font-semibold text-foreground mb-2 flex items-center gap-2'>
-                <span class='size-1.5 rounded-full bg-primary shrink-0' />
-                {item.title}
-              </h3>
-              <p class='text-sm text-muted-foreground leading-relaxed'>
-                {item.body}
-              </p>
-            </div>
+            <ServiceOfferingCard id={item.id} title={item.title} body={item.body} icon={item.icon} />
           ))
         }
       </div>
@@ -111,5 +128,7 @@ const wasteServices = [
         and applicable municipal by-laws.
       </p>
     </div>
+
+    <ServiceGallery images={galleryImages} heading='Our Work' />
   </div>
 </ServiceLayout>

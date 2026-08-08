@@ -1,6 +1,18 @@
 ---
 import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import ServiceGallery from '@/components/shared/ServiceGallery.astro';
 export const prerender = true;
+
+const galleryImages = [
+  { src: '/images/gallery/plant-hire/plant-hire-01.jpeg', alt: 'Phehlwana Group Powerstar water tanker fleet' },
+  { src: '/images/gallery/plant-hire/plant-hire-09.jpeg', alt: 'Water tanker delivering water to a community during a supply interruption' },
+  { src: '/images/gallery/plant-hire/plant-hire-08.jpeg', alt: 'Water tanker delivering water on site via hose' },
+  { src: '/images/gallery/plant-hire/plant-hire-07.jpeg', alt: 'CAT wheel loader being delivered on a lowbed trailer' },
+  { src: '/images/gallery/plant-hire/plant-hire-11.jpeg', alt: 'Handover of a new LiuGong backhoe loader to a client' },
+  { src: '/images/gallery/plant-hire/plant-hire-12.jpeg', alt: 'Water tanker truck ready for dispatch' },
+  { src: '/images/gallery/plant-hire/plant-hire-16.jpeg', alt: 'Phehlwana Group Powerstar water tanker at the yard' },
+  { src: '/images/gallery/plant-hire/plant-hire-17.jpeg', alt: 'Phehlwana Group water tanker fleet parked at the yard' },
+];
 
 const equipment = [
   {
@@ -24,8 +36,8 @@ const equipment = [
     operator: true,
   },
   {
-    name: 'Water Carts',
-    desc: 'Dust suppression and water supply on construction and road sites',
+    name: 'Water Carts & Bulk Water Tankers',
+    desc: 'Dust suppression and water supply on construction and road sites, plus bulk potable water delivery to communities and standpipes during municipal supply interruptions',
     operator: true,
   },
   {
@@ -61,12 +73,18 @@ const hireSteps = [
   image='/images/services/service-plant-hire.png'
   imageAlt='Phehlwana Group TLB and construction equipment available for hire'
   serviceParam='Plant Hire'
+  chips={[
+    { label: 'Hire Options', href: '#hire-options' },
+    { label: 'Equipment', href: '#equipment' },
+    { label: 'How to Hire', href: '#how-to-hire' },
+  ]}
 >
   <div class='space-y-12'>
     <!-- Hire options -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='hire-options'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Hire Options
       </h2>
@@ -101,11 +119,42 @@ const hireSteps = [
     <!-- Equipment table -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='equipment'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         Equipment Available for Hire
       </h2>
-      <div class='overflow-x-auto rounded-xl border border-border'>
+      <!-- Card layout below sm: - a horizontally-scrolling table is a worse
+           experience than the card grids used elsewhere on the site for the
+           same amount of information. -->
+      <div class='sm:hidden space-y-3'>
+        {
+          equipment.map((item) => (
+            <div class='bg-card border border-border rounded-xl p-4'>
+              <div class='flex items-start justify-between gap-3 mb-1.5'>
+                <p class='font-medium text-foreground text-sm'>{item.name}</p>
+                {item.operator === true && (
+                  <span class='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/20 text-success-foreground shrink-0'>
+                    Available
+                  </span>
+                )}
+                {item.operator === false && (
+                  <span class='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent text-muted-foreground shrink-0'>
+                    Dry hire only
+                  </span>
+                )}
+                {item.operator === null && (
+                  <span class='text-muted-foreground text-xs shrink-0' title='Not applicable - no operator required for hand tools'>N/A</span>
+                )}
+              </div>
+              <p class='text-sm text-muted-foreground leading-relaxed'>{item.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Table at sm: and above -->
+      <div class='hidden sm:block overflow-x-auto rounded-xl border border-border'>
         <table class='w-full text-sm'>
           <thead>
             <tr class='bg-accent/60 border-b border-border'>
@@ -140,7 +189,7 @@ const hireSteps = [
                       </span>
                     )}
                     {item.operator === null && (
-                      <span class='text-muted-foreground text-xs'>N/A</span>
+                      <span class='text-muted-foreground text-xs' title='Not applicable - no operator required for hand tools'>N/A</span>
                     )}
                   </td>
                 </tr>
@@ -154,7 +203,8 @@ const hireSteps = [
     <!-- How to hire -->
     <div data-animate>
       <h2
-        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border'
+        id='how-to-hire'
+        class='text-xl font-bold text-foreground mb-6 pb-3 border-b border-border scroll-mt-28'
       >
         How to Hire
       </h2>
@@ -171,5 +221,8 @@ const hireSteps = [
         }
       </ol>
     </div>
+
+    <!-- Gallery -->
+    <ServiceGallery images={galleryImages} heading='Our Fleet & Deliveries' />
   </div>
 </ServiceLayout>

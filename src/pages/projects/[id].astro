@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Picture from '@/components/shared/Picture.astro';
+import { categoryColours } from '@/lib/categories';
 
 export const prerender = true;
 
@@ -18,33 +19,6 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-
-const categoryColours: Record<string, { badge: string; dot: string }> = {
-  Construction: {
-    badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-    dot: 'bg-blue-500',
-  },
-  Road: {
-    badge:
-      'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-    dot: 'bg-amber-500',
-  },
-  Mechanical: {
-    badge:
-      'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-    dot: 'bg-purple-500',
-  },
-  Cleaning: {
-    badge:
-      'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-    dot: 'bg-green-500',
-  },
-  'Plant Hire': {
-    badge:
-      'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-    dot: 'bg-orange-500',
-  },
-};
 
 const colour = categoryColours[project.data.category] ?? {
   badge: 'bg-muted text-muted-foreground',
@@ -212,9 +186,7 @@ const breadcrumbSchema = {
   <div class='container mx-auto px-4 mt-8'>
     <!-- Hero image -->
     <div
-      class='aspect-16/6 rounded-2xl overflow-hidden bg-accent shadow-sm'
-      id='gallery-main'
-      data-src={project.data.coverImage}
+      class='aspect-4/3 sm:aspect-16/6 rounded-2xl overflow-hidden bg-accent shadow-sm'
     >
       <img
         id='main-img'
@@ -240,13 +212,14 @@ const breadcrumbSchema = {
               <button
                 type='button'
                 class:list={[
-                  'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-primary',
+                  'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-interactive',
                   i === 0
-                    ? 'border-primary'
-                    : 'border-transparent hover:border-primary/50',
+                    ? 'border-interactive'
+                    : 'border-transparent hover:border-interactive/50',
                 ]}
                 data-src={img}
                 aria-label={`View image ${i + 1}`}
+                aria-current={i === 0 ? 'true' : undefined}
               >
                 <img
                   src={img}
@@ -433,7 +406,7 @@ const breadcrumbSchema = {
           </p>
           <a
             href={`/contact?service=${encodeURIComponent(project.data.category)}`}
-            class='inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+            class='inline-flex w-full items-center justify-center gap-2 bg-interactive text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
           >
             Request a Quote
             <svg
@@ -479,7 +452,7 @@ const breadcrumbSchema = {
       </a>
       <a
         href='/contact'
-        class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+        class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
       >
         Request a Quote
         <svg
@@ -516,15 +489,17 @@ const breadcrumbSchema = {
       setTimeout(() => {
         mainImg.src = src;
         mainImg.style.opacity = '1';
-      }, 200);
+      }, 300);
 
       // Update active border
       thumbs.forEach((t) => {
-        t.classList.remove('border-primary');
+        t.classList.remove('border-interactive');
         t.classList.add('border-transparent');
+        t.removeAttribute('aria-current');
       });
-      thumb.classList.add('border-primary');
+      thumb.classList.add('border-interactive');
       thumb.classList.remove('border-transparent');
+      thumb.setAttribute('aria-current', 'true');
     });
   });
 </script>

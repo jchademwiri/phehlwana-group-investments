@@ -139,7 +139,7 @@ const trustItems = [
                                 href='/projects'
                                 data-track="cta"
                                 data-track-label="View Our Projects - Hero"
-                                class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+                                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
                             >
                                 View Our Projects
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -148,7 +148,7 @@ const trustItems = [
                                 href='/services'
                                 data-track="cta"
                                 data-track-label="Our Services - Hero"
-                                class='inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-6 py-3 rounded-lg text-sm hover:bg-white/20 transition-colors backdrop-blur-sm'
+                                class='btn-ghost-photo inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-lg text-sm transition-colors'
                             >
                                 Our Services
                             </a>
@@ -181,7 +181,7 @@ const trustItems = [
 
     <!-- ── About snapshot ───────────────────────────────────────────────────── -->
     <section class='container mx-auto px-4 py-16 lg:py-24'>
-        <div class='grid lg:grid-cols-2 gap-12 items-center'>
+        <div class='grid md:grid-cols-2 gap-12 items-center'>
 
             <!-- Left: copy -->
             <div data-animate>
@@ -221,7 +221,7 @@ const trustItems = [
 
                 <a
                     href='/about'
-                    class='inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all'
+                    class='inline-flex items-center gap-2 text-interactive font-semibold text-sm hover:gap-3 transition-all'
                 >
                     Learn More About Us
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -230,7 +230,7 @@ const trustItems = [
 
             <!-- Right: image -->
             <div data-animate class='relative'>
-                <div class='aspect-4/3 rounded-2xl overflow-hidden bg-accent shadow-lg'>
+                <div class='aspect-4/3 rounded-xl overflow-hidden bg-accent shadow-lg'>
                     <Picture
                         src='/images/about-site.jpg'
                         alt='Phehlwana Group project site - construction work in progress'
@@ -244,7 +244,7 @@ const trustItems = [
                     />
                 </div>
                 <!-- Floating badge -->
-                <div class='absolute -bottom-4 -left-4 bg-primary text-primary-foreground rounded-xl px-5 py-3 shadow-lg'>
+                <div class='absolute -bottom-4 -left-2 sm:-left-4 bg-primary text-primary-foreground rounded-xl px-5 py-3 shadow-lg'>
                     <p class='text-2xl font-bold'>10+</p>
                     <p class='text-xs text-primary-foreground/80 uppercase tracking-wide'>Years of Excellence</p>
                 </div>
@@ -268,10 +268,10 @@ const trustItems = [
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {serviceDivisions.map((service, i) => (
                     <article
-                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
+                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2'
                         data-animate
                     >
-                        <a href={service.href} class='absolute inset-0 z-10' aria-label={`Learn more about ${service.division}`}/>
+                        <a href={service.href} class='absolute inset-0 z-10 outline-none' aria-label={`Learn more about ${service.division}`}/>
 
                         <!-- Image -->
                         <div class='aspect-video overflow-hidden bg-accent'>
@@ -288,13 +288,13 @@ const trustItems = [
 
                         <!-- Content -->
                         <div class='flex flex-col flex-1 p-5 gap-2'>
-                            <h3 class='text-base font-semibold text-foreground group-hover:text-primary transition-colors'>
+                            <h3 class='text-base font-semibold text-foreground group-hover:text-interactive transition-colors'>
                                 {service.division}
                             </h3>
                             <p class='text-sm text-muted-foreground leading-relaxed flex-1'>
                                 {serviceDescriptions[service.division]}
                             </p>
-                            <span class='text-xs font-medium text-primary flex items-center gap-1 mt-2'>
+                            <span class='text-xs font-medium text-primary group-hover:text-interactive transition-colors flex items-center gap-1 mt-2'>
                                 Read More
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m9 18 6-6-6-6'/></svg>
                             </span>
@@ -334,11 +334,11 @@ const trustItems = [
     <!-- ── Trusted Clients ──────────────────────────────────────────────────── -->
     <section class='container mx-auto px-4 py-12 lg:py-16'>
         <div class='text-center mb-8' data-animate>
-            <h2 class='text-xl font-bold text-foreground mb-2'>
+            <h2 class='text-3xl font-bold text-foreground mb-2'>
                 Trusted By Leading Organisations
             </h2>
         </div>
-        <div class='flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-300' data-animate>
+        <div class='flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70' data-animate>
             <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>City of Tshwane</span>
             <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>Sanparks</span>
             <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>AgriSkills</span>
@@ -358,7 +358,7 @@ const trustItems = [
                 </div>
                 <a
                     href='/projects'
-                    class='hidden sm:inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all'
+                    class='hidden sm:inline-flex items-center gap-2 text-sm font-medium text-interactive hover:gap-3 transition-all'
                 >
                     View All Projects
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -367,8 +367,8 @@ const trustItems = [
 
             <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {featuredProjects.map((project) => (
-                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1' data-animate>
-                        <a href={`/projects/${project.id}`} class='absolute inset-0 z-10' aria-label={`View project: ${project.data.title}`}/>
+                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2' data-animate>
+                        <a href={`/projects/${project.id}`} class='absolute inset-0 z-10 outline-none' aria-label={`View project: ${project.data.title}`}/>
                         <div class='aspect-16/10 overflow-hidden bg-accent'>
                             <Picture
                                 src={project.data.coverImage ?? '/images/placeholder.svg'}
@@ -382,7 +382,7 @@ const trustItems = [
                         </div>
                         <div class='p-5 flex flex-col gap-2'>
                             <p class='text-xs text-muted-foreground'>{project.data.category} · {project.data.location}</p>
-                            <h3 class='text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug'>
+                            <h3 class='text-sm font-semibold text-foreground group-hover:text-interactive transition-colors leading-snug'>
                                 {project.data.title}
                             </h3>
                         </div>
@@ -391,7 +391,7 @@ const trustItems = [
             </div>
 
             <div class='text-center mt-8 sm:hidden'>
-                <a href='/projects' class='inline-flex items-center gap-2 text-sm font-medium text-primary'>
+                <a href='/projects' class='inline-flex items-center gap-2 text-sm font-medium text-interactive'>
                     View All Projects
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
                 </a>

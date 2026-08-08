@@ -46,6 +46,7 @@ import HelpfulLinks from '@/components/helpful-links.astro';
     <!-- ── Hero ── -->
     <section
       class='min-h-[75vh] flex flex-col items-center justify-center px-4 pt-40 pb-24 text-center'
+      data-animate
     >
       <!-- Badge -->
       <div
@@ -105,7 +106,7 @@ import HelpfulLinks from '@/components/helpful-links.astro';
               aria-hidden='true'
             >
               <span
-                class='animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75'
+                class='animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-primary opacity-75'
               ></span>
               <span class='relative inline-flex rounded-full size-3 bg-primary'
               ></span>
@@ -131,7 +132,7 @@ import HelpfulLinks from '@/components/helpful-links.astro';
       <div class='flex flex-col sm:flex-row items-center justify-center gap-3'>
         <a
           href='/'
-          class='inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-primary/90 active:scale-95 transition-all shadow-sm w-full sm:w-auto justify-center'
+          class='inline-flex items-center gap-2 bg-interactive text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-interactive/90 active:scale-95 transition-all shadow-sm w-full sm:w-auto justify-center'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
