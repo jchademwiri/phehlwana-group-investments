@@ -1,4 +1,6 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import StatsBar from '@/components/sections/StatsBar.astro';
@@ -13,6 +15,25 @@ const allProjects = await getCollection('projects', ({ data }) => data.published
 const featuredProjects = allProjects
     .sort((a, b) => b.data.year - a.data.year)
     .slice(0, 3);
+
+// Trusted-clients logos - drop a file named `{slug}.svg` / `.png` / `.webp`
+// into public/images/clients/ and it's picked up automatically; until then
+// the organisation name renders as text so the strip still works.
+const clientLogosDir = path.join(process.cwd(), 'public/images/clients');
+const logoExtensions = ['svg', 'png', 'webp'];
+const clients = [
+    { name: 'City of Tshwane', slug: 'city-of-tshwane' },
+    { name: 'Sanparks', slug: 'sanparks' },
+    { name: 'AgriSkills', slug: 'agriskills' },
+    { name: 'JB Levelling', slug: 'jb-levelling' },
+    { name: 'Magalies Water', slug: 'magalies-water' },
+    { name: 'Civicon', slug: 'civicon' },
+].map((client) => {
+    const logoFile = logoExtensions
+        .map((ext) => `${client.slug}.${ext}`)
+        .find((file) => fs.existsSync(path.join(clientLogosDir, file)));
+    return { ...client, logo: logoFile ? `/images/clients/${logoFile}` : null };
+});
 
 // Hero slides
 const heroSlides = [
@@ -45,7 +66,7 @@ const serviceImages: Record<string, string> = {
     'Mechanical Engineering':           '/images/services/service-mechanical.png',
     'Cleaning & Waste Management':      '/images/services/service-cleaning.png',
     'Plant Hire':                       '/images/services/service-plant-hire.png',
-    'Security':                         '/images/placeholder.svg',
+    'Security':                         '/images/gallery/security/security-01.jpeg',
 };
 
 const serviceDescriptions: Record<string, string> = {
@@ -139,10 +160,10 @@ const trustItems = [
                                 href='/projects'
                                 data-track="cta"
                                 data-track-label="View Our Projects - Hero"
-                                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
+                                class='inline-flex items-center gap-2 bg-interactive/30 text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm shadow-lg backdrop-blur-md backdrop-saturate-150 border border-white/30 hover:bg-interactive/45 transition-colors'
                             >
-                                View Our Projects
-                                <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
+                                <span class='drop-shadow-sm'>View Our Projects</span>
+                                <svg xmlns='http://www.w3.org/2000/svg' class='size-4 drop-shadow-sm' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
                             </a>
                             <a
                                 href='/services'
@@ -244,9 +265,9 @@ const trustItems = [
                     />
                 </div>
                 <!-- Floating badge -->
-                <div class='absolute -bottom-4 -left-2 sm:-left-4 bg-primary text-primary-foreground rounded-xl px-5 py-3 shadow-lg'>
-                    <p class='text-2xl font-bold'>10+</p>
-                    <p class='text-xs text-primary-foreground/80 uppercase tracking-wide'>Years of Excellence</p>
+                <div class='absolute -bottom-4 -left-2 sm:-left-4 bg-primary/30 text-primary-foreground rounded-xl px-5 py-3 shadow-xl backdrop-blur-md backdrop-saturate-150 border border-white/25 ring-1 ring-black/5'>
+                    <p class='text-2xl font-bold drop-shadow-sm'>10+</p>
+                    <p class='text-xs text-primary-foreground/90 uppercase tracking-wide drop-shadow-sm'>Years of Excellence</p>
                 </div>
             </div>
         </div>
@@ -332,19 +353,33 @@ const trustItems = [
     </section>
 
     <!-- ── Trusted Clients ──────────────────────────────────────────────────── -->
-    <section class='container mx-auto px-4 py-12 lg:py-16'>
+    <section class='relative py-12 lg:py-16 overflow-hidden'>
+        <div
+            class='absolute inset-0 pointer-events-none [background-image:radial-gradient(color-mix(in_srgb,var(--color-foreground)_18%,transparent)_1.5px,transparent_1.5px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_65%_65%_at_50%_50%,black,transparent)]'
+            aria-hidden='true'
+        >
+        </div>
+        <div class='relative container mx-auto px-4'>
         <div class='text-center mb-8' data-animate>
             <h2 class='text-3xl font-bold text-foreground mb-2'>
                 Trusted By Leading Organisations
             </h2>
         </div>
-        <div class='flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70' data-animate>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>City of Tshwane</span>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>Sanparks</span>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>AgriSkills</span>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>JB Levelling</span>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>Magalies Water</span>
-            <span class='text-xl font-bold text-foreground/60 whitespace-nowrap'>Civicon</span>
+        <div class='flex flex-wrap justify-center items-center gap-8 md:gap-12' data-animate>
+            {
+                clients.map((client) => (
+                    client.logo ? (
+                        <img
+                            src={client.logo}
+                            alt={client.name}
+                            class='h-8 md:h-10 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all'
+                        />
+                    ) : (
+                        <span class='text-xl font-bold text-foreground/60 whitespace-nowrap opacity-70'>{client.name}</span>
+                    )
+                ))
+            }
+        </div>
         </div>
     </section>
 
