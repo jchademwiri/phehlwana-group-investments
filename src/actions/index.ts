@@ -20,8 +20,15 @@ export const server = {
             service: z.string().min(1, 'Please select a service.'),
             subject: z.string().optional(),
             message: z.string().min(20, 'Please enter at least 20 characters.'),
+            // Honeypot - real users never see or fill this field. Any value means a bot.
+            website: z.string().optional(),
         }),
-        handler: async ({ name, email, phone, service, subject, message }) => {
+        handler: async ({ name, email, phone, service, subject, message, website }) => {
+            // Silently pretend success for bots so they don't learn to avoid the field.
+            if (website) {
+                return { success: true };
+            }
+
             const fromEmail  = import.meta.env.FROM_EMAIL  ?? 'noreply@info.phehlwanagroup.co.za';
             const toEmail    = import.meta.env.TO_EMAIL    ?? 'info@phehlwanagroup.co.za';
             const subjectLine = subject?.trim() || `New enquiry - ${service}`;

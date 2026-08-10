@@ -9,6 +9,8 @@
  *   breadcrumbs? - array of { label, href } - last item is current page (no href needed)
  */
 
+import Eyebrow from '@/components/shared/Eyebrow.astro';
+
 interface Breadcrumb {
   label: string;
   href?: string;
@@ -76,13 +78,7 @@ const { label, title, subtitle, breadcrumbs } = Astro.props;
     }
 
     <!-- Label -->
-    {
-      label && (
-        <p class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'>
-          {label}
-        </p>
-      )
-    }
+    {label && <Eyebrow>{label}</Eyebrow>}
 
     <!-- Title -->
     <h1 class='text-4xl font-bold text-foreground mb-3'>{title}</h1>

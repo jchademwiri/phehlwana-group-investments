@@ -4,7 +4,7 @@ projectNo: 'PGI-2023-004'
 description: 'Wet hire of a full earthmoving fleet for bulk earthworks on a 14-hectare residential estate - TLBs, excavators, tipper trucks, and water cart with experienced operators.'
 scopeOfWorks: 'Bulk cut and fill, stormwater pond excavation, services trenching, compaction to geotechnical spec, and dust suppression across a 14-hectare development site.'
 client: 'Property Developer (Confidential)'
-location: 'Centurion, Gauteng'
+location: 'Gauteng'
 duration: 'September 2023 – December 2023'
 year: 2023
 category: 'Plant Hire'
@@ -16,7 +16,7 @@ featured: false
 published: true
 ---
 
-Wet hire of a full earthmoving fleet for bulk earthworks on a new residential estate development in Centurion. Phehlwana Group supplied TLBs, excavators, tipper trucks, and a water cart with experienced operators for the duration of the earthworks phase.
+Wet hire of a full earthmoving fleet for bulk earthworks on a new residential estate development. Phehlwana Group supplied TLBs, excavators, tipper trucks, and a water cart with experienced operators for the duration of the earthworks phase.
 
 ## Equipment Supplied
 

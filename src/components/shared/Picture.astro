@@ -16,6 +16,12 @@
  *
  * If the src is an SVG, placeholder, or already WebP, a plain <img>
  * is rendered instead (no <picture> wrapper).
+ *
+ * Responsive srcset (optional): pass `widths` (e.g. [480, 960, 1600]) for
+ * images that have pre-generated `name-{width}w.ext` variants (see
+ * scripts/generate-responsive-images.mjs) - only large, full-bleed
+ * hero/cover images need this. Omit `widths` for fixed-size thumbnails/cards,
+ * which fall back to the original single-size behaviour.
  */
 
 interface Props {
@@ -26,9 +32,11 @@ interface Props {
   loading?: 'eager' | 'lazy';
   decoding?: 'async' | 'sync';
   class?: string;
+  widths?: number[];
+  sizes?: string;
 }
 
-const { src, alt, ...attrs } = Astro.props;
+const { src, alt, widths, sizes, ...attrs } = Astro.props;
 
 // Extensions that don't benefit from WebP conversion
 const ext = (src.match(/\.(\w+)$/)?.[0] ?? '').toLowerCase();
@@ -36,12 +44,24 @@ const noWebp = ext === '.svg' || ext === '.webp' || src.includes('placeholder');
 
 const usePicture = !noWebp;
 const webpSrc = usePicture ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : undefined;
+
+// Build srcset strings from pre-generated width variants, e.g.
+// /images/hero/carousel-2.png -> /images/hero/carousel-2-480w.webp 480w, ...
+function buildSrcset(path: string, targetExt: string): string | undefined {
+  if (!widths?.length) return undefined;
+  const withExt = (w: number) => path.replace(/\.(\w+)$/, `-${w}w.${targetExt}`);
+  return widths.map((w) => `${withExt(w)} ${w}w`).join(', ');
+}
+
+const webpSrcset = usePicture ? buildSrcset(src, 'webp') : undefined;
+const fallbackExt = ext.replace('.', '') || 'png';
+const fallbackSrcset = buildSrcset(src, fallbackExt);
 ---
 
 {usePicture && webpSrc ? (
   <picture>
-    <source srcset={webpSrc} type="image/webp" />
-    <img src={src} alt={alt} {...attrs} />
+    <source srcset={webpSrcset ?? webpSrc} sizes={webpSrcset ? sizes : undefined} type="image/webp" />
+    <img src={src} srcset={fallbackSrcset} sizes={fallbackSrcset ? sizes : undefined} alt={alt} {...attrs} />
   </picture>
 ) : (
   <img src={src} alt={alt} {...attrs} />

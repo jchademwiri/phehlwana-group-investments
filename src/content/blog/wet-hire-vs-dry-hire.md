@@ -3,8 +3,8 @@ title: 'Wet Hire vs Dry Hire: Which Option is Right for You?'
 description: 'Not sure whether to hire equipment with or without an operator? Here is a straightforward guide to help you choose the right plant hire option for your project.'
 pubDate: 2025-05-12T00:00:00Z
 author: 'Phehlwana Group Team'
-coverImage: '/images/blog/plant-hire-guide.svg'
-tags: ['plant hire', 'wet hire', 'dry hire', 'construction equipment', 'Gauteng']
+coverImage: '/images/gallery/plant-hire/plant-hire-11.jpeg'
+tags: ['plant hire', 'wet hire', 'dry hire', 'construction equipment', 'South Africa']
 published: true
 ---
 

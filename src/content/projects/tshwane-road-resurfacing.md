@@ -4,19 +4,20 @@ projectNo: 'PGI-2024-002'
 description: 'Road resurfacing and maintenance programme covering 4.2 km of municipal roads - asphalt surfacing, pothole remediation, drainage repairs, and full road safety management.'
 scopeOfWorks: 'Milling of failed asphalt, subbase repair, new asphalt surfacing to SANRAL spec, pothole patching, stormwater repairs, road marking repainting, and traffic management.'
 client: 'City of Tshwane Metropolitan Municipality'
-location: 'Pretoria North, Gauteng'
+location: 'Gauteng'
 duration: 'January 2024 – June 2024'
 year: 2024
 category: 'Road'
-coverImage: '/images/projects/project-04.jpeg'
+coverImage: '/images/gallery/construction/construction-07.jpeg'
 images:
-  - '/images/projects/project-04.jpeg'
-  - '/images/projects/project-05.jpeg'
+  - '/images/gallery/construction/construction-07.jpeg'
+  - '/images/gallery/construction/construction-10.jpeg'
+  - '/images/gallery/construction/construction-16.jpeg'
 featured: true
 published: true
 ---
 
-A road resurfacing and maintenance programme covering approximately 4.2 km of municipal roads in the Pretoria North area. The project included full surface treatment, pothole remediation, stormwater drainage repairs, and road safety management throughout the works.
+A road resurfacing and maintenance programme covering approximately 4.2 km of municipal roads. The project included full surface treatment, pothole remediation, stormwater drainage repairs, and road safety management throughout the works.
 
 ## Project Scope
 

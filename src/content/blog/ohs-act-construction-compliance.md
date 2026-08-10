@@ -3,7 +3,7 @@ title: 'OHS Act: What Every Construction Site Must Have'
 description: 'The Occupational Health and Safety Act is not optional - and non-compliance can shut your site down. Here is what every construction site in South Africa must have in place.'
 pubDate: 2025-04-07T00:00:00Z
 author: 'Phehlwana Group Team'
-coverImage: '/images/blog/ohs-safety.svg'
+coverImage: '/images/gallery/construction/construction-10.jpeg'
 tags: ['OHS Act', 'construction safety', 'South Africa', 'compliance', 'PPE']
 published: true
 ---

@@ -15,26 +15,58 @@ interface Props {
   image: string;
   imageAlt: string;
   serviceParam: string;
+  chips?: { label: string; href: string }[];
 }
 
-const { title, description, label, subtitle, image, imageAlt, serviceParam } =
+const { title, description, label, subtitle, image, imageAlt, serviceParam, chips } =
   Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: title,
+  name: title,
+  description,
+  areaServed: 'South Africa',
+  url: new URL(Astro.url.pathname, siteUrl).href,
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'Phehlwana Group Investments',
+    url: siteUrl.href,
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl.href },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/services', siteUrl).href },
+    { '@type': 'ListItem', position: 3, name: title, item: new URL(Astro.url.pathname, siteUrl).href },
+  ],
+};
 ---
 
 <Layout
   title={`${title} | Phehlwana Group Investments`}
   description={description}
 >
+  <script type='application/ld+json' set:html={JSON.stringify(serviceSchema)} />
+  <script type='application/ld+json' set:html={JSON.stringify(breadcrumbSchema)} />
+
   <!-- ── Hero - image background with gradient overlay ────────────────────── -->
   <section
-    class='relative min-h-[320px] lg:min-h-[380px] flex items-end overflow-hidden'
+    class='relative min-h-[560px] lg:min-h-[680px] flex items-end overflow-hidden'
   >
     <div class='absolute inset-0'>
       <Picture
         src={image}
-        alt=''
+        alt={imageAlt}
         width={1280}
-        height={380}
+        height={680}
+        widths={[480, 960, 1600]}
+        sizes='100vw'
         loading='eager'
         decoding='async'
         class='w-full h-full object-cover'
@@ -104,6 +136,26 @@ const { title, description, label, subtitle, image, imageAlt, serviceParam } =
         <p class='text-muted-foreground max-w-xl leading-relaxed'>
           {subtitle}
         </p>
+
+        {
+          chips && chips.length > 0 && (
+            <ul
+              class='flex flex-nowrap gap-2 mt-5 overflow-x-auto no-scrollbar scroll-px-4 pr-4 -mr-4'
+              aria-label='Services covered on this page'
+            >
+              {chips.map((chip) => (
+                <li class='shrink-0'>
+                  <a
+                    href={chip.href}
+                    class='inline-flex items-center rounded-full text-xs font-semibold px-3 py-1.5 whitespace-nowrap bg-card/90 border border-border text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-accent hover:text-accent-foreground'
+                  >
+                    {chip.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
     </div>
   </section>

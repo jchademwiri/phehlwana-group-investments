@@ -13,7 +13,7 @@ const serviceImages: Record<string, string> = {
   'Mechanical Engineering': '/images/services/service-mechanical.png',
   'Cleaning & Waste Management': '/images/services/service-cleaning.png',
   'Plant Hire': '/images/services/service-plant-hire.png',
-  Security: '/images/services/service-security.png',
+  Security: '/images/gallery/security/security-01.jpeg',
 };
 
 const serviceDescriptions: Record<string, string> = {
@@ -60,7 +60,7 @@ const processSteps = [
 
 <Layout
   title='Our Services | Phehlwana Group Investments - Construction, Engineering & More'
-  description='Phehlwana Group offers construction, civil engineering, mechanical engineering, cleaning, waste management, plant hire and security services across South Africa. Request a free quote today.'
+  description='Construction, civil and mechanical engineering, cleaning, waste management, plant hire and security services across South Africa. Request a free quote today.'
 >
   <PageHeader
     label='Our Services'
@@ -75,8 +75,8 @@ const processSteps = [
       <p class='text-muted-foreground leading-relaxed'>
         At Phehlwana Group, we are committed to delivering excellence across
         every service we provide. With over a decade of experience and a team of
-        50+ skilled professionals, we serve government, corporate, and private
-        clients across Gauteng and South Africa. Whether you need a new building
+        10 full-time professionals, we serve government, corporate, and private
+        clients nationally. Whether you need a new building
         constructed, a road maintained, machinery serviced, a facility cleaned,
         equipment hired, or a site secured - we have the expertise, the
         equipment, and the people to get it done right.
@@ -88,7 +88,7 @@ const processSteps = [
       {
         serviceDivisions.map((service) => (
           <article
-            class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-shadow hover:shadow-lg'
+            class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
             data-animate
           >
             <a
@@ -108,7 +108,7 @@ const processSteps = [
               />
             </div>
             <div class='flex flex-col flex-1 p-5 gap-2'>
-              <h2 class='text-base font-semibold text-foreground group-hover:text-primary transition-colors'>
+              <h2 class='text-base font-semibold text-foreground group-hover:text-interactive transition-colors'>
                 {service.division}
               </h2>
               <p class='text-sm text-muted-foreground leading-relaxed flex-1'>

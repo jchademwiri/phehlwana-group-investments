@@ -11,9 +11,32 @@
   max-width: 1280px;
 }
 
+/* ── Ghost button for use over photography - deliberately theme-independent
+   (always light-on-dark-photo) since it sits on hero images, not page
+   backgrounds, so it can't derive from --primary/--interactive/--card. ── */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility btn-ghost-photo {
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  color: rgb(255 255 255);
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background-color: rgb(255 255 255 / 0.2);
+  }
+}
+
 @theme {
-  --font-sans: "Inter", "system-ui", sans-serif;
-  --font-heading: "Outfit", "system-ui", sans-serif;
+  --font-sans: "Inter Variable", "Inter", "system-ui", sans-serif;
+  --font-heading: "Outfit Variable", "Outfit", "system-ui", sans-serif;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -49,6 +72,7 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-accent: var(--primary-accent);
+  --color-interactive: var(--interactive);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary-accent: var(--secondary-accent);
@@ -93,9 +117,10 @@
   --card-foreground: var(--color-neutral-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-neutral-950);
-  --primary: var(--color-blue-700);
+  --primary: #1b3b6f;
   --primary-foreground: var(--color-neutral-50);
-  --primary-accent: var(--color-blue-700);
+  --primary-accent: #2f5c99;
+  --interactive: #2f6fd6;
   --secondary: var(--color-neutral-200);
   --secondary-foreground: var(--color-neutral-950);
   --secondary-accent: var(--color-neutral-950);
@@ -114,12 +139,12 @@
   --border: var(--color-neutral-200);
   --input: var(--color-neutral-200);
   --outline: var(--color-neutral-400);
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
   /* sidebar variables */
   --sidebar-background: var(--color-neutral-50);
   --sidebar-foreground: var(--color-neutral-950);
-  --sidebar-primary: var(--color-blue-700);
+  --sidebar-primary: #1b3b6f;
   --sidebar-primary-foreground: var(--color-neutral-50);
   --sidebar-accent: var(--color-neutral-100);
   --sidebar-accent-foreground: var(--color-neutral-900);
@@ -128,26 +153,27 @@
 }
 
 .dark {
-  --background: var(--color-neutral-950);
+  --background: #000000;
   --foreground: var(--color-neutral-50);
-  --card: var(--color-neutral-900);
+  --card: #121212;
   --card-foreground: var(--color-neutral-50);
-  --popover: var(--color-neutral-800);
+  --popover: #1c1c1e;
   --popover-foreground: var(--color-neutral-50);
-  --primary: var(--color-blue-700);
+  --primary: #3b6fb0;
   --primary-foreground: var(--color-neutral-50);
-  --primary-accent: var(--color-blue-400);
-  --secondary: var(--color-neutral-800);
+  --primary-accent: #6e9ad1;
+  --interactive: #4a90e2;
+  --secondary: #2c2c2e;
   --secondary-foreground: var(--color-neutral-50);
   --secondary-accent: var(--color-neutral-50);
-  --muted: var(--color-neutral-800);
+  --muted: #1c1c1e;
   --muted-foreground: var(--color-neutral-400);
-  --accent: var(--color-neutral-700);
+  --accent: #2c2c2e;
   --accent-foreground: var(--color-neutral-100);
   --info: var(--color-sky-300);
   --info-foreground: var(--color-sky-950);
-  --success: var(--color-green-300);
-  --success-foreground: var(--color-green-950);
+  --success: var(--color-green-400);
+  --success-foreground: var(--color-green-300);
   --warning: var(--color-amber-300);
   --warning-foreground: var(--color-amber-950);
   --error: var(--color-red-800);
@@ -157,13 +183,13 @@
   --outline: var(--color-neutral-500);
 
   /* sidebars variables */
-  --sidebar-background: var(--color-neutral-900);
+  --sidebar-background: #121212;
   --sidebar-foreground: var(--color-neutral-50);
-  --sidebar-primary: var(--color-blue-700);
+  --sidebar-primary: #3b6fb0;
   --sidebar-primary-foreground: var(--color-neutral-50);
-  --sidebar-accent: var(--color-neutral-800);
+  --sidebar-accent: #2c2c2e;
   --sidebar-accent-foreground: var(--color-neutral-100);
-  --sidebar-border: var(--color-neutral-800);
+  --sidebar-border: #2c2c2e;
   --sidebar-outline: var(--color-neutral-600);
 }
 
@@ -202,7 +228,7 @@
   --tw-prose-body: var(--color-foreground);
   --tw-prose-headings: var(--color-foreground);
   --tw-prose-lead: var(--color-muted-foreground);
-  --tw-prose-links: var(--color-primary);
+  --tw-prose-links: var(--color-interactive);
   --tw-prose-bold: var(--color-foreground);
   --tw-prose-counters: var(--color-muted-foreground);
   --tw-prose-bullets: var(--color-primary);
@@ -220,7 +246,7 @@
   --tw-prose-invert-body: var(--color-foreground);
   --tw-prose-invert-headings: var(--color-foreground);
   --tw-prose-invert-lead: var(--color-muted-foreground);
-  --tw-prose-invert-links: var(--color-primary);
+  --tw-prose-invert-links: var(--color-interactive);
   --tw-prose-invert-bold: var(--color-foreground);
   --tw-prose-invert-counters: var(--color-muted-foreground);
   --tw-prose-invert-bullets: var(--color-primary);
@@ -300,6 +326,19 @@
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.06);
 }
 
+/* Contrast scrim while the header is still transparent (unscrolled) - it can sit on
+   top of photographic hero content or a light-theme page background, so text contrast
+   can't rely on theme colors alone. Flat (not a fade) so it covers the topbar row and
+   the nav row evenly, regardless of header height or theme. */
+#site-header:not([data-scrolled])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  pointer-events: none;
+  z-index: -1;
+}
+
 #site-topbar {
   background-color: transparent;
   transition: background-color 0.3s ease;
@@ -307,4 +346,34 @@
 
 #site-topbar[data-scrolled] {
   background-color: color-mix(in srgb, var(--color-muted) 60%, transparent);
+}
+
+/* Force legible light text/icons over the scrim while unscrolled, regardless of
+   the site's light/dark theme - once scrolled, normal theme colors take over. */
+#site-topbar:not([data-scrolled]),
+#site-topbar:not([data-scrolled]) a {
+  color: rgb(255 255 255 / 0.85);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+#site-topbar:not([data-scrolled]) svg {
+  color: rgb(255 255 255 / 0.95);
+}
+
+#site-topbar:not([data-scrolled]) a:hover {
+  color: #ffffff;
+}
+
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a:not([aria-current='page']),
+#site-header:not([data-scrolled]) #services-trigger,
+#site-header:not([data-scrolled]) #theme-toggle,
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a[aria-label='Phehlwana Group Investments - Home'] span {
+  color: rgb(255 255 255 / 0.9);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+#site-header:not([data-scrolled]) nav[aria-label='Main navigation'] a:not([aria-current='page']):hover,
+#site-header:not([data-scrolled]) #services-trigger:hover {
+  color: #ffffff;
+  background-color: rgb(255 255 255 / 0.1);
 }

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Picture from '@/components/shared/Picture.astro';
+import { categoryColours } from '@/lib/categories';
 
 export const prerender = true;
 
@@ -19,33 +20,6 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 
-const categoryColours: Record<string, { badge: string; dot: string }> = {
-  Construction: {
-    badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-    dot: 'bg-blue-500',
-  },
-  Road: {
-    badge:
-      'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-    dot: 'bg-amber-500',
-  },
-  Mechanical: {
-    badge:
-      'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-    dot: 'bg-purple-500',
-  },
-  Cleaning: {
-    badge:
-      'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-    dot: 'bg-green-500',
-  },
-  'Plant Hire': {
-    badge:
-      'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-    dot: 'bg-orange-500',
-  },
-};
-
 const colour = categoryColours[project.data.category] ?? {
   badge: 'bg-muted text-muted-foreground',
   dot: 'bg-muted-foreground',
@@ -55,14 +29,27 @@ const allImages = [
   project.data.coverImage,
   ...(project.data.images?.slice(1) ?? []),
 ];
+
+const siteUrl = Astro.site ?? new URL('https://phehlwanagroup.co.za');
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl.href },
+    { '@type': 'ListItem', position: 2, name: 'Projects', item: new URL('/projects', siteUrl).href },
+    { '@type': 'ListItem', position: 3, name: project.data.title, item: new URL(Astro.url.pathname, siteUrl).href },
+  ],
+};
 ---
 
 <Layout
   title={project.data.title}
   description={project.data.description ??
-    `${project.data.category} project by Phehlwana Group Investments - ${project.data.location}, ${project.data.year}.`}
+    `${project.data.category} project by Phehlwana Group Investments - ${project.data.year}.`}
   ogImage={project.data.coverImage}
 >
+  <script type='application/ld+json' set:html={JSON.stringify(breadcrumbSchema)} />
+
   <!-- ── Hero header ─────────────────────────────────────────────────────── -->
   <section
     class='bg-accent/40 border-b border-border pt-36 pb-14 lg:pt-44 lg:pb-20'
@@ -145,24 +132,6 @@ const allImages = [
             stroke-linecap='round'
             stroke-linejoin='round'
             aria-hidden='true'
-            ><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'
-            ></path><circle cx='12' cy='10' r='3'></circle></svg
-          >
-          {project.data.location}
-        </span>
-        <span
-          class='inline-flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-1.5 text-sm text-foreground/80'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-4 text-primary'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
             ><rect width='18' height='18' x='3' y='4' rx='2'></rect><path
               d='M16 2v4M8 2v4M3 10h18'></path></svg
           >
@@ -199,12 +168,7 @@ const allImages = [
   <div class='container mx-auto px-4 mt-8'>
     <!-- Hero image -->
     <div
-      class='aspect-16/6 rounded-2xl overflow-hidden bg-accent shadow-sm cursor-zoom-in'
-      id='gallery-main'
-      role='button'
-      tabindex='0'
-      aria-label='View full image'
-      data-src={project.data.coverImage}
+      class='aspect-4/3 sm:aspect-16/6 rounded-2xl overflow-hidden bg-accent shadow-sm'
     >
       <img
         id='main-img'
@@ -221,36 +185,37 @@ const allImages = [
     <!-- Thumbnail strip -->
     {
       allImages.length > 1 && (
-        <div
+        <ul
           class='flex gap-3 mt-3 overflow-x-auto pb-1'
-          role='list'
           aria-label='Project images'
         >
           {allImages.map((img, i) => (
-            <button
-              type='button'
-              class:list={[
-                'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-primary',
-                i === 0
-                  ? 'border-primary'
-                  : 'border-transparent hover:border-primary/50',
-              ]}
-              data-src={img}
-              aria-label={`View image ${i + 1}`}
-              role='listitem'
-            >
-              <img
-                src={img}
-                alt=''
-                width='96'
-                height='54'
-                loading='lazy'
-                decoding='async'
-                class='w-full h-full object-cover'
-              />
-            </button>
+            <li>
+              <button
+                type='button'
+                class:list={[
+                  'gallery-thumb shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all focus-visible:outline-2 focus-visible:outline-interactive',
+                  i === 0
+                    ? 'border-interactive'
+                    : 'border-transparent hover:border-interactive/50',
+                ]}
+                data-src={img}
+                aria-label={`View image ${i + 1}`}
+                aria-current={i === 0 ? 'true' : undefined}
+              >
+                <img
+                  src={img}
+                  alt=''
+                  width='96'
+                  height='54'
+                  loading='lazy'
+                  decoding='async'
+                  class='w-full h-full object-cover'
+                />
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
       )
     }
 
@@ -365,27 +330,7 @@ const allImages = [
                 </dd>
               </div>
             </div>
-            <div class='flex items-start gap-3 px-5 py-3.5'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='size-4 text-primary mt-0.5 shrink-0'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                aria-hidden='true'
-                ><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'
-                ></path><circle cx='12' cy='10' r='3'></circle></svg
-              >
-              <div>
-                <dt class='text-xs text-muted-foreground mb-0.5'>Location</dt>
-                <dd class='text-sm font-medium text-foreground'>
-                  {project.data.location}
-                </dd>
-              </div>
-            </div>
+
             <div class='flex items-start gap-3 px-5 py-3.5'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -423,7 +368,7 @@ const allImages = [
           </p>
           <a
             href={`/contact?service=${encodeURIComponent(project.data.category)}`}
-            class='inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+            class='inline-flex w-full items-center justify-center gap-2 bg-interactive text-primary-foreground font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
           >
             Request a Quote
             <svg
@@ -469,7 +414,7 @@ const allImages = [
       </a>
       <a
         href='/contact'
-        class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors'
+        class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-interactive/90 transition-colors'
       >
         Request a Quote
         <svg
@@ -506,15 +451,17 @@ const allImages = [
       setTimeout(() => {
         mainImg.src = src;
         mainImg.style.opacity = '1';
-      }, 200);
+      }, 300);
 
       // Update active border
       thumbs.forEach((t) => {
-        t.classList.remove('border-primary');
+        t.classList.remove('border-interactive');
         t.classList.add('border-transparent');
+        t.removeAttribute('aria-current');
       });
-      thumb.classList.add('border-primary');
+      thumb.classList.add('border-interactive');
       thumb.classList.remove('border-transparent');
+      thumb.setAttribute('aria-current', 'true');
     });
   });
 </script>

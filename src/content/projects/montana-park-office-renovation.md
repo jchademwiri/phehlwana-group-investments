@@ -4,7 +4,7 @@ projectNo: 'PGI-2023-001'
 description: 'Full interior renovation of a multi-tenant commercial office complex - structural modifications, complete fit-out, and facade upgrades across three occupied floors.'
 scopeOfWorks: 'Structural wall removal, replastering, painting, ceiling replacement, electrical upgrades, plumbing, waterproofing, facade painting, and new entrance lobby fit-out.'
 client: 'Private Commercial Client'
-location: 'Montana Park, Pretoria'
+location: 'Gauteng'
 duration: 'March 2023 – August 2023'
 year: 2023
 category: 'Construction'
@@ -17,7 +17,7 @@ featured: true
 published: true
 ---
 
-A full interior renovation of a multi-tenant commercial office complex in Montana Park, Pretoria. The project involved structural modifications, complete internal fit-out, and external facade upgrades across three floors of occupied office space.
+A full interior renovation of a multi-tenant commercial office complex. The project involved structural modifications, complete internal fit-out, and external facade upgrades across three floors of occupied office space.
 
 ## Project Scope
 

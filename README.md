@@ -14,14 +14,16 @@
 | :---- | :---------- | :----- |
 | 0 | Foundation & Config | ✅ Complete |
 | 1 | Shared Layout & Navigation | ✅ Complete |
-| 2 | Home Page | ⏳ Pending client content |
-| 3 | About Page | ⏳ Pending client content |
-| 4 | Services Pages | ⏳ Pending client content |
-| 5 | Projects Portfolio | ⏳ Pending client content |
-| 6 | Contact, Email & Utility | ⏳ Pending Resend setup |
-| 7 | SEO & Analytics | ⏳ Not started |
-| 8 | Performance & Accessibility | ⏳ Not started |
-| 9 | Pre-Launch & Go Live | ⏳ Not started |
+| 2 | Home Page | ⏳ Built - pending client photography |
+| 3 | About Page | ⏳ Built - pending client content |
+| 4 | Services Pages | ✅ Built (placeholder images pending client photography) |
+| 5 | Projects Portfolio | ⏳ Built - pending more client project content |
+| 6 | Contact, Email & Utility | ⏳ Built - pending Resend domain verification |
+| 7 | SEO & Analytics | ✅ Complete |
+| 8 | Performance & Accessibility | ✅ Complete |
+| 9 | Pre-Launch & Go Live | ❌ Not started |
+
+See [`docs/audit/00-overview.md`](./docs/audit/00-overview.md) for the full, up-to-date production-readiness audit.
 
 ---
 

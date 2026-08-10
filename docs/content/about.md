@@ -104,7 +104,7 @@ Keywords:    about Phehlwana Group, construction company Pretoria, CIDB register
 | Stat                  | Value | Notes                                                                    |
 |-----------------------|-------|--------------------------------------------------------------------------|
 | BBBEE Level           | Level 1 | Confirmed                                                                |
-| CIDB Grade            | 4CE/5GB | Confirmed                                                                |
+| CIDB Grade            | 6GB, 5SQ, 5CE, 5SK, 5SB | Confirmed                                                                |
 | Employees             | 10    | Full-time permanent staff                                                |
 | Years in Business     | 10+   | Established 2015                                                         |
 
@@ -146,7 +146,7 @@ Keywords:    about Phehlwana Group, construction company Pretoria, CIDB register
 
 | Accreditation / Registration         | Details                                                    |
 |--------------------------------------|------------------------------------------------------------|
-| CIDB Registration                    | Grade 4CE, 5GB (Registration Number Pending)               |
+| CIDB Registration                    | Grades 6GB, 5SQ, 5CE, 5SK, 5SB (Registration Number Pending)               |
 | BBBEE Certificate                    | Level 1 Contributor                                        |
 | OHS Act Compliance                   | Occupational Health and Safety Act 85 of 1993              |
 | NHBRC Registration                   | **[TODO: Confirm if applicable]**                          |

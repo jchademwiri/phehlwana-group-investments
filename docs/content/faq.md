@@ -76,7 +76,7 @@ A: Yes, Phehlwana Group Investments is a Level 1 BBBEE contributor. Our current 
 
 **Q: Are you CIDB registered?**
 
-A: Yes, we are registered with the Construction Industry Development Board (CIDB) at Grade 4CE, 5GB. This registration is required for all government and public sector construction contracts above a certain value.
+A: Yes, we are registered with the Construction Industry Development Board (CIDB) at Grades 6GB, 5SQ, 5CE, 5SK, 5SB. This registration is required for all government and public sector construction contracts above a certain value.
 
 ---
 

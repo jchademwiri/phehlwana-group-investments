@@ -176,7 +176,7 @@ Keywords:    construction Pretoria, civil engineering South Africa, plant hire G
 | Stat                  | Value | Display text                  |
 |-----------------------|-------|-------------------------------|
 | BBBEE Level           | Level 1 | "BBBEE Level"                 |
-| CIDB Grade            | 4CE/5GB | "CIDB Grade"                  |
+| CIDB Grade            | 6GB, 5SQ, 5CE, 5SK, 5SB | "CIDB Grades"                 |
 | Years in Business     | 10+   | "Years in Business"           |
 | Coverage              | National | "Coverage"                 |
 
@@ -223,7 +223,7 @@ Keywords:    construction Pretoria, civil engineering South Africa, plant hire G
 > accreditation logos and trust signals.
 
 **Suggested content:**
-- CIDB Registered - Grade 4CE, 5GB
+- CIDB Registered - Grades 6GB, 5SQ, 5CE, 5SK, 5SB
 - BBBEE Compliant - Level 1
 - OHS Act Compliant
 - NEM:WA Compliant

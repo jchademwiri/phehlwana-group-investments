@@ -1,6 +1,7 @@
 ---
 import { actions, isInputError } from 'astro:actions';
 import Layout from '@/layouts/Layout.astro';
+import PageHeader from '@/components/sections/PageHeader.astro';
 
 // Read ?service= param to pre-fill the dropdown
 const serviceParam = Astro.url.searchParams.get('service') ?? '';
@@ -38,7 +39,7 @@ const faqs = [
   },
   {
     q: 'Do you work outside of Pretoria?',
-    a: 'We serve clients across Gauteng and can accommodate projects in other provinces on request. Contact us to discuss your location.',
+    a: 'Yes, we operate nationally across South Africa. While our head office is in Pretoria, our teams are equipped to handle projects in all nine provinces.',
   },
   {
     q: 'What information do I need for a quote?',
@@ -53,40 +54,46 @@ const faqs = [
     a: 'For urgent maintenance issues, please call our mobile line on 079 294 7635 or reach us via WhatsApp.',
   },
 ];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
 ---
 
 <Layout
   title='Contact Us'
   description='Get in touch with Phehlwana Group Investments. Request a free quote, ask a question, or visit us at PKN Office Park, Montana Park, Pretoria. We respond within 1 business day.'
 >
+  <script type='application/ld+json' set:html={JSON.stringify(faqSchema)} />
+
   <!-- ── Page header ──────────────────────────────────────────────────────── -->
-  <section
-    class='bg-accent/40 border-b border-border pt-36 pb-14 lg:pt-44 lg:pb-20'
-  >
-    <div class='container mx-auto px-4'>
-      <p
-        class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'
-      >
-        Contact Us
-      </p>
-      <h1 class='text-4xl font-bold text-foreground mb-3'>
-        Have a Project in Mind?
-      </h1>
-      <p class='text-muted-foreground max-w-xl'>
-        Fill in the form and we'll get back to you within 1 business day. For
-        urgent matters, call us directly.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    label='Contact Us'
+    title='Have a Project in Mind?'
+    subtitle="Fill in the form and we'll get back to you within 1 business day. For urgent matters, call us directly."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact Us' }]}
+  />
 
   <!-- ── Main content ─────────────────────────────────────────────────────── -->
   <section class='container mx-auto px-4 py-14'>
     <div class='grid lg:grid-cols-[1fr_320px] gap-10'>
       <!-- ── Contact form ─────────────────────────────────────────────── -->
-      <div>
-        <h2 class='text-xl font-bold text-foreground mb-6'>
+      <div class='order-2 lg:order-1'>
+        <h2 class='text-xl font-bold text-foreground mb-2'>
           Request a Quote or Send a Message
         </h2>
+        <p class='text-xs text-muted-foreground mb-6'>
+          Fields marked <span class='text-error' aria-hidden='true'>*</span> are required.
+        </p>
 
         {
           result?.error && !isInputError(result.error) && (
@@ -125,6 +132,21 @@ const faqs = [
           novalidate
           class='space-y-5'
         >
+          <!-- Honeypot - hidden from real users, catches simple bots -->
+          <div class='absolute left-[-9999px] size-px overflow-hidden' aria-hidden='true'>
+            <label for='website'>Leave this field blank</label>
+            <input
+              id='website'
+              name='website'
+              type='text'
+              tabindex='-1'
+              autocomplete='off'
+            />
+          </div>
+
+          <!-- Text/select fields intentionally use focus: (not focus-visible:) for their ring -
+               unlike buttons/links, showing the ring on mouse click too is expected and useful
+               feedback for form fields, since a click both focuses and starts an edit. -->
           <!-- Name + Email -->
           <div class='grid sm:grid-cols-2 gap-5'>
             <div>
@@ -143,10 +165,11 @@ const faqs = [
                 placeholder='e.g. John Smith'
                 value={prev.name ?? ''}
                 class:list={[
-                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
+                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors',
                   fieldErrors.name ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.name ? 'name-error' : undefined}
+                aria-invalid={fieldErrors.name ? 'true' : undefined}
               />
               {
                 fieldErrors.name && (
@@ -178,10 +201,11 @@ const faqs = [
                 placeholder='e.g. john@company.co.za'
                 value={prev.email ?? ''}
                 class:list={[
-                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
+                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors',
                   fieldErrors.email ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+                aria-invalid={fieldErrors.email ? 'true' : undefined}
               />
               {
                 fieldErrors.email && (
@@ -216,10 +240,11 @@ const faqs = [
                 placeholder='e.g. 012 555 0000'
                 value={prev.phone ?? ''}
                 class:list={[
-                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
+                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors',
                   fieldErrors.phone ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
+                aria-invalid={fieldErrors.phone ? 'true' : undefined}
               />
               {
                 fieldErrors.phone && (
@@ -247,12 +272,13 @@ const faqs = [
                 name='service'
                 required
                 class:list={[
-                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors',
+                  'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors',
                   fieldErrors.service ? 'border-error' : 'border-border',
                 ]}
                 aria-describedby={fieldErrors.service
                   ? 'service-error'
                   : undefined}
+                aria-invalid={fieldErrors.service ? 'true' : undefined}
               >
                 <option value='' disabled selected={!activeService}
                   >- Select a service -</option
@@ -295,7 +321,7 @@ const faqs = [
               type='text'
               placeholder='Brief description of your enquiry'
               value={prev.subject ?? ''}
-              class='w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors'
+              class='w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors'
             />
           </div>
 
@@ -314,12 +340,13 @@ const faqs = [
               rows='5'
               placeholder='Tell us about your project - location, scope, timeline, and any other relevant details.'
               class:list={[
-                'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors resize-y',
+                'w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-interactive/50 transition-colors resize-y',
                 fieldErrors.message ? 'border-error' : 'border-border',
               ]}
               aria-describedby={fieldErrors.message
                 ? 'message-error'
-                : undefined}>{prev.message ?? ''}</textarea>
+                : undefined}
+              aria-invalid={fieldErrors.message ? 'true' : undefined}>{prev.message ?? ''}</textarea>
             {
               fieldErrors.message && (
                 <p
@@ -337,7 +364,7 @@ const faqs = [
             type='submit'
             data-track="cta"
             data-track-label="Send Message - Contact Form"
-            class='inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-primary/90 transition-colors focus-visible:outline-2 focus-visible:outline-primary'
+            class='inline-flex items-center gap-2 bg-interactive text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm hover:bg-interactive/90 transition-colors focus-visible:outline-2 focus-visible:outline-interactive'
           >
             Send Message
             <svg
@@ -357,7 +384,7 @@ const faqs = [
       </div>
 
       <!-- ── Contact info sidebar ─────────────────────────────────────── -->
-      <aside class='space-y-4'>
+      <aside class='order-1 lg:order-2 space-y-4'>
         <!-- Address -->
         <div class='bg-card border border-border rounded-xl p-5 space-y-4'>
           <h2
@@ -390,7 +417,7 @@ const faqs = [
                 href='https://maps.google.com/?q=PKN+Office+Park,+62+Taaifontein+Street,+Montana+Park,+0182'
                 target='_blank'
                 rel='noopener noreferrer'
-                class='text-sm text-foreground/80 hover:text-primary transition-colors leading-relaxed'
+                class='text-sm text-foreground/80 hover:text-interactive transition-colors leading-relaxed'
               >
                 Office No. 6, PKN Office Park<br />
                 62 Taaifontein Street<br />
@@ -422,12 +449,12 @@ const faqs = [
               <p class='text-xs text-muted-foreground mb-0.5'>Phone</p>
               <a
                 href='tel:+27126550284'
-                class='text-sm text-foreground/80 hover:text-primary transition-colors block'
+                class='text-sm text-foreground/80 hover:text-interactive transition-colors block'
                 >012 655 0284</a
               >
               <a
                 href='tel:+27792947635'
-                class='text-sm text-foreground/80 hover:text-primary transition-colors block'
+                class='text-sm text-foreground/80 hover:text-interactive transition-colors block'
                 >079 294 7635</a
               >
             </div>
@@ -455,7 +482,7 @@ const faqs = [
               <p class='text-xs text-muted-foreground mb-0.5'>Email</p>
               <a
                 href='mailto:info@phehlwanagroup.co.za'
-                class='text-sm text-foreground/80 hover:text-primary transition-colors break-all'
+                class='text-sm text-foreground/80 hover:text-interactive transition-colors break-all'
                 >info@phehlwanagroup.co.za</a
               >
             </div>
@@ -482,6 +509,7 @@ const faqs = [
             <div>
               <p class='text-xs text-muted-foreground mb-0.5'>Office Hours</p>
               <p class='text-sm text-foreground/80'>Mon – Fri: 07:30 – 17:00</p>
+              <p class='text-sm text-foreground/80'>Closed Saturdays, Sundays &amp; public holidays</p>
             </div>
           </div>
         </div>
@@ -491,7 +519,7 @@ const faqs = [
           href='https://wa.me/27792947635'
           target='_blank'
           rel='noopener noreferrer'
-          class='flex items-center gap-3 bg-[#25d366] text-white font-semibold px-5 py-3.5 rounded-xl text-sm hover:bg-[#1ebe5d] transition-colors w-full justify-center'
+          class='flex items-center gap-3 bg-[#128C7E] text-white font-semibold px-5 py-3.5 rounded-xl text-sm hover:bg-[#0f6f61] transition-colors w-full justify-center'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -564,9 +592,13 @@ const faqs = [
             </dt>
             <dd
               id={`faq-${i}`}
-              class='hidden px-5 pb-4 text-sm text-muted-foreground leading-relaxed'
+              class='faq-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-out'
             >
-              {faq.a}
+              <div class='overflow-hidden'>
+                <p class='px-5 pb-4 text-sm text-muted-foreground leading-relaxed'>
+                  {faq.a}
+                </p>
+              </div>
             </dd>
           </div>
         ))
@@ -582,7 +614,8 @@ const faqs = [
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       const panel = document.getElementById(btn.getAttribute('aria-controls')!);
       btn.setAttribute('aria-expanded', String(!expanded));
-      panel?.classList.toggle('hidden', expanded);
+      panel?.classList.toggle('grid-rows-[0fr]', expanded);
+      panel?.classList.toggle('grid-rows-[1fr]', !expanded);
       btn.querySelector('.faq-icon')?.classList.toggle('rotate-180', !expanded);
     });
   });

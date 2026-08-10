@@ -1,0 +1,37 @@
+---
+/**
+ * ServiceOfferingCard - icon + title on one row, description spans the full
+ * card width below (not indented past the icon column).
+ */
+interface Props {
+  id?: string;
+  title: string;
+  body: string;
+  icon: string;
+}
+
+const { id, title, body, icon } = Astro.props;
+---
+
+<div id={id} class='bg-card border border-border rounded-xl p-5 scroll-mt-28'>
+  <div class='flex items-center gap-3 mb-3'>
+    <span class='size-9 rounded-lg bg-accent flex items-center justify-center text-primary shrink-0'>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        class='size-[18px]'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='2'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        aria-hidden='true'
+        set:html={icon}
+      />
+    </span>
+    <h3 class='text-sm font-semibold text-foreground'>{title}</h3>
+  </div>
+  <p class='text-sm text-muted-foreground leading-relaxed'>
+    {body}
+  </p>
+</div>

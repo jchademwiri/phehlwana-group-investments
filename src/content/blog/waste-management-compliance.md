@@ -59,6 +59,6 @@ Our waste management service ensures your business stays fully compliant. We pro
 - Documentation and record-keeping for audit purposes
 - Hazardous waste handling by trained, certified personnel
 
-We work with commercial, industrial, and construction clients across Gauteng to take the complexity out of waste compliance - so you can focus on running your business.
+We work with commercial, industrial, and construction clients nationally to take the complexity out of waste compliance - so you can focus on running your business.
 
 [Contact us](/contact?service=Cleaning+%26+Waste+Management) to discuss your waste management requirements.

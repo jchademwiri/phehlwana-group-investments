@@ -44,6 +44,7 @@ export const quickLinks: NavLink[] = [
 // Add links here once the corresponding pages exist (e.g. Privacy Policy, Terms)
 export const legalLinks: NavLink[] = [
   { label: 'Privacy & POPIA Policy', href: '/privacy-policy' },
+  { label: 'Terms of Service', href: '/terms-of-service' },
 ];
 
 // ── Developer / agency credit ─────────────────────────────────────────────────

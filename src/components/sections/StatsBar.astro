@@ -7,7 +7,7 @@
 
 const stats = [
   { text: 'Level 1', label: 'BBBEE Level', isNumber: false },
-  { text: '4CE/5GB', label: 'CIDB Grade', isNumber: false },
+  { text: '6GB, 5SQ, 5CE, 5SK, 5SB', label: 'CIDB Grades', isNumber: false },
   { value: 10, suffix: '+', label: 'Years in Business', isNumber: true },
   { text: 'National', label: 'Coverage', isNumber: false },
 ];
@@ -15,21 +15,21 @@ const stats = [
 
 <section class='bg-accent/60 border-y border-border py-12'>
   <div class='container mx-auto px-4'>
-    <dl class='grid grid-cols-2 lg:grid-cols-4 gap-8 text-center'>
+    <dl class='grid grid-cols-2 md:grid-cols-4 gap-8 text-center'>
       {
         stats.map((stat) => (
           <div data-animate>
-            <dt class='text-4xl font-bold mb-1 tabular-nums text-foreground'>
+            <dt class='text-2xl sm:text-3xl md:text-4xl font-bold mb-1 text-foreground'>
               {stat.isNumber ? (
                 <span
-                  class='stat-counter'
+                  class='stat-counter tabular-nums'
                   data-target={stat.value}
                   data-suffix={stat.suffix}
                 >
                   0{stat.suffix}
                 </span>
               ) : (
-                <span>{stat.text}</span>
+                <span class='text-sm sm:text-lg md:text-xl font-bold tracking-tight block leading-tight'>{stat.text}</span>
               )}
             </dt>
             <dd class='text-sm text-muted-foreground font-medium uppercase tracking-wide'>

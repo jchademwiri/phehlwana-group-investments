@@ -8,29 +8,35 @@ export const prerender = true;
     description='Thank you for contacting Phehlwana Group Investments.'
 >
     <section
-        class='flex min-h-[70vh] flex-col items-center justify-center text-center px-4 pt-40 pb-20'
+        class='flex min-h-[70vh] flex-col items-center justify-center text-center px-4 py-8 lg:pt-40 lg:pb-20'
     >
-        <div class='text-6xl mb-6' aria-hidden='true'>✅</div>
-        <h1 class='text-3xl font-bold mb-4'>Message Received!</h1>
+        <div class='mb-3 lg:mb-6 flex size-12 lg:size-16 items-center justify-center rounded-full bg-success/20 text-success-foreground' aria-hidden='true'>
+            <svg xmlns='http://www.w3.org/2000/svg' class='size-7 lg:size-9' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>
+        </div>
+        <h1 class='text-2xl lg:text-3xl font-bold mb-2 lg:mb-4'>Message Received!</h1>
         <p class='text-muted-foreground mb-2 max-w-md text-lg'>
             Thank you for reaching out to Phehlwana Group Investments.
         </p>
-        <p class='text-muted-foreground mb-10 max-w-md'>
+        <p class='text-muted-foreground mb-4 lg:mb-10 max-w-md'>
             A member of our team will contact you within <strong
                 >1 business day</strong
             >.
         </p>
-        <div class='flex flex-wrap gap-4 justify-center'>
+        <div class='flex flex-wrap gap-3 lg:gap-4 justify-center'>
             <a
                 href='/'
-                class='inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors'
+                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-interactive/90 focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 transition-colors'
                 >Back to Home</a
             >
             <a
                 href='/services'
-                class='inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-accent transition-colors'
+                class='inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-accent focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 transition-colors'
                 >View Our Services</a
             >
         </div>
+        <p class='text-xs text-muted-foreground mt-4 lg:mt-8'>
+            Need it urgently? Call <a href='tel:+27126550284' class='text-interactive hover:underline'>012 655 0284</a>
+            or <a href='https://wa.me/27792947635' target='_blank' rel='noopener noreferrer' class='text-interactive hover:underline'>WhatsApp us</a>.
+        </p>
     </section>
 </Layout>

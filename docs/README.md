@@ -30,7 +30,7 @@
 | Item | Confirmed Value | Source Question |
 |---|---|---|
 | VAT Number | 4520316631 | Q1 |
-| CIDB Registration | 4CE, 5GB | Q2 |
+| CIDB Registration | 6GB, 5SQ, 5CE, 5SK, 5SB | Q2 |
 | BBBEE Level | Level 1 | Q3 |
 | ISO Certification | ISO 45001 (Occupational Health & Safety) | Q4 |
 | Industry Body | NHBRC | Q5 |
@@ -70,7 +70,7 @@
 1. **Remove "20+ Awards Won" stat entirely** - client confirmed 0 awards. This was fabricated/inflated. Remove from homepage, about page, and all stats bars.
 2. **Remove "129+ Projects Completed" number** - client prefers no project count displayed.
 3. **Remove "50+ Skilled Professionals"** - actual count is 10 full-time employees.
-4. **Update stats bar** to show only: 10+ Years in Business, BBBEE Level 1, Nationally, CIDB 4CE/5GB.
+4. **Update stats bar** to show only: 10+ Years in Business, BBBEE Level 1, Nationally, CIDB 6GB, 5SQ, 5CE, 5SK, 5SB.
 5. **Mechanical Engineering** - client did not confirm this as active. Treat as pending confirmation before publishing. Do not remove pages yet but add a note.
 6. **Geographic coverage** - update all references from "Gauteng and beyond" to "nationally".
 7. **Founding story** - update to reflect: founded 2015, re-registered as Phehlwana Group Investments in 2020.
@@ -80,7 +80,7 @@
 | # | Item | Notes |
 |---|---|---|
 | 1 | Social media URLs | Billy Maphothoma is setting these up - Facebook, Instagram, LinkedIn |
-| 2 | CIDB registration number (full) | Grade confirmed (4CE, 5GB) but registration number not provided |
+| 2 | CIDB registration number (full) | Grades confirmed (6GB, 5SQ, 5CE, 5SK, 5SB) but registration number not provided |
 | 3 | BBBEE certificate copy | Level 1 confirmed but certificate document not yet uploaded |
 | 4 | Company registration number (2020) | New registration number from 2020 re-registration not provided |
 | 5 | Nicholas Mahlangu - full bio | Only name and title provided |
@@ -109,7 +109,7 @@
 | Founded           | 2015                                                                                |
 | Re-registered     | 2020 (as Phehlwana Group Investments, new registration number)                      |
 | VAT Number        | 4520316631                                                                          |
-| CIDB Grade        | 4CE, 5GB                                                                            |
+| CIDB Grade        | 6GB, 5SQ, 5CE, 5SK, 5SB                                                             |
 | BBBEE Level       | Level 1                                                                             |
 | ISO Certification | ISO 45001 (Occupational Health & Safety)                                            |
 | Industry Body     | NHBRC                                                                               |
