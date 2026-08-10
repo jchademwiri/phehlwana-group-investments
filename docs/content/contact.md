@@ -197,7 +197,7 @@ A: Yes, we provide our services nationally across South Africa.
 ---
 
 **Q: Are you CIDB registered?**
-A: Yes, Phehlwana Group Investments is registered with the CIDB at Grade 4CE, 5GB.
+A: Yes, Phehlwana Group Investments is registered with the CIDB at Grades 6GB, 5SQ, 5CE, 5SK, 5SB.
 
 ---
 

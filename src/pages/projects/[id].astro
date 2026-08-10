@@ -45,7 +45,7 @@ const breadcrumbSchema = {
 <Layout
   title={project.data.title}
   description={project.data.description ??
-    `${project.data.category} project by Phehlwana Group Investments - ${project.data.location}, ${project.data.year}.`}
+    `${project.data.category} project by Phehlwana Group Investments - ${project.data.year}.`}
   ogImage={project.data.coverImage}
 >
   <script type='application/ld+json' set:html={JSON.stringify(breadcrumbSchema)} />
@@ -119,24 +119,6 @@ const breadcrumbSchema = {
 
       <!-- Meta pills -->
       <div class='flex flex-wrap gap-3'>
-        <span
-          class='inline-flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-1.5 text-sm text-foreground/80'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-4 text-primary'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
-            ><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'
-            ></path><circle cx='12' cy='10' r='3'></circle></svg
-          >
-          {project.data.location}
-        </span>
         <span
           class='inline-flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-1.5 text-sm text-foreground/80'
         >
@@ -348,27 +330,7 @@ const breadcrumbSchema = {
                 </dd>
               </div>
             </div>
-            <div class='flex items-start gap-3 px-5 py-3.5'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='size-4 text-primary mt-0.5 shrink-0'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                aria-hidden='true'
-                ><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'
-                ></path><circle cx='12' cy='10' r='3'></circle></svg
-              >
-              <div>
-                <dt class='text-xs text-muted-foreground mb-0.5'>Location</dt>
-                <dd class='text-sm font-medium text-foreground'>
-                  {project.data.location}
-                </dd>
-              </div>
-            </div>
+
             <div class='flex items-start gap-3 px-5 py-3.5'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
