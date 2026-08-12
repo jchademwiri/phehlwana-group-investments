@@ -38,21 +38,21 @@ const clients = [
 // Hero slides
 const heroSlides = [
     {
-        eyebrow: 'Welcome to Phehlwana Group Investments',
+        eyebrow: 'Building & Maintaining Since 2015',
         headline: 'Construction and Maintenance',
         body: 'From new builds to routine upkeep, we keep your facilities safe, functional, and looking their best. Our experienced teams handle everything from structural work to emergency repairs.',
         image: '/images/hero/carousel-2.png',
         alt: 'Phehlwana Group construction team working on a building site',
     },
     {
-        eyebrow: 'Welcome to Phehlwana Group Investments',
+        eyebrow: 'OHS Act Compliant Plant & Safety',
         headline: 'Safety Management and Plant Hire',
         body: 'We combine the logistical benefits of hiring specialised equipment with strict compliance to South African health and safety legislation - protecting your people, your assets, and your project timelines.',
         image: '/images/projects/project-04.jpeg',
         alt: 'Phehlwana Group TLB and plant hire equipment on a construction site',
     },
     {
-        eyebrow: 'Welcome to Phehlwana Group Investments',
+        eyebrow: 'NEM:WA Compliant Waste Solutions',
         headline: 'Cleaning and Waste Management',
         body: 'From commercial contract cleaning to hazardous waste disposal, we deliver hygienic, compliant, and environmentally responsible solutions for businesses of all sizes across South Africa.',
         image: '/images/projects/project-06.jpeg',
@@ -111,6 +111,19 @@ const trustItems = [
 
     <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
     <section class='relative overflow-hidden bg-neutral-950 text-white' aria-label='Hero'>
+        <!-- Blueprint grid overlay - low-opacity technical drawing grid, grounds the
+             photography in the "engineering drawing" vernacular the brand is built on -->
+        <div
+            class='absolute inset-0 z-[1] pointer-events-none opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:40px_40px]'
+            aria-hidden='true'
+        ></div>
+        <!-- Dimension ticks along the left edge -->
+        <div class='absolute inset-y-0 left-0 z-[1] hidden lg:flex flex-col justify-center gap-10 pl-3 pointer-events-none' aria-hidden='true'>
+            {Array.from({ length: 6 }).map(() => (
+                <span class='w-3 h-px bg-interactive/40'></span>
+            ))}
+        </div>
+
         <!-- Slides -->
         <div id='hero-slides' class='relative'>
             {heroSlides.map((slide, i) => (
@@ -137,20 +150,27 @@ const trustItems = [
                         />
                         <div class='absolute inset-0 bg-neutral-950/65'></div>
                     </div>
- 
+
                     <!-- Content -->
                     <div class='relative container mx-auto px-4 py-36 lg:py-44'>
-                        <p class='text-sm font-semibold text-primary uppercase tracking-widest mb-4'>
+                        <p class='spec-code text-sm font-semibold text-interactive uppercase tracking-widest mb-4'>
                             {slide.eyebrow}
                         </p>
                         {i === 0 ? (
-                            <h1 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 max-w-2xl'>
+                            <h1 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-2 max-w-2xl'>
                                 {slide.headline}
                             </h1>
                         ) : (
-                            <h2 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 max-w-2xl'>
+                            <h2 class='text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-2 max-w-2xl'>
                                 {slide.headline}
                             </h2>
+                        )}
+                        {i === 0 && (
+                            <svg class='w-32 h-3 mb-6' viewBox='0 0 128 12' aria-hidden='true'>
+                                <line x1='0' y1='6' x2='128' y2='6' stroke='var(--color-interactive)' stroke-width='2' class='dimension-line' />
+                                <line x1='0' y1='1' x2='0' y2='11' stroke='var(--color-interactive)' stroke-width='2' />
+                                <line x1='128' y1='1' x2='128' y2='11' stroke='var(--color-interactive)' stroke-width='2' />
+                            </svg>
                         )}
                         <p class='text-lg text-white/80 max-w-xl leading-relaxed mb-8'>
                             {slide.body}
@@ -160,7 +180,7 @@ const trustItems = [
                                 href='/projects'
                                 data-track="cta"
                                 data-track-label="View Our Projects - Hero"
-                                class='inline-flex items-center gap-2 bg-interactive/30 text-primary-foreground font-semibold px-6 py-3 rounded-lg text-sm shadow-lg backdrop-blur-md backdrop-saturate-150 border border-white/30 hover:bg-interactive/45 transition-colors'
+                                class='inline-flex items-center gap-2 bg-interactive/85 text-interactive-foreground font-semibold px-6 py-3 rounded-lg text-sm shadow-lg backdrop-blur-md backdrop-saturate-150 border border-interactive hover:bg-interactive transition-colors'
                             >
                                 <span class='drop-shadow-sm'>View Our Projects</span>
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-4 drop-shadow-sm' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -226,7 +246,7 @@ const trustItems = [
                 </p>
 
                 <!-- Values -->
-                <ul class='space-y-4 mb-8'>
+                <ul class='space-y-4 mb-8' data-animate-group>
                     {values.map((v) => (
                         <li class='flex items-start gap-3'>
                             <div class='size-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5'>
@@ -242,7 +262,7 @@ const trustItems = [
 
                 <a
                     href='/about'
-                    class='inline-flex items-center gap-2 text-interactive font-semibold text-sm hover:gap-3 transition-all'
+                    class='inline-flex items-center gap-2 text-secondary-accent font-semibold text-sm hover:gap-3 transition-all'
                 >
                     Learn More About Us
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
@@ -278,7 +298,7 @@ const trustItems = [
         <div class='container mx-auto px-4'>
             <div class='text-center mb-12' data-animate>
                 <p class='text-sm font-semibold text-primary uppercase tracking-widest mb-2'>Our Services</p>
-                <h2 class='text-3xl font-bold text-foreground mb-4'>We Provide Best Services</h2>
+                <h2 class='text-3xl font-bold text-foreground mb-4'>Five Divisions. One Accountable Team.</h2>
                 <p class='text-muted-foreground max-w-2xl mx-auto'>
                     At Phehlwana Group, we are committed to delivering excellence across every service
                     we provide. From large-scale civil engineering projects to daily cleaning contracts,
@@ -286,16 +306,16 @@ const trustItems = [
                 </p>
             </div>
 
-            <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+            <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' data-animate-group>
                 {serviceDivisions.map((service, i) => (
                     <article
-                        class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2'
+                        class='spec-plate group relative bg-card overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2'
                         data-animate
                     >
                         <a href={service.href} class='absolute inset-0 z-10 outline-none' aria-label={`Learn more about ${service.division}`}/>
 
                         <!-- Image -->
-                        <div class='aspect-video overflow-hidden bg-accent'>
+                        <div class='relative aspect-video overflow-hidden bg-accent'>
                             <Picture
                                 src={serviceImages[service.division] ?? '/images/placeholder.svg'}
                                 alt=''
@@ -305,17 +325,20 @@ const trustItems = [
                                 decoding='async'
                                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
                             />
+                            <span class='spec-code absolute top-3 left-3 z-10 bg-primary/85 text-primary-foreground text-[0.6875rem] px-2 py-1'>
+                                {service.code}
+                            </span>
                         </div>
 
                         <!-- Content -->
                         <div class='flex flex-col flex-1 p-5 gap-2'>
-                            <h3 class='text-base font-semibold text-foreground group-hover:text-interactive transition-colors'>
+                            <h3 class='text-base font-semibold text-foreground group-hover:text-secondary-accent transition-colors'>
                                 {service.division}
                             </h3>
                             <p class='text-sm text-muted-foreground leading-relaxed flex-1'>
                                 {serviceDescriptions[service.division]}
                             </p>
-                            <span class='text-xs font-medium text-primary group-hover:text-interactive transition-colors flex items-center gap-1 mt-2'>
+                            <span class='text-xs font-medium text-primary group-hover:text-secondary-accent transition-colors flex items-center gap-1 mt-2'>
                                 Read More
                                 <svg xmlns='http://www.w3.org/2000/svg' class='size-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m9 18 6-6-6-6'/></svg>
                             </span>
@@ -375,7 +398,7 @@ const trustItems = [
                             class='h-8 md:h-10 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all'
                         />
                     ) : (
-                        <span class='text-xl font-bold text-foreground/60 whitespace-nowrap opacity-70'>{client.name}</span>
+                        <span class='spec-code text-sm font-medium text-muted-foreground whitespace-nowrap uppercase tracking-wide border border-border px-3 py-1.5'>{client.name}</span>
                     )
                 ))
             }
@@ -393,18 +416,18 @@ const trustItems = [
                 </div>
                 <a
                     href='/projects'
-                    class='hidden sm:inline-flex items-center gap-2 text-sm font-medium text-interactive hover:gap-3 transition-all'
+                    class='hidden sm:inline-flex items-center gap-2 text-sm font-medium text-secondary-accent hover:gap-3 transition-all'
                 >
                     View All Projects
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
                 </a>
             </div>
 
-            <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+            <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' data-animate-group>
                 {featuredProjects.map((project) => (
-                    <article class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2' data-animate>
+                    <article class='spec-plate group relative bg-card overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-interactive has-[:focus-visible]:outline-offset-2' data-animate>
                         <a href={`/projects/${project.id}`} class='absolute inset-0 z-10 outline-none' aria-label={`View project: ${project.data.title}`}/>
-                        <div class='aspect-16/10 overflow-hidden bg-accent'>
+                        <div class='relative aspect-16/10 overflow-hidden bg-accent'>
                             <Picture
                                 src={project.data.coverImage ?? '/images/placeholder.svg'}
                                 alt=''
@@ -414,10 +437,15 @@ const trustItems = [
                                 decoding='async'
                                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
                             />
+                            {project.data.projectNo && (
+                                <span class='spec-code absolute top-3 left-3 z-10 bg-primary/85 text-primary-foreground text-[0.6875rem] px-2 py-1'>
+                                    {project.data.projectNo}
+                                </span>
+                            )}
                         </div>
                         <div class='p-5 flex flex-col gap-2'>
-                            <p class='text-xs text-muted-foreground'>{project.data.category} · {project.data.year}</p>
-                            <h3 class='text-sm font-semibold text-foreground group-hover:text-interactive transition-colors leading-snug'>
+                            <p class='spec-code text-xs text-muted-foreground'>{project.data.category} · {project.data.year}</p>
+                            <h3 class='text-sm font-semibold text-foreground group-hover:text-secondary-accent transition-colors leading-snug'>
                                 {project.data.title}
                             </h3>
                         </div>
@@ -426,7 +454,7 @@ const trustItems = [
             </div>
 
             <div class='text-center mt-8 sm:hidden'>
-                <a href='/projects' class='inline-flex items-center gap-2 text-sm font-medium text-interactive'>
+                <a href='/projects' class='inline-flex items-center gap-2 text-sm font-medium text-secondary-accent'>
                     View All Projects
                     <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg>
                 </a>
