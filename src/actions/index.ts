@@ -1,4 +1,4 @@
-import { defineAction } from 'astro:actions';
+import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { Resend } from 'resend';
 import { render } from '@react-email/components';
@@ -75,8 +75,10 @@ export const server = {
 
             if (error) {
                 console.error('Failed to send contact emails:', error);
-                // Return a user-friendly error to the frontend
-                return { success: false, error: 'Failed to send your message. Please try again.' };
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Failed to send your message. Please try again.',
+                });
             }
 
             return { success: true };
