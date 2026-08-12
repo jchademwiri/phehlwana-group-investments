@@ -1,4 +1,4 @@
-import { defineAction } from 'astro:actions';
+import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { Resend } from 'resend';
 import { render } from '@react-email/components';
@@ -16,7 +16,14 @@ export const server = {
             name:    z.string().min(2,  'Please enter your full name.'),
             email:   z.email('Please enter a valid email address.'),
             phone:   z.string()
-                       .regex(/^0[0-9]{9}$/, 'Please enter a valid 10-digit South African phone number.'),
+                       .trim()
+                       .transform((val) => val.replace(/[\s-]/g, ''))
+                       .pipe(
+                           z.string().regex(
+                               /^(?:\+27|0)\d{9}$/,
+                               'Please enter a valid South African phone number, e.g. 082 123 4567 or +27 82 123 4567.'
+                           )
+                       ),
             service: z.string().min(1, 'Please select a service.'),
             subject: z.string().optional(),
             message: z.string().min(20, 'Please enter at least 20 characters.'),
@@ -75,8 +82,10 @@ export const server = {
 
             if (error) {
                 console.error('Failed to send contact emails:', error);
-                // Return a user-friendly error to the frontend
-                return { success: false, error: 'Failed to send your message. Please try again.' };
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Failed to send your message. Please try again.',
+                });
             }
 
             return { success: true };
