@@ -7,36 +7,80 @@ export const prerender = true;
     title='Message Sent'
     description='Thank you for contacting Phehlwana Group Investments.'
 >
-    <section
-        class='flex min-h-[70vh] flex-col items-center justify-center text-center px-4 py-8 lg:pt-40 lg:pb-20'
-    >
-        <div class='mb-3 lg:mb-6 flex size-12 lg:size-16 items-center justify-center rounded-full bg-success/20 text-success-foreground' aria-hidden='true'>
-            <svg xmlns='http://www.w3.org/2000/svg' class='size-7 lg:size-9' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>
-        </div>
-        <h1 class='text-2xl lg:text-3xl font-bold mb-2 lg:mb-4'>Message Received!</h1>
-        <p class='text-muted-foreground mb-2 max-w-md text-lg'>
-            Thank you for reaching out to Phehlwana Group Investments.
-        </p>
-        <p class='text-muted-foreground mb-4 lg:mb-10 max-w-md'>
-            A member of our team will contact you within <strong
-                >1 business day</strong
-            >.
-        </p>
-        <div class='flex flex-wrap gap-3 lg:gap-4 justify-center'>
-            <a
-                href='/'
-                class='inline-flex items-center gap-2 bg-interactive text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-interactive/90 focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 transition-colors'
-                >Back to Home</a
+    <div class='relative isolate overflow-hidden'>
+        <!-- Background: grid + blobs - all semantic tokens, matches 404 page -->
+        <div class='absolute inset-0 -z-10' aria-hidden='true'>
+            <div class='absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background'></div>
+            <svg
+                class='absolute inset-0 h-full w-full stroke-border/50 mask-[radial-gradient(ellipse_at_center,white_20%,transparent_75%)]'
+                aria-hidden='true'
             >
-            <a
-                href='/services'
-                class='inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-accent focus-visible:outline-2 focus-visible:outline-interactive focus-visible:outline-offset-2 transition-colors'
-                >View Our Services</a
-            >
+                <defs>
+                    <pattern id='thank-you-grid' width='40' height='40' patternUnits='userSpaceOnUse'>
+                        <path d='M.5 40V.5H40' fill='none'></path>
+                    </pattern>
+                </defs>
+                <rect width='100%' height='100%' fill='url(#thank-you-grid)'></rect>
+            </svg>
+            <div class='absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-success/8 rounded-full blur-3xl'></div>
+            <div class='absolute bottom-0 right-0 w-[400px] h-[300px] bg-success/5 rounded-full blur-3xl'></div>
         </div>
-        <p class='text-xs text-muted-foreground mt-4 lg:mt-8'>
-            Need it urgently? Call <a href='tel:+27126550284' class='text-interactive hover:underline'>012 655 0284</a>
-            or <a href='https://wa.me/27792947635' target='_blank' rel='noopener noreferrer' class='text-interactive hover:underline'>WhatsApp us</a>.
-        </p>
-    </section>
+
+        <section
+            class='flex min-h-[75vh] flex-col items-center justify-center text-center px-4 py-8 lg:pt-40 lg:pb-24'
+        >
+            <!-- Badge -->
+            <div
+                class='animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none inline-flex items-center gap-2 bg-success/10 text-success-foreground text-xs font-semibold px-3 py-1.5 rounded-full mb-8 border border-success/20'
+            >
+                <span class='relative flex size-2' aria-hidden='true'>
+                    <span class='animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-success opacity-75'></span>
+                    <span class='relative inline-flex rounded-full size-2 bg-success'></span>
+                </span>
+                Message Sent
+            </div>
+
+            <!-- Success icon -->
+            <div
+                class='animate-in fade-in zoom-in-50 duration-500 motion-reduce:animate-none mb-6 lg:mb-8 flex size-16 lg:size-20 items-center justify-center rounded-2xl bg-background border border-border shadow-lg text-success'
+                aria-hidden='true'
+            >
+                <svg xmlns='http://www.w3.org/2000/svg' class='size-8 lg:size-10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>
+            </div>
+
+            <!-- Copy -->
+            <h1 class='text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight'>
+                Message Received!
+            </h1>
+            <p class='text-muted-foreground text-base sm:text-lg max-w-md mx-auto mb-2 leading-relaxed'>
+                Thank you for reaching out to Phehlwana Group Investments.
+            </p>
+            <p class='text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed'>
+                A member of our team will contact you within <strong class='text-foreground'>1 business day</strong>.
+            </p>
+
+            <!-- CTAs -->
+            <div class='flex flex-col sm:flex-row items-center justify-center gap-3'>
+                <a
+                    href='/'
+                    class='inline-flex items-center gap-2 bg-interactive text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-interactive/90 active:scale-95 transition-all shadow-sm w-full sm:w-auto justify-center'
+                >
+                    <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'></path><polyline points='9 22 9 12 15 12 15 22'></polyline></svg>
+                    Back to Home
+                </a>
+                <a
+                    href='/services'
+                    class='inline-flex items-center gap-2 bg-background border border-border text-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-accent active:scale-95 transition-all shadow-sm w-full sm:w-auto justify-center'
+                >
+                    View Our Services
+                    <svg xmlns='http://www.w3.org/2000/svg' class='size-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'></path><path d='m12 5 7 7-7 7'></path></svg>
+                </a>
+            </div>
+
+            <p class='text-xs text-muted-foreground mt-6 lg:mt-10'>
+                Need it urgently? Call <a href='tel:+27126550284' class='text-interactive hover:underline'>012 655 0284</a>
+                or <a href='https://wa.me/27792947635' target='_blank' rel='noopener noreferrer' class='text-interactive hover:underline'>WhatsApp us</a>.
+            </p>
+        </section>
+    </div>
 </Layout>
