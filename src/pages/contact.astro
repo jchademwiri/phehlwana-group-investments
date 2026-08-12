@@ -16,10 +16,23 @@ if (result && !result.error) {
   return Astro.redirect('/thank-you');
 }
 
-// Preserve field values on validation error
-const fieldErrors =
+// Preserve field values on validation error. `fields[key]` is an array of
+// messages (a field can fail more than one rule) - show just the first.
+const rawFieldErrors =
   result?.error && isInputError(result.error) ? result.error.fields : {};
-const prev = result?.input ?? {};
+const fieldErrors: Record<string, string | undefined> = Object.fromEntries(
+  Object.entries(rawFieldErrors).map(([key, messages]) => [key, messages?.[0]])
+);
+
+// astro:actions doesn't echo submitted values back on the result, so on a
+// failed POST we re-read the form body directly to keep the user's input.
+const prev: Record<string, string> = {};
+if (result?.error && Astro.request.method === 'POST') {
+  const formData = await Astro.request.clone().formData();
+  for (const key of ['name', 'email', 'phone', 'service', 'subject', 'message']) {
+    prev[key] = formData.get(key)?.toString() ?? '';
+  }
+}
 const activeService = prev.service || serviceParam;
 
 const services = [
