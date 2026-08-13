@@ -12,6 +12,8 @@ export interface ServiceDivision {
   division: string;
   href: string;
   description: string;
+  /** Short reference code shown on the spec-plate card, e.g. "DIV·01" */
+  code: string;
 }
 
 export interface SocialLink {
@@ -62,26 +64,31 @@ export const serviceDivisions: ServiceDivision[] = [
     division:    'Construction & Civil Engineering',
     href:        '/services/construction',
     description: 'Building, roads, renovations & safety management',
+    code:        'DIV·01',
   },
   {
     division:    'Mechanical Engineering',
     href:        '/services/mechanical',
     description: 'Design, manufacturing, maintenance & commissioning',
+    code:        'DIV·02',
   },
   {
     division:    'Cleaning & Waste Management',
     href:        '/services/cleaning',
     description: 'Commercial, industrial & hazardous waste solutions',
+    code:        'DIV·03',
   },
   {
     division:    'Plant Hire',
     href:        '/services/plant-hire',
     description: 'Heavy equipment rental for construction & industry',
+    code:        'DIV·04',
   },
   {
     division:    'Security',
     href:        '/services/security',
     description: 'Guarding, access control & risk management solutions',
+    code:        'DIV·05',
   },
 ];
 

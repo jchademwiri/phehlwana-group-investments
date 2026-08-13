@@ -1,0 +1,47 @@
+---
+// Single source of truth for icons - wraps @tabler/icons outline SVGs instead
+// of hand-inlining duplicate <svg> markup across Header/Footer/PageHeader/etc.
+// Add a new entry here (and import the raw SVG) to make an icon available.
+import iconPhone from '@tabler/icons/outline/phone.svg?raw';
+import iconMapPin from '@tabler/icons/outline/map-pin.svg?raw';
+import iconMail from '@tabler/icons/outline/mail.svg?raw';
+import iconBrandWhatsapp from '@tabler/icons/outline/brand-whatsapp.svg?raw';
+import iconSun from '@tabler/icons/outline/sun.svg?raw';
+import iconMoon from '@tabler/icons/outline/moon.svg?raw';
+import iconChevronDown from '@tabler/icons/outline/chevron-down.svg?raw';
+import iconChevronRight from '@tabler/icons/outline/chevron-right.svg?raw';
+import iconX from '@tabler/icons/outline/x.svg?raw';
+import iconMenu2 from '@tabler/icons/outline/menu-2.svg?raw';
+import iconHome from '@tabler/icons/outline/home.svg?raw';
+import iconArrowRight from '@tabler/icons/outline/arrow-right.svg?raw';
+
+const icons = {
+  phone: iconPhone,
+  'map-pin': iconMapPin,
+  mail: iconMail,
+  'brand-whatsapp': iconBrandWhatsapp,
+  sun: iconSun,
+  moon: iconMoon,
+  'chevron-down': iconChevronDown,
+  'chevron-right': iconChevronRight,
+  x: iconX,
+  'menu-2': iconMenu2,
+  home: iconHome,
+  'arrow-right': iconArrowRight,
+} as const;
+
+interface Props {
+  name: keyof typeof icons;
+  class?: string;
+  id?: string;
+}
+
+const { name, class: className = '', id } = Astro.props;
+const svg = icons[name];
+
+const markup = svg
+  .replace(/\sclass="[^"]*"/, '')
+  .replace('<svg', `<svg class="${className}"${id ? ` id="${id}"` : ''} aria-hidden="true"`);
+---
+
+<Fragment set:html={markup} />

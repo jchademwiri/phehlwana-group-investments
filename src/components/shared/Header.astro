@@ -1,5 +1,6 @@
 ---
 import { serviceLinks } from '@/data/navigation';
+import Icon from '@/components/shared/Icon.astro';
 
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -52,18 +53,7 @@ const isServicesActive = currentPath.startsWith('/services');
       aria-label='Close navigation menu'
       class='p-2 rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors'
     >
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        class='size-5'
-        viewBox='0 0 24 24'
-        fill='none'
-        stroke='currentColor'
-        stroke-width='2'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        aria-hidden='true'
-        ><path d='M18 6 6 18'></path><path d='m6 6 12 12'></path></svg
-      >
+      <Icon name='x' class='size-5' />
     </button>
   </div>
 
@@ -76,7 +66,7 @@ const isServicesActive = currentPath.startsWith('/services');
         class:list={[
           'px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
           isActive('/')
-            ? 'bg-interactive text-primary-foreground'
+            ? 'bg-interactive text-interactive-foreground'
             : 'text-foreground hover:bg-accent',
         ]}>Home</a
       >
@@ -86,7 +76,7 @@ const isServicesActive = currentPath.startsWith('/services');
         class:list={[
           'px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
           isActive('/about')
-            ? 'bg-interactive text-primary-foreground'
+            ? 'bg-interactive text-interactive-foreground'
             : 'text-foreground hover:bg-accent',
         ]}>About</a
       >
@@ -101,26 +91,16 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
             isServicesActive
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent',
           ]}
         >
           Services
-          <svg
+          <Icon
+            name='chevron-down'
             id='mobile-services-chevron'
-            xmlns='http://www.w3.org/2000/svg'
-            class:list={[
-              'size-4 transition-transform duration-200',
-              isServicesActive ? 'rotate-180' : '',
-            ]}
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2.5'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'><path d='m6 9 6 6 6-6'></path></svg
-          >
+            class={`size-4 transition-transform duration-200 ${isServicesActive ? 'rotate-180' : ''}`}
+          />
         </button>
         <div
           id='mobile-services-panel'
@@ -131,7 +111,7 @@ const isServicesActive = currentPath.startsWith('/services');
         >
           <a
             href='/services'
-            class='block px-3 py-2 text-sm font-semibold text-interactive hover:bg-accent rounded-md'
+            class='block px-3 py-2 text-sm font-semibold text-secondary-accent hover:bg-accent rounded-md'
             >All Services</a
           >
           {
@@ -141,7 +121,7 @@ const isServicesActive = currentPath.startsWith('/services');
                 class:list={[
                   'block px-3 py-2 text-sm rounded-md transition-colors',
                   currentPath.startsWith(service.href)
-                    ? 'text-interactive bg-accent'
+                    ? 'text-secondary-accent bg-accent'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent',
                 ]}
               >
@@ -158,7 +138,7 @@ const isServicesActive = currentPath.startsWith('/services');
         class:list={[
           'px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
           isActive('/projects')
-            ? 'bg-interactive text-primary-foreground'
+            ? 'bg-interactive text-interactive-foreground'
             : 'text-foreground hover:bg-accent',
         ]}>Projects</a
       >
@@ -168,7 +148,7 @@ const isServicesActive = currentPath.startsWith('/services');
         class:list={[
           'px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
           isActive('/blog')
-            ? 'bg-interactive text-primary-foreground'
+            ? 'bg-interactive text-interactive-foreground'
             : 'text-foreground hover:bg-accent',
         ]}>Blog</a
       >
@@ -178,7 +158,7 @@ const isServicesActive = currentPath.startsWith('/services');
         class:list={[
           'px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
           isActive('/contact')
-            ? 'bg-interactive text-primary-foreground'
+            ? 'bg-interactive text-interactive-foreground'
             : 'text-foreground hover:bg-accent',
         ]}>Contact</a
       >
@@ -190,22 +170,9 @@ const isServicesActive = currentPath.startsWith('/services');
     <div class='flex items-center justify-between'>
       <a
         href='tel:+27126550284'
-        class='flex items-center gap-2 text-sm text-muted-foreground hover:text-interactive transition-colors'
+        class='flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-accent transition-colors'
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          class='size-4 text-primary shrink-0'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          stroke-width='2'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          aria-hidden='true'
-          ><path
-            d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'
-          ></path></svg
-        >
+        <Icon name='phone' class='size-4 text-primary shrink-0' />
         012 655 0284
       </a>
       <button
@@ -214,41 +181,15 @@ const isServicesActive = currentPath.startsWith('/services');
         aria-label='Toggle dark mode'
         class='p-2 rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors'
       >
-        <svg
-          id='sun-mobile'
-          xmlns='http://www.w3.org/2000/svg'
-          class='size-5 hidden'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          stroke-width='2'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          aria-hidden='true'
-          ><circle cx='12' cy='12' r='4'></circle><path
-            d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'
-          ></path></svg
-        >
-        <svg
-          id='moon-mobile'
-          xmlns='http://www.w3.org/2000/svg'
-          class='size-5'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          stroke-width='2'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          aria-hidden='true'
-          ><path d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'></path></svg
-        >
+        <Icon name='sun' id='sun-mobile' class='size-5 hidden' />
+        <Icon name='moon' id='moon-mobile' class='size-5' />
       </button>
     </div>
     <a
       href='/contact'
       data-track="cta"
       data-track-label="Request a Quote - Mobile Header"
-      class='flex items-center justify-center gap-2 w-full bg-interactive text-primary-foreground px-4 py-2.5 rounded-md text-sm font-semibold hover:bg-interactive/90 transition-colors'
+      class='flex items-center justify-center gap-2 w-full bg-interactive text-interactive-foreground px-4 py-2.5 rounded-md text-sm font-semibold hover:bg-interactive/90 transition-colors'
       >Request a Quote</a
     >
   </div>
@@ -270,62 +211,25 @@ const isServicesActive = currentPath.startsWith('/services');
             href='https://maps.google.com/?q=PKN+Office+Park,+62+Taaifontein+Street,+Montana+Park,+0182'
             target='_blank'
             rel='noopener noreferrer'
-            class='flex items-center gap-2 hover:text-interactive transition-colors'
+            class='flex items-center gap-2 hover:text-secondary-accent transition-colors'
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='size-4 text-primary shrink-0'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              aria-hidden='true'
-              ><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'
-              ></path><circle cx='12' cy='10' r='3'></circle></svg
-            >
+            <Icon name='map-pin' class='size-4 text-primary shrink-0' />
             Office No 06, PKN Office Park, Montana Park, 0182
           </a>
           |
           <a
             href='mailto:info@phehlwanagroup.co.za'
-            class='flex items-center gap-2 hover:text-interactive transition-colors'
+            class='flex items-center gap-2 hover:text-secondary-accent transition-colors'
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='size-4 text-primary shrink-0'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              aria-hidden='true'
-              ><rect width='20' height='16' x='2' y='4' rx='2'></rect><path
-                d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'></path></svg
-            >
+            <Icon name='mail' class='size-4 text-primary shrink-0' />
             info@phehlwanagroup.co.za
           </a>
           |
           <a
             href='tel:+27792947635'
-            class='flex items-center gap-2 hover:text-interactive transition-colors'
+            class='flex items-center gap-2 hover:text-secondary-accent transition-colors'
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='size-4 text-primary shrink-0'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              aria-hidden='true'
-              ><path
-                d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'
-              ></path></svg
-            >
+            <Icon name='phone' class='size-4 text-primary shrink-0' />
             079 294 7635
           </a>
         </div>
@@ -334,7 +238,7 @@ const isServicesActive = currentPath.startsWith('/services');
           <a
             href='#'
             aria-label='Follow us on Facebook'
-            class='hover:text-interactive transition-colors'
+            class='hover:text-secondary-accent transition-colors'
             ><svg
               xmlns='http://www.w3.org/2000/svg'
               class='size-4'
@@ -349,7 +253,7 @@ const isServicesActive = currentPath.startsWith('/services');
           <a
             href='#'
             aria-label='Follow us on Instagram'
-            class='hover:text-interactive transition-colors'
+            class='hover:text-secondary-accent transition-colors'
             ><svg
               xmlns='http://www.w3.org/2000/svg'
               class='size-4'
@@ -368,7 +272,7 @@ const isServicesActive = currentPath.startsWith('/services');
           <a
             href='#'
             aria-label='Connect on LinkedIn'
-            class='hover:text-interactive transition-colors'
+            class='hover:text-secondary-accent transition-colors'
             ><svg
               xmlns='http://www.w3.org/2000/svg'
               class='size-4'
@@ -389,17 +293,8 @@ const isServicesActive = currentPath.startsWith('/services');
             target='_blank'
             rel='noopener noreferrer'
             aria-label='Chat on WhatsApp'
-            class='hover:text-interactive transition-colors'
-            ><svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='size-4'
-              viewBox='0 0 24 24'
-              fill='currentColor'
-              aria-hidden='true'
-              ><path
-                d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z'
-              ></path></svg
-            ></a
+            class='hover:text-secondary-accent transition-colors'
+            ><Icon name='brand-whatsapp' class='size-4' /></a
           >
         </div>
       </div>
@@ -447,7 +342,7 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'px-4 py-2 rounded-md text-sm font-medium transition-colors',
             isActive('/')
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent hover:text-accent-foreground',
           ]}>Home</a
         >
@@ -457,7 +352,7 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'px-4 py-2 rounded-md text-sm font-medium transition-colors',
             isActive('/about')
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent hover:text-accent-foreground',
           ]}>About</a
         >
@@ -473,23 +368,12 @@ const isServicesActive = currentPath.startsWith('/services');
             class:list={[
               'flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-colors',
               isServicesActive
-                ? 'bg-interactive text-primary-foreground'
+                ? 'bg-interactive text-interactive-foreground'
                 : 'text-foreground hover:bg-accent hover:text-accent-foreground',
             ]}
           >
             Services
-            <svg
-              id='services-chevron'
-              xmlns='http://www.w3.org/2000/svg'
-              class='size-4 transition-transform duration-200'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              aria-hidden='true'><path d='m6 9 6 6 6-6'></path></svg
-            >
+            <Icon name='chevron-down' id='services-chevron' class='size-4 transition-transform duration-200' />
           </button>
 
           <!-- Dropdown panel - positioned directly below, no gap -->
@@ -502,21 +386,9 @@ const isServicesActive = currentPath.startsWith('/services');
             <a
               href='/services'
               role='menuitem'
-              class='flex items-center gap-2 px-4 py-3 text-sm font-semibold text-interactive hover:bg-accent border-b border-border transition-colors'
+              class='flex items-center gap-2 px-4 py-3 text-sm font-semibold text-secondary-accent hover:bg-accent border-b border-border transition-colors'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='size-4 shrink-0'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                aria-hidden='true'
-                ><path d='M2 20h20'></path><path d='M5 20V8l7-6 7 6v12'
-                ></path><path d='M9 20v-5h6v5'></path></svg
-              >
+              <Icon name='home' class='size-4 shrink-0' />
               All Services
             </a>
             {
@@ -531,19 +403,7 @@ const isServicesActive = currentPath.startsWith('/services');
                       : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                   ]}
                 >
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    class='size-3.5 shrink-0 text-primary'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    stroke-width='2.5'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    aria-hidden='true'
-                  >
-                    <path d='m9 18 6-6-6-6' />
-                  </svg>
+                  <Icon name='chevron-right' class='size-3.5 shrink-0 text-primary' />
                   {service.label}
                 </a>
               ))
@@ -557,7 +417,7 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'px-4 py-2 rounded-md text-sm font-medium transition-colors',
             isActive('/projects')
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent hover:text-accent-foreground',
           ]}>Projects</a
         >
@@ -567,7 +427,7 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'px-4 py-2 rounded-md text-sm font-medium transition-colors',
             isActive('/blog')
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent hover:text-accent-foreground',
           ]}>Blog</a
         >
@@ -577,7 +437,7 @@ const isServicesActive = currentPath.startsWith('/services');
           class:list={[
             'px-4 py-2 rounded-md text-sm font-medium transition-colors',
             isActive('/contact')
-              ? 'bg-interactive text-primary-foreground'
+              ? 'bg-interactive text-interactive-foreground'
               : 'text-foreground hover:bg-accent hover:text-accent-foreground',
           ]}>Contact</a
         >
@@ -587,22 +447,9 @@ const isServicesActive = currentPath.startsWith('/services');
       <div class='hidden lg:flex items-center gap-3'>
         <a
           href='tel:+27126550284'
-          class='flex items-center gap-2 text-sm text-muted-foreground hover:text-interactive transition-colors'
+          class='flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-accent transition-colors'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-4 text-primary'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
-            ><path
-              d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'
-            ></path></svg
-          >
+          <Icon name='phone' class='size-4 text-primary' />
           012 655 0284
         </a>
         <button
@@ -611,40 +458,14 @@ const isServicesActive = currentPath.startsWith('/services');
           aria-label='Toggle dark mode'
           class='p-2 rounded-md text-muted-foreground hover:bg-accent hover:text-foreground transition-colors'
         >
-          <svg
-            id='sun-desktop'
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-5 hidden'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
-            ><circle cx='12' cy='12' r='4'></circle><path
-              d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'
-            ></path></svg
-          >
-          <svg
-            id='moon-desktop'
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-5'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
-            ><path d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'></path></svg
-          >
+          <Icon name='sun' id='sun-desktop' class='size-5 hidden' />
+          <Icon name='moon' id='moon-desktop' class='size-5' />
         </button>
         <a
           href='/contact'
           data-track="cta"
           data-track-label="Request a Quote - Header"
-          class='inline-flex items-center gap-2 bg-interactive text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-interactive/90 transition-colors'
+          class='inline-flex items-center gap-2 bg-interactive text-interactive-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-interactive/90 transition-colors'
           >Request a Quote</a
         >
       </div>
@@ -659,22 +480,7 @@ const isServicesActive = currentPath.startsWith('/services');
           aria-label='Open navigation menu'
           class='p-2 rounded-md text-foreground hover:bg-accent transition-colors'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='size-6'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            aria-hidden='true'
-            ><line x1='4' x2='20' y1='6' y2='6'></line><line
-              x1='4'
-              x2='20'
-              y1='12'
-              y2='12'></line><line x1='4' x2='20' y1='18' y2='18'></line></svg
-          >
+          <Icon name='menu-2' class='size-6' />
         </button>
       </div>
     </div>
