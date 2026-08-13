@@ -64,7 +64,7 @@ const processSteps = [
 >
   <PageHeader
     label='Our Services'
-    title='We Provide Best Services'
+    title='Five Divisions. One Accountable Team.'
     subtitle='Comprehensive solutions across construction, engineering, cleaning, plant hire and security'
     breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]}
   />
@@ -84,11 +84,11 @@ const processSteps = [
     </div>
 
     <!-- Service cards -->
-    <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+    <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' data-animate-group>
       {
         serviceDivisions.map((service) => (
           <article
-            class='group relative bg-card ring-1 ring-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
+            class='spec-plate group relative bg-card overflow-hidden flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1'
             data-animate
           >
             <a
@@ -96,7 +96,7 @@ const processSteps = [
               class='absolute inset-0 z-10'
               aria-label={`Learn more about ${service.division}`}
             />
-            <div class='aspect-video overflow-hidden bg-accent'>
+            <div class='relative aspect-video overflow-hidden bg-accent'>
               <Picture
                 src={serviceImages[service.division] ?? '/images/placeholder.svg'}
                 alt=''
@@ -106,9 +106,12 @@ const processSteps = [
                 decoding='async'
                 class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
               />
+              <span class='spec-code absolute top-3 left-3 z-10 bg-primary/85 text-primary-foreground text-[0.6875rem] px-2 py-1'>
+                {service.code}
+              </span>
             </div>
             <div class='flex flex-col flex-1 p-5 gap-2'>
-              <h2 class='text-base font-semibold text-foreground group-hover:text-interactive transition-colors'>
+              <h2 class='text-base font-semibold text-foreground group-hover:text-secondary-accent transition-colors'>
                 {service.division}
               </h2>
               <p class='text-sm text-muted-foreground leading-relaxed flex-1'>
@@ -150,16 +153,16 @@ const processSteps = [
           Simple, Transparent, Reliable
         </h2>
       </div>
-      <div class='grid sm:grid-cols-2 lg:grid-cols-5 gap-4'>
+      <div class='grid sm:grid-cols-2 lg:grid-cols-5 gap-4' data-animate-group>
         {
           processSteps.map((step) => (
             <div
-              class='bg-card border border-border rounded-xl p-5 text-center'
+              class='relative bg-card border-t-2 border-interactive p-5'
               data-animate
             >
-              <div class='size-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3'>
-                <span class='text-xs font-bold text-primary'>{step.num}</span>
-              </div>
+              <span class='spec-code block text-xs text-secondary-accent mb-3'>
+                STEP·{step.num}
+              </span>
               <h3 class='text-sm font-semibold text-foreground mb-2'>
                 {step.title}
               </h3>
